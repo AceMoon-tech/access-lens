@@ -1,0 +1,196 @@
+/**
+ * ACCESS LENS — VISUAL FOUNDATIONS TOKENS
+ * Version 1.0 - Light + Dark Theme System
+ * Theme switching via [data-theme="light"] and [data-theme="dark"]
+ */
+
+/* ========================================
+   THEME-NEUTRAL TOKENS
+   ======================================== */
+   :root {
+    /* Font Families */
+    --font-base: system-ui, "SF Pro Text", Inter, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+    --font-dyslexic: "Atkinson Hyperlegible", "OpenDyslexic", sans-serif;
+  
+    /* Radius */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  
+    /* Motion */
+    --motion-fast: 120ms;
+    --motion-normal: 180ms;
+    --motion-slow: 240ms;
+  
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ease-emphasized: cubic-bezier(0.4, 0, 0.2, 1);
+  
+    /* Spacing */
+    --space-4: 4px;
+    --space-8: 8px;
+    --space-12: 12px;
+    --space-16: 16px;
+    --space-24: 24px;
+    --space-32: 32px;
+  
+    /* Layout */
+    --max-width-content: 840px;
+  }
+  
+  /* ========================================
+     LIGHT MODE (LINEAR-STYLE)
+     ======================================== */
+  [data-theme="light"],
+  :root:not([data-theme="dark"]) {
+    /* Background & Surfaces (crisp, Linear-style) */
+    --bg-default: #F5F7FA;
+    --bg-subtle:  #EEF1F5;
+  
+    --surface-1:  #FFFFFF;
+    --surface-2:  #F8FAFC;
+    --surface-3:  #EDF1F7;
+  
+    /* Borders */
+    --border-default: #D0D7E2;
+    --border-strong:  #B8C2CF;
+  
+    /* Text */
+    --text-default: #0F172A;
+    --text-muted:   #64748B;
+    --text-inverse: #FFFFFF;
+  
+    /* Accent Ramp (kept from spec) */
+    --accent-50:  #EFF6FF;
+    --accent-100: #DBEAFE;
+    --accent-200: #BFDBFE;
+    --accent-300: #93C5FD;
+    --accent-400: #60A5FA;
+    --accent-500: #3B82F6;   /* PRIMARY */
+    --accent-600: #2563EB;
+    --accent-700: #1D4ED8;
+    --accent-800: #0F2983;
+    --accent-900: #1E3A8A;
+  
+    /* Severity */
+    --sev-low:  #0D9488;
+    --sev-med:  #F59E0B;
+    --sev-high: #E11D48;
+  
+    /* Focus */
+    --focus-ring: #2563EB;
+    --focus-bg:   rgba(37, 99, 235, 0.15);
+  
+    /* Background Gradient (subtle, product-like) */
+    --bg-gradient: radial-gradient(
+      circle at top left,
+      rgba(148, 163, 184, 0.16),
+      rgba(245, 247, 250, 0) 68%
+    );
+  
+    /* Shadows (Linear-style) */
+    --shadow-sm: 0px 1px 2px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0px 2px 6px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0px 4px 12px rgba(15, 23, 42, 0.10);
+  }
+  
+  /* ========================================
+     DARK MODE (LINEAR-STYLE)
+     ======================================== */
+  [data-theme="dark"] {
+    /* Background & Surfaces */
+    --bg-default: #0E131A;
+    --bg-subtle:  #141B24;
+  
+    --surface-1:  #181F2A;
+    --surface-2:  #141B25;
+    --surface-3:  #1E2733;
+  
+    /* Borders */
+    --border-default: #273341;
+    --border-strong:  #374456;
+  
+    /* Text */
+    --text-default: #E6EDF3;
+    --text-muted:   #9BA7B5;
+    --text-inverse: #FFFFFF;
+  
+    /* Accent Ramp (dark-optimized) */
+    --accent-50:  #0F172A;
+    --accent-100: #1E3A8A;
+    --accent-200: #1E40AF;
+    --accent-300: #1D4ED8;
+    --accent-400: #3B82F6;
+    --accent-500: #2563EB;   /* PRIMARY */
+    --accent-600: #1D4ED8;
+    --accent-700: #1E40AF;
+    --accent-800: #1E3A8A;
+    --accent-900: #0F172A;
+  
+    /* Severity */
+    --sev-low:  #2DD4BF;
+    --sev-med:  #FBBF24;
+    --sev-high: #FB7185;
+  
+    /* Focus */
+    --focus-ring: #3B82F6;
+    --focus-bg:   rgba(59, 130, 246, 0.20);
+  
+    /* Background Gradient */
+    --bg-gradient: radial-gradient(
+      circle at top left,
+      rgba(148, 163, 184, 0.20),
+      rgba(14, 19, 26, 0) 72%
+    );
+  
+    /* Shadows (soft diffused dark) */
+    --shadow-sm: 0px 1px 2px rgba(0, 0, 0, 0.30);
+    --shadow-md: 0px 2px 6px rgba(0, 0, 0, 0.40);
+    --shadow-lg: 0px 4px 12px rgba(0, 0, 0, 0.45);
+  }
+  
+  /* ========================================
+     TYPE SCALE
+     ======================================== */
+  :root {
+    --text-xs: 12px;
+    --text-xs-leading: 18px;
+  
+    --text-sm: 14px;
+    --text-sm-leading: 20px;
+  
+    --text-base: 16px;
+    --text-base-leading: 24px;
+  
+    --text-lg: 18px;
+    --text-lg-leading: 28px;
+  
+    --text-xl: 20px;
+    --text-xl-leading: 28px;
+  
+    --text-2xl: 24px;
+    --text-2xl-leading: 32px;
+  
+    --text-3xl: 28px;
+    --text-3xl-leading: 36px;
+  
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+  }
+  
+  /* ========================================
+     REDUCED MOTION
+     ======================================== */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0ms !important;
+      transition-duration: 0ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+  
