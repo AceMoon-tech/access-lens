@@ -1,6 +1,6 @@
 /**
  * ACCESS LENS — VISUAL FOUNDATIONS TOKENS
- * Version 1.0 - Light + Dark Theme System
+ * Version 1.1 — Premium Depth Model v1
  * Theme switching via [data-theme="light"] and [data-theme="dark"]
  */
 
@@ -44,52 +44,66 @@
      ======================================== */
   [data-theme="light"],
   :root:not([data-theme="dark"]) {
-    /* Background & Surfaces (crisp, Linear-style) */
-    --bg-default: #F5F7FA;
-    --bg-subtle:  #EEF1F5;
+    /* Background & Surfaces */
+    --bg-default: #F5F5F7;
+    --bg-subtle: #EEF1F5;
   
-    --surface-1:  #FFFFFF;
-    --surface-2:  #F8FAFC;
-    --surface-3:  #EDF1F7;
+    --surface-1: #FFFFFF;
+    --surface-2: #F8FAFC;
+    --surface-3: #EDF1F7;
   
     /* Borders */
     --border-default: #D0D7E2;
-    --border-strong:  #B8C2CF;
+    --border-strong: #B8C2CF;
   
     /* Text */
     --text-default: #0F172A;
-    --text-muted:   #64748B;
+    --text-muted: #64748B;
     --text-inverse: #FFFFFF;
   
-    /* Accent Ramp (kept from spec) */
-    --accent-50:  #EFF6FF;
+    /* Accent Ramp */
+    --accent-50: #EFF6FF;
     --accent-100: #DBEAFE;
     --accent-200: #BFDBFE;
     --accent-300: #93C5FD;
     --accent-400: #60A5FA;
-    --accent-500: #3B82F6;   /* PRIMARY */
+    --accent-500: #3B82F6;
     --accent-600: #2563EB;
     --accent-700: #1D4ED8;
     --accent-800: #0F2983;
     --accent-900: #1E3A8A;
   
     /* Severity */
-    --sev-low:  #0D9488;
-    --sev-med:  #F59E0B;
+    --sev-low: #0D9488;
+    --sev-med: #F59E0B;
     --sev-high: #E11D48;
   
     /* Focus */
     --focus-ring: #2563EB;
-    --focus-bg:   rgba(37, 99, 235, 0.15);
+    --focus-bg: rgba(37, 99, 235, 0.15);
   
-    /* Background Gradient (subtle, product-like) */
+    /* App Shell Gradient */
     --bg-gradient: radial-gradient(
       circle at top left,
       rgba(148, 163, 184, 0.16),
       rgba(245, 247, 250, 0) 68%
     );
   
-    /* Shadows (Linear-style) */
+    /* Surface Material Gradient (cards / panels) */
+    --surface-gradient-1: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.92),
+      rgba(255, 255, 255, 1)
+    );
+  
+    /* Accent Sheen (primary buttons only) */
+    --accent-sheen: radial-gradient(
+      circle at top,
+      rgba(255, 255, 255, 0.35),
+      rgba(255, 255, 255, 0) 70%
+    );
+  
+    /* Shadows */
     --shadow-sm: 0px 1px 2px rgba(15, 23, 42, 0.05);
     --shadow-md: 0px 2px 6px rgba(15, 23, 42, 0.08);
     --shadow-lg: 0px 4px 12px rgba(15, 23, 42, 0.10);
@@ -101,50 +115,64 @@
   [data-theme="dark"] {
     /* Background & Surfaces */
     --bg-default: #0E131A;
-    --bg-subtle:  #141B24;
+    --bg-subtle: #141B24;
   
-    --surface-1:  #181F2A;
-    --surface-2:  #141B25;
-    --surface-3:  #1E2733;
+    --surface-1: #181F2A;
+    --surface-2: #141B25;
+    --surface-3: #1E2733;
   
     /* Borders */
     --border-default: #273341;
-    --border-strong:  #374456;
+    --border-strong: #374456;
   
     /* Text */
     --text-default: #E6EDF3;
-    --text-muted:   #9BA7B5;
+    --text-muted: #9BA7B5;
     --text-inverse: #FFFFFF;
   
-    /* Accent Ramp (dark-optimized) */
-    --accent-50:  #0F172A;
+    /* Accent Ramp */
+    --accent-50: #0F172A;
     --accent-100: #1E3A8A;
     --accent-200: #1E40AF;
     --accent-300: #1D4ED8;
     --accent-400: #3B82F6;
-    --accent-500: #2563EB;   /* PRIMARY */
+    --accent-500: #2563EB;
     --accent-600: #1D4ED8;
     --accent-700: #1E40AF;
     --accent-800: #1E3A8A;
     --accent-900: #0F172A;
   
     /* Severity */
-    --sev-low:  #2DD4BF;
-    --sev-med:  #FBBF24;
+    --sev-low: #2DD4BF;
+    --sev-med: #FBBF24;
     --sev-high: #FB7185;
   
     /* Focus */
     --focus-ring: #3B82F6;
-    --focus-bg:   rgba(59, 130, 246, 0.20);
+    --focus-bg: rgba(59, 130, 246, 0.20);
   
-    /* Background Gradient */
+    /* App Shell Gradient */
     --bg-gradient: radial-gradient(
       circle at top left,
       rgba(148, 163, 184, 0.20),
       rgba(14, 19, 26, 0) 72%
     );
   
-    /* Shadows (soft diffused dark) */
+    /* Surface Material Gradient (cards / panels) */
+    --surface-gradient-1: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0)
+    );
+  
+    /* Accent Sheen (primary buttons only) */
+    --accent-sheen: radial-gradient(
+      circle at top,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0) 72%
+    );
+  
+    /* Shadows */
     --shadow-sm: 0px 1px 2px rgba(0, 0, 0, 0.30);
     --shadow-md: 0px 2px 6px rgba(0, 0, 0, 0.40);
     --shadow-lg: 0px 4px 12px rgba(0, 0, 0, 0.45);

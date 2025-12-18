@@ -1,6 +1,6 @@
 /* =========================================================
    ACCESS LENS — PREMIUM COMPONENTS (LOCKED BASELINE)
-   Status: APPROVED v1
+   Status: APPROVED v1.3
    Purpose:
    - Defines global depth, surfaces, and emphasis
    - All new components must derive from these rules
@@ -15,17 +15,9 @@
 
 .page-container {
   min-height: 100vh;
-  background-color: var(--bg-subtle);
+  background-color: var(--bg-default);
   color: var(--text-default);
   font-family: var(--font-base);
-}
-
-
-/* Global background gradient layer */
-.app-shell {
-  min-height: 100vh;
-  background-image: var(--bg-gradient);
-  background-color: var(--bg-default);
 }
 
 /* Global focus ring (accessible + consistent) */
@@ -39,7 +31,6 @@
    1. BUTTON SYSTEM (7F.1)
 ======================================== */
 
-/* Shared base */
 .btn-base {
   display: inline-flex;
   align-items: center;
@@ -71,7 +62,6 @@
   background-color: transparent;
 }
 
-
 .btn-base:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -101,85 +91,39 @@
   border-radius: var(--radius-lg);
 }
 
-/* PRIMARY – high emphasis (7F.1)
-   Goal: non-generic look via sheen + halo + depth, token-only
-*/
+/* PRIMARY */
 .btn-primary {
   color: var(--text-inverse);
 
-  /* sheen + depth */
   background:
-  radial-gradient(
-    120% 160% at 20% 0%,
-    rgba(255, 255, 255, 0.22) 0%,
-    rgba(255, 255, 255, 0.00) 45%
-  ),
-  linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--accent-600) 96%, white 4%) 0%,
-    color-mix(in srgb, var(--accent-700) 96%, black 4%) 100%
-  );
+    var(--accent-sheen),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-600) 96%, white 4%) 0%,
+      color-mix(in srgb, var(--accent-700) 96%, black 4%) 100%
+    );
 
-background-clip: padding-box;
-
-
-
-
-  border-color: color-mix(in srgb, var(--accent-700) 70%, transparent);
+  background-clip: padding-box;
+  border-color: color-mix(in srgb, var(--accent-700) 78%, transparent);
 
   box-shadow:
     0px 1px 0px rgba(255, 255, 255, 0.16) inset,
     0px 0px 0px 1px rgba(255, 255, 255, 0.08) inset,
     var(--shadow-md),
-    0px 18px 44px color-mix(in srgb, var(--accent-500) 22%, transparent);
+    0px 18px 44px color-mix(in srgb, var(--accent-500) 26%, transparent);
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-1px);
   filter: saturate(1.05) brightness(1.02);
-
-  background:
-    radial-gradient(
-      120% 160% at 20% 0%,
-      rgba(255, 255, 255, 0.24) 0%,
-      rgba(255, 255, 255, 0.00) 45%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--accent-700) 96%, white 4%) 0%,
-      color-mix(in srgb, var(--accent-800) 96%, black 4%) 100%
-    );
-
-  box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.18) inset,
-    0px 0px 0px 1px rgba(255, 255, 255, 0.10) inset,
-    var(--shadow-lg),
-    0px 22px 54px color-mix(in srgb, var(--accent-500) 24%, transparent);
 }
 
 .btn-primary:active:not(:disabled) {
   transform: translateY(0px) scale(0.985);
   filter: saturate(0.98) brightness(0.98);
-
-  background:
-    radial-gradient(
-      120% 160% at 20% 0%,
-      rgba(255, 255, 255, 0.10) 0%,
-      rgba(255, 255, 255, 0.00) 45%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--accent-800) 96%, black 4%) 0%,
-      color-mix(in srgb, var(--accent-900) 96%, black 4%) 100%
-    );
-
-  box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.10) inset,
-    var(--shadow-md),
-    0px 14px 34px color-mix(in srgb, var(--accent-500) 16%, transparent);
 }
 
-/* SECONDARY – medium emphasis */
+/* SECONDARY */
 .btn-secondary {
   color: var(--text-default);
 
@@ -195,103 +139,49 @@ background-clip: padding-box;
       var(--surface-1) 100%
     );
 
-  border-color: var(--border-default);
+  border-color: var(--border-strong);
+
   box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.10) inset,
+    0px 1px 0px rgba(255, 255, 255, 0.12) inset,
     var(--shadow-sm);
 }
 
-.btn-secondary:hover:not(:disabled) {
-  transform: translateY(-1px);
-  border-color: var(--border-strong);
-  box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.12) inset,
-    var(--shadow-md);
-}
-
-.btn-secondary:active:not(:disabled) {
-  transform: translateY(0px) scale(0.985);
-}
-
-/* OUTLINE – low emphasis */
+/* OUTLINE */
 .btn-outline {
   color: var(--accent-600);
   background-color: transparent;
   border-color: var(--accent-600);
-  box-shadow: none;
 }
 
-.btn-outline:hover:not(:disabled) {
-  background-color: color-mix(in srgb, var(--accent-600) 6%, transparent);
-}
-
-.btn-outline:active:not(:disabled) {
-  transform: scale(0.985);
-  background-color: color-mix(in srgb, var(--accent-600) 10%, transparent);
-}
-
-/* GHOST – tertiary action */
+/* GHOST */
 .btn-ghost {
   color: var(--text-default);
   background-color: transparent;
-  border-color: transparent;
-  box-shadow: none;
 }
 
-.btn-ghost:hover:not(:disabled) {
-  background-color: var(--bg-subtle);
-}
-
-.btn-ghost:active:not(:disabled) {
-  transform: scale(0.985);
-}
-
-/* DANGER – severity-based (7F.1 DANGER) */
+/* DANGER */
 .btn-danger {
   color: var(--text-inverse);
+
   background:
-    radial-gradient(
-      120% 160% at 20% 0%,
-      rgba(255, 255, 255, 0.16) 0%,
-      rgba(255, 255, 255, 0.00) 50%
-    ),
+    var(--accent-sheen),
     linear-gradient(
       180deg,
       color-mix(in srgb, var(--sev-high) 96%, white 4%) 0%,
       color-mix(in srgb, var(--sev-high) 85%, black 15%) 100%
     );
 
-  border-color: color-mix(in srgb, var(--sev-high) 70%, transparent);
+  border-color: color-mix(in srgb, var(--sev-high) 72%, transparent);
   box-shadow:
     0px 1px 0px rgba(255, 255, 255, 0.12) inset,
     var(--shadow-md),
-    0px 18px 44px color-mix(in srgb, var(--sev-high) 18%, transparent);
-}
-
-.btn-danger:hover:not(:disabled) {
-  transform: translateY(-1px);
-  background:
-    radial-gradient(
-      120% 160% at 20% 0%,
-      rgba(255, 255, 255, 0.18) 0%,
-      rgba(255, 255, 255, 0.00) 50%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--sev-high) 100%, black 0%) 0%,
-      color-mix(in srgb, var(--sev-high) 90%, black 10%) 100%
-    );
-}
-
-.btn-danger:active:not(:disabled) {
-  transform: translateY(0px) scale(0.985);
+    0px 18px 44px color-mix(in srgb, var(--sev-high) 22%, transparent);
 }
 
 /* ========================================
    2. CARD SYSTEM (7F.4)
 ======================================== */
 
-/* Base card (premium layering) */
 .card-base {
   position: relative;
   overflow: hidden;
@@ -300,26 +190,14 @@ background-clip: padding-box;
   padding: var(--space-24);
 
   border: 1px solid var(--border-default);
+  background: var(--surface-gradient-1);
 
-  /* stronger surface separation (especially in light mode) */
-  background:
-    radial-gradient(
-      120% 80% at 20% 0%,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(255, 255, 255, 0.00) 55%
-    ),
-    linear-gradient(
-      180deg,
-      var(--surface-1) 0%,
-      var(--surface-2) 100%
-    );
-
+  /* Dark-mode de-emphasis vs buttons */
   box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.6) inset,
-    var(--shadow-md);
+    0px 1px 0px rgba(255, 255, 255, 0.35) inset,
+    var(--shadow-sm);
 }
 
-/* Premium highlight + micro contrast */
 .card-base::before {
   content: "";
   position: absolute;
@@ -330,23 +208,11 @@ background-clip: padding-box;
   background:
     radial-gradient(
       circle at 30% 0%,
-      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.10) 0%,
       rgba(255, 255, 255, 0.00) 60%
-    ),
-    radial-gradient(
-      circle at top left,
-      color-mix(in srgb, var(--accent-200) 7%, transparent) 0%,
-      transparent 62%
     );
-  opacity: 0.85;
 }
 
-/* Optional variant remains supported */
-.card-base--premium::before {
-  /* keep for compatibility; same as base now */
-}
-
-/* Hover elevation for interactive cards only */
 .card-base--interactive:hover {
   box-shadow: var(--shadow-lg);
   transform: translateY(-1px);
@@ -356,7 +222,7 @@ background-clip: padding-box;
 }
 
 /* ========================================
-   3. PAGE CONTAINER / LAYOUT (7E.1, 7E.5)
+   3. PAGE CONTAINER
 ======================================== */
 
 .page-container__main {
@@ -367,142 +233,7 @@ background-clip: padding-box;
 }
 
 /* ========================================
-   4. LAYOUT UTILITIES
-   (kept to support existing components)
-======================================== */
-
-/* Flexbox */
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.items-start { align-items: flex-start; }
-.items-end { align-items: flex-end; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.justify-start { justify-content: flex-start; }
-.justify-end { justify-content: flex-end; }
-.inline-flex { display: inline-flex; }
-
-/* Grid */
-.grid { display: grid; }
-
-/* Spacing / gap */
-.gap-8 { gap: var(--space-8); }
-.gap-12 { gap: var(--space-12); }
-.gap-16 { gap: var(--space-16); }
-.gap-24 { gap: var(--space-24); }
-.gap-32 { gap: var(--space-32); }
-
-.space-y-8 > * + * { margin-top: var(--space-8); }
-.space-y-12 > * + * { margin-top: var(--space-12); }
-.space-y-16 > * + * { margin-top: var(--space-16); }
-.space-y-24 > * + * { margin-top: var(--space-24); }
-.space-y-32 > * + * { margin-top: var(--space-32); }
-
-/* Width / height */
-.w-full { width: 100%; }
-.h-full { height: 100%; }
-.min-h-screen { min-height: 100vh; }
-
-/* Margin */
-.mx-auto { margin-left: auto; margin-right: auto; }
-.my-auto { margin-top: auto; margin-bottom: auto; }
-
-.mb-8 { margin-bottom: var(--space-8); }
-.mb-12 { margin-bottom: var(--space-12); }
-.mb-16 { margin-bottom: var(--space-16); }
-.mb-24 { margin-bottom: var(--space-24); }
-.mb-32 { margin-bottom: var(--space-32); }
-
-.mt-8 { margin-top: var(--space-8); }
-.mt-12 { margin-top: var(--space-12); }
-.mt-16 { margin-top: var(--space-16); }
-.mt-24 { margin-top: var(--space-24); }
-.mt-32 { margin-top: var(--space-32); }
-
-/* Padding */
-.p-8 { padding: var(--space-8); }
-.p-12 { padding: var(--space-12); }
-.p-16 { padding: var(--space-16); }
-.p-24 { padding: var(--space-24); }
-.p-32 { padding: var(--space-32); }
-
-.px-8 { padding-left: var(--space-8); padding-right: var(--space-8); }
-.px-12 { padding-left: var(--space-12); padding-right: var(--space-12); }
-.px-16 { padding-left: var(--space-16); padding-right: var(--space-16); }
-.px-24 { padding-left: var(--space-24); padding-right: var(--space-24); }
-
-.py-8 { padding-top: var(--space-8); padding-bottom: var(--space-8); }
-.py-12 { padding-top: var(--space-12); padding-bottom: var(--space-12); }
-.py-16 { padding-top: var(--space-16); padding-bottom: var(--space-16); }
-.py-24 { padding-top: var(--space-24); padding-bottom: var(--space-24); }
-
-/* Position / overflow */
-.relative { position: relative; }
-.absolute { position: absolute; }
-.overflow-hidden { overflow: hidden; }
-
-/* Lists */
-.list-disc { list-style-type: disc; }
-.list-inside { list-style-position: inside; }
-
-/* Radius */
-.rounded-sm { border-radius: var(--radius-sm); }
-.rounded-md { border-radius: var(--radius-md); }
-.rounded-lg { border-radius: var(--radius-lg); }
-.rounded-full { border-radius: 9999px; }
-
-/* Border */
-.border { border-width: 1px; }
-.border-b { border-bottom-width: 1px; }
-
-/* Max width */
-.max-w-content { max-width: var(--max-width-content); }
-
-/* ========================================
-   5. TYPOGRAPHY UTILITIES
-======================================== */
-
-.text-xs { font-size: var(--text-xs); line-height: var(--text-xs-leading); }
-.text-sm { font-size: var(--text-sm); line-height: var(--text-sm-leading); }
-.text-base { font-size: var(--text-base); line-height: var(--text-base-leading); }
-.text-lg { font-size: var(--text-lg); line-height: var(--text-lg-leading); }
-.text-xl { font-size: var(--text-xl); line-height: var(--text-xl-leading); }
-.text-2xl { font-size: var(--text-2xl); line-height: var(--text-2xl-leading); }
-.text-3xl { font-size: var(--text-3xl); line-height: var(--text-3xl-leading); }
-
-.font-medium { font-weight: var(--weight-medium); }
-.font-semibold { font-weight: var(--weight-semibold); }
-.font-bold { font-weight: var(--weight-bold); }
-
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-
-/* Color utilities */
-.text-default { color: var(--text-default); }
-.text-muted { color: var(--text-muted); }
-.text-inverse { color: var(--text-inverse); }
-
-.text-sev-low { color: var(--sev-low); }
-.text-sev-med { color: var(--sev-med); }
-.text-sev-high { color: var(--sev-high); }
-
-.bg-default { background-color: var(--bg-default); }
-.bg-subtle { background-color: var(--bg-subtle); }
-.bg-surface-1 { background-color: var(--surface-1); }
-.bg-surface-2 { background-color: var(--surface-2); }
-.bg-surface-3 { background-color: var(--surface-3); }
-
-.border-default { border-color: var(--border-default); }
-
-/* Shadows */
-.shadow-sm { box-shadow: var(--shadow-sm); }
-.shadow-md { box-shadow: var(--shadow-md); }
-.shadow-lg { box-shadow: var(--shadow-lg); }
-
-/* ========================================
-   6. FORM INPUTS (7F.2, 7F.3)
+   4. FORM INPUTS
 ======================================== */
 
 .form-input-base {
@@ -511,7 +242,6 @@ background-clip: padding-box;
 
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
-
   padding: var(--space-12);
 
   font-family: var(--font-base);
@@ -530,16 +260,8 @@ background-clip: padding-box;
       var(--surface-2) 100%
     );
 
-  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.06) inset;
-
-  transition:
-    border-color var(--motion-fast) var(--ease-standard),
-    box-shadow var(--motion-fast) var(--ease-standard),
-    background-color var(--motion-fast) var(--ease-standard);
-}
-
-.form-input-base:focus {
-  outline: none;
+  box-shadow:
+    0px 1px 0px rgba(255, 255, 255, 0.65) inset;
 }
 
 .form-input-base:focus-visible {
@@ -547,44 +269,45 @@ background-clip: padding-box;
   outline-offset: 2px;
   box-shadow:
     0 0 0 4px var(--focus-bg),
-    0px 1px 0px rgba(255, 255, 255, 0.06) inset;
-}
-
-.form-input-base::placeholder {
-  color: var(--text-muted);
-  opacity: 1;
-}
-
-.form-label {
-  font-size: var(--text-sm);
-  line-height: var(--text-sm-leading);
-  font-weight: var(--weight-medium);
-  color: var(--text-default);
-}
-
-.form-select {
-  padding-top: var(--space-8);
-  padding-bottom: var(--space-8);
+    0px 1px 0px rgba(255, 255, 255, 0.65) inset;
 }
 
 /* ========================================
-   7. ICON SIZES
+   5. TYPOGRAPHY UTILITIES
 ======================================== */
 
-.w-5 { width: 20px; }
-.h-5 { height: 20px; }
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
 
-.w-12 { width: 48px; }
-.h-12 { height: 48px; }
+.text-xs { font-size: var(--text-xs); line-height: var(--text-xs-leading); }
+.text-sm { font-size: var(--text-sm); line-height: var(--text-sm-leading); }
+.text-base { font-size: var(--text-base); line-height: var(--text-base-leading); }
+.text-lg { font-size: var(--text-lg); line-height: var(--text-lg-leading); }
+.text-xl { font-size: var(--text-xl); line-height: var(--text-xl-leading); }
+.text-2xl { font-size: var(--text-2xl); line-height: var(--text-2xl-leading); }
+.text-3xl { font-size: var(--text-3xl); line-height: var(--text-3xl-leading); }
 
-.w-16 { width: var(--space-16); }
-.h-16 { height: var(--space-16); }
+.font-medium { font-weight: var(--weight-medium); }
+.font-semibold { font-weight: var(--weight-semibold); }
+.font-bold { font-weight: var(--weight-bold); }
 
-.w-32 { width: var(--space-32); }
-.h-32 { height: var(--space-32); }
+.text-muted { color: var(--text-muted); }
+.text-inverse { color: var(--text-inverse); }
 
 /* ========================================
-   8. ANIMATIONS / MICRO-INTERACTIONS (7F.7)
+   6. UTILITIES
+======================================== */
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-16 { gap: var(--space-16); }
+.w-full { width: 100%; }
+
+/* ========================================
+   7. ANIMATIONS
 ======================================== */
 
 @keyframes spin {
@@ -594,11 +317,4 @@ background-clip: padding-box;
 .loading-spinner {
   animation: spin 1s linear infinite;
   border-top-color: var(--accent-600);
-}
-
-/* Generic transition helper */
-.transition {
-  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
-  transition-timing-function: var(--ease-standard);
-  transition-duration: var(--motion-normal);
 }
