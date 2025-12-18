@@ -2,7 +2,7 @@ import Card from "../components/Card";
 
 function About() {
   return (
-    <div className="mx-auto max-w-content space-y-24 py-24">
+    <div className="space-y-24">
       {/* Overview Card */}
       <Card>
         <h1 className="text-3xl font-semibold text-default mb-16">

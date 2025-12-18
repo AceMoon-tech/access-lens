@@ -13,7 +13,7 @@ function IssueCard({ issue }) {
     "text-sev-low"
 
   return (
-    <div className="bg-surface-2 border border-default p-24 rounded-sm shadow-sm space-y-12">
+    <div className="bg-surface-1 border border-default p-24 rounded-sm shadow-sm space-y-12">
       {/* Title */}
       <h3 className="text-xl font-semibold text-default">
         {issue.title}

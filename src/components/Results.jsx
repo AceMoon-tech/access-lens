@@ -54,7 +54,7 @@ function Results({ results }) {
             key={issue.id}
             role="group"
             aria-label={`${issue.title} (severity: ${severityText})`}
-            className="border border-default bg-surface-2 p-24 rounded-sm shadow-sm"
+            className="border border-default bg-surface-1 p-24 rounded-sm shadow-sm"
           >
             <h3 className="text-xl font-semibold mb-12">
               {issue.title}
@@ -77,7 +77,10 @@ function Results({ results }) {
 
             {/* Fixes */}
             {issue.fixes?.length > 0 && (
-              <ul className="list-disc pl-24 space-y-8">
+              <ul
+                className="list-disc space-y-8"
+                style={{ paddingLeft: "var(--space-24)" }}
+              >
                 {issue.fixes.map((fix, i) => (
                   <li key={i} className="text-sm">
                     {fix}

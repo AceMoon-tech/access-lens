@@ -10,12 +10,8 @@ function PageContainer({ children, className = '' }) {
   }, [initTheme])
 
   return (
-    <div
-      data-theme={theme}
-      className={`page-container ${className}`}
-      style={{ backgroundImage: "var(--bg-gradient)" }}
-    >
-      <main id="main-content" className="page-container__main">
+    <div data-theme={theme} className={`page-container ${className}`}>
+      <main id="main-content" className="page-container__main px-24">
         {children}
       </main>
     </div>

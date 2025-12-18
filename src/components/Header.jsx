@@ -1,19 +1,27 @@
-import ThemeToggle from './ThemeToggle'
+import { Link } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
+import lightLogo from "../assets/logo/access_lens_logo_light.svg";
 
-function Header() {
+export default function Header() {
   return (
-    <header className="w-full border-b border-default bg-surface-1">
-      <div className="mx-auto max-w-content px-24 py-16 flex items-center justify-between">
-        <h1 className="text-3xl font-semibold text-default">
-          Access Lens
-        </h1>
+    <header className="w-full bg-surface-0">
+      <div className="page-container__main flex items-center justify-between">
 
-        <nav aria-label="Global">
+        {/* Left: Logo */}
+        <Link to="/" className="flex items-center">
+          <img
+            src={lightLogo}
+            alt="Access Lens logo"
+            className="h-[56px] w-auto"
+            style={{ height: "56px" }}
+          />
+        </Link>
+
+        {/* Right: Theme toggle */}
+        <nav aria-label="Global" className="flex items-center">
           <ThemeToggle />
         </nav>
       </div>
     </header>
-  )
+  );
 }
-
-export default Header
