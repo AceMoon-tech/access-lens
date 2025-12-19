@@ -77,10 +77,7 @@ function Results({ results }) {
 
             {/* Fixes */}
             {issue.fixes?.length > 0 && (
-              <ul
-                className="list-disc space-y-8"
-                style={{ paddingLeft: "var(--space-24)" }}
-              >
+              <ul className="list-disc space-y-8 pl-24">
                 {issue.fixes.map((fix, i) => (
                   <li key={i} className="text-sm">
                     {fix}

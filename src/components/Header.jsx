@@ -12,8 +12,8 @@ export default function Header() {
           <img
             src={lightLogo}
             alt="Access Lens logo"
-            className="h-[56px] w-auto"
-            style={{ height: "56px" }}
+            className="w-auto"
+            style={{ height: "calc(var(--space-32) + var(--space-24))" }}
           />
         </Link>
 

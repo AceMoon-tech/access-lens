@@ -90,7 +90,7 @@
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow:
     0px 1px 0px rgba(255, 255, 255, 0.18) inset,
     var(--shadow-lg),
@@ -110,6 +110,34 @@
     0px 1px 0px rgba(255, 255, 255, 0.14) inset,
     var(--shadow-md),
     0px 18px 44px color-mix(in srgb, var(--accent-500) 26%, transparent);
+}
+
+
+/* ========================================
+   BUTTON — LOADING STATE (Step 27)
+======================================== */
+
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.btn-loading .btn-label {
+  visibility: hidden;
+}
+
+.btn-loading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+
+  border: 2px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-top-color: currentColor;
+
+  animation: spin 0.8s linear infinite;
 }
 
 
@@ -152,6 +180,22 @@
 /* Dark-mode separation tuning */
 [data-theme="dark"] .card-base::before {
   opacity: 0.35;
+}
+
+
+/* ========================================
+   CARD — FORM VARIANT (Step 30)
+======================================== */
+
+.card-form {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .card-form {
+  background: var(--surface-1);
+  border-color: var(--border-default);
 }
 
 
@@ -200,6 +244,49 @@
 }
 
 
+/* STEP 27 — textarea resize control */
+
+textarea.form-input-base {
+  resize: vertical;
+  max-width: 100%;
+  min-height: 96px;
+  max-height: 320px;
+}
+
+/* ERROR STATE */
+
+.form-input-base.is-error {
+  border-color: var(--sev-high);
+  box-shadow:
+    0 0 0 1px var(--sev-high),
+    0px 1px 1px rgba(0, 0, 0, 0.35) inset;
+}
+
+.form-error-text {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm-leading);
+  color: var(--sev-high);
+}
+
+
+/* SUCCESS STATE */
+
+.form-input-base.is-success {
+  border-color: var(--sev-low);
+  box-shadow:
+    0 0 0 1px var(--sev-low),
+    0px 1px 1px rgba(0, 0, 0, 0.35) inset;
+}
+
+.form-success-text {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm-leading);
+  color: var(--sev-low);
+}
+
+
 /* ========================================
    5. TYPOGRAPHY
 ======================================== */
@@ -212,11 +299,6 @@ h1, h2, h3, h4, h5, h6, p {
 /* ========================================
    6. UTILITIES
 ======================================== */
-
-.flex { display: flex; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.w-full { width: 100%; }
 
 
 /* ========================================
