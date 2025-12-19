@@ -252,3 +252,44 @@ body {
   background-color: var(--bg-subtle, var(--bg-surface-1));
 }
    
+/* ========================================
+   THEME TOGGLE (token-driven, scoped)
+======================================== */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--space-8);
+  border-radius: var(--radius-sm);
+
+  background-color: var(--surface-1);
+  border: 1px solid var(--border-default);
+  color: var(--text-default);
+
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+
+  transition:
+    background-color var(--motion-normal) var(--ease-standard),
+    box-shadow var(--motion-normal) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-emphasized);
+}
+
+/* Dark mode default */
+[data-theme="dark"] .theme-toggle {
+  background-color: var(--surface-2);
+}
+
+/* Hover = lift (both themes) */
+.theme-toggle:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Active = press (both themes) */
+.theme-toggle:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-sm);
+}

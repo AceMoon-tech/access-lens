@@ -1,6 +1,6 @@
 /* =========================================================
    ACCESS LENS — PREMIUM COMPONENTS (LOCKED BASELINE)
-   Status: APPROVED v1.3
+   Status: APPROVED v1.4
    Purpose:
    - Defines global depth, surfaces, and emphasis
    - All new components must derive from these rules
@@ -20,12 +20,13 @@
   font-family: var(--font-base);
 }
 
-/* Global focus ring (accessible + consistent) */
+/* Global focus ring */
 :where(a, button, input, select, textarea, [role="button"], [tabindex]):focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
+
 
 /* ========================================
    1. BUTTON SYSTEM (7F.1)
@@ -36,7 +37,6 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-8);
-
   padding: var(--space-12) var(--space-16);
   border-radius: var(--radius-md);
 
@@ -65,30 +65,6 @@
 .btn-base:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
-  filter: none;
-}
-
-/* Sizes */
-.btn-sm {
-  padding: var(--space-8) var(--space-12);
-  font-size: var(--text-sm);
-  line-height: var(--text-sm-leading);
-  border-radius: var(--radius-sm);
-}
-
-.btn-md {
-  padding: var(--space-12) var(--space-16);
-  font-size: var(--text-base);
-  line-height: var(--text-base-leading);
-  border-radius: var(--radius-md);
-}
-
-.btn-lg {
-  padding: var(--space-16) var(--space-24);
-  font-size: var(--text-lg);
-  line-height: var(--text-lg-leading);
-  border-radius: var(--radius-lg);
 }
 
 /* PRIMARY */
@@ -114,69 +90,28 @@
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: translateY(-1px);
-  filter: saturate(1.05) brightness(1.02);
+  transform: translateY(-2px);
+  box-shadow:
+    0px 1px 0px rgba(255, 255, 255, 0.18) inset,
+    var(--shadow-lg),
+    0px 22px 52px color-mix(in srgb, var(--accent-500) 30%, transparent);
 }
 
 .btn-primary:active:not(:disabled) {
-  transform: translateY(0px) scale(0.985);
-  filter: saturate(0.98) brightness(0.98);
-}
-
-/* SECONDARY */
-.btn-secondary {
-  color: var(--text-default);
-
-  background:
-    radial-gradient(
-      120% 160% at 20% 0%,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.00) 55%
-    ),
-    linear-gradient(
-      180deg,
-      var(--surface-2) 0%,
-      var(--surface-1) 100%
-    );
-
-  border-color: var(--border-strong);
-
+  transform: scale(0.97);
   box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.12) inset,
+    0px 1px 0px rgba(255, 255, 255, 0.08) inset,
     var(--shadow-sm);
 }
 
-/* OUTLINE */
-.btn-outline {
-  color: var(--accent-600);
-  background-color: transparent;
-  border-color: var(--accent-600);
-}
-
-/* GHOST */
-.btn-ghost {
-  color: var(--text-default);
-  background-color: transparent;
-}
-
-/* DANGER */
-.btn-danger {
-  color: var(--text-inverse);
-
-  background:
-    var(--accent-sheen),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--sev-high) 96%, white 4%) 0%,
-      color-mix(in srgb, var(--sev-high) 85%, black 15%) 100%
-    );
-
-  border-color: color-mix(in srgb, var(--sev-high) 72%, transparent);
+/* Dark-mode button dominance lock */
+[data-theme="dark"] .btn-primary {
   box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.12) inset,
+    0px 1px 0px rgba(255, 255, 255, 0.14) inset,
     var(--shadow-md),
-    0px 18px 44px color-mix(in srgb, var(--sev-high) 22%, transparent);
+    0px 18px 44px color-mix(in srgb, var(--accent-500) 26%, transparent);
 }
+
 
 /* ========================================
    2. CARD SYSTEM (7F.4)
@@ -188,11 +123,11 @@
 
   border-radius: var(--radius-lg);
   padding: var(--space-24);
-
   border: 1px solid var(--border-default);
+
+  /* TOKEN-DRIVEN SURFACE (LOCKED) */
   background: var(--surface-gradient-1);
 
-  /* Dark-mode de-emphasis vs buttons */
   box-shadow:
     0px 1px 0px rgba(255, 255, 255, 0.35) inset,
     var(--shadow-sm);
@@ -205,21 +140,20 @@
   border-radius: inherit;
   pointer-events: none;
 
+  /* Subtle material highlight — allowed polish */
   background:
     radial-gradient(
       circle at 30% 0%,
-      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.06) 0%,
       rgba(255, 255, 255, 0.00) 60%
     );
 }
 
-.card-base--interactive:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-1px);
-  transition:
-    box-shadow var(--motion-normal) var(--ease-standard),
-    transform var(--motion-normal) var(--ease-standard);
+/* Dark-mode separation tuning */
+[data-theme="dark"] .card-base::before {
+  opacity: 0.35;
 }
+
 
 /* ========================================
    3. PAGE CONTAINER
@@ -232,6 +166,7 @@
   padding: var(--space-24);
 }
 
+
 /* ========================================
    4. FORM INPUTS
 ======================================== */
@@ -240,7 +175,7 @@
   width: 100%;
   color: var(--text-default);
 
-  border: 1px solid var(--border-default);
+  border: 1px solid color-mix(in srgb, var(--border-default) 85%, black 15%);
   border-radius: var(--radius-sm);
   padding: var(--space-12);
 
@@ -248,20 +183,12 @@
   font-size: var(--text-base);
   line-height: var(--text-base-leading);
 
-  background:
-    radial-gradient(
-      120% 160% at 20% 0%,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.00) 55%
-    ),
-    linear-gradient(
-      180deg,
-      var(--surface-1) 0%,
-      var(--surface-2) 100%
-    );
+  /* Recessed control surface */
+  background-color: var(--surface-1);
 
   box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.65) inset;
+    0px 1px 1px rgba(0, 0, 0, 0.35) inset,
+    0px -1px 0px rgba(255, 255, 255, 0.04) inset;
 }
 
 .form-input-base:focus-visible {
@@ -269,42 +196,28 @@
   outline-offset: 2px;
   box-shadow:
     0 0 0 4px var(--focus-bg),
-    0px 1px 0px rgba(255, 255, 255, 0.65) inset;
+    0px 1px 0px rgba(255, 255, 255, 0.03) inset;
 }
 
+
 /* ========================================
-   5. TYPOGRAPHY UTILITIES
+   5. TYPOGRAPHY
 ======================================== */
 
 h1, h2, h3, h4, h5, h6, p {
   margin: 0;
 }
 
-.text-xs { font-size: var(--text-xs); line-height: var(--text-xs-leading); }
-.text-sm { font-size: var(--text-sm); line-height: var(--text-sm-leading); }
-.text-base { font-size: var(--text-base); line-height: var(--text-base-leading); }
-.text-lg { font-size: var(--text-lg); line-height: var(--text-lg-leading); }
-.text-xl { font-size: var(--text-xl); line-height: var(--text-xl-leading); }
-.text-2xl { font-size: var(--text-2xl); line-height: var(--text-2xl-leading); }
-.text-3xl { font-size: var(--text-3xl); line-height: var(--text-3xl-leading); }
-
-.font-medium { font-weight: var(--weight-medium); }
-.font-semibold { font-weight: var(--weight-semibold); }
-.font-bold { font-weight: var(--weight-bold); }
-
-.text-muted { color: var(--text-muted); }
-.text-inverse { color: var(--text-inverse); }
 
 /* ========================================
    6. UTILITIES
 ======================================== */
 
 .flex { display: flex; }
-.flex-col { flex-direction: column; }
 .items-center { align-items: center; }
 .justify-between { justify-content: space-between; }
-.gap-16 { gap: var(--space-16); }
 .w-full { width: 100%; }
+
 
 /* ========================================
    7. ANIMATIONS
