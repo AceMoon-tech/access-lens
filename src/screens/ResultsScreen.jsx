@@ -32,7 +32,7 @@ function ResultsScreen() {
   }
 
   return (
-    <div className="space-y-32">
+    <div className="space-y-24">
       <Results results={results} />
 
       <div className="pt-16">

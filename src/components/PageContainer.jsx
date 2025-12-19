@@ -11,7 +11,7 @@ function PageContainer({ children, className = '' }) {
 
   return (
     <div data-theme={theme} className={`page-container ${className}`}>
-      <main id="main-content" className="page-container__main px-24">
+      <main id="main-content" className="page-container__main">
         {children}
       </main>
     </div>

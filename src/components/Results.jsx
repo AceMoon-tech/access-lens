@@ -56,7 +56,7 @@ function Results({ results }) {
             aria-label={`${issue.title} (severity: ${severityText})`}
             className="border border-default bg-surface-1 p-24 rounded-sm shadow-sm"
           >
-            <h3 className="text-xl font-semibold mb-12">
+            <h3 className="text-xl font-semibold mb-16">
               {issue.title}
             </h3>
 
