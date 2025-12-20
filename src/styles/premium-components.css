@@ -302,7 +302,72 @@ h1, h2, h3, h4, h5, h6, p {
 
 
 /* ========================================
-   7. ANIMATIONS
+   7. HERO COMPONENT
+======================================== */
+
+.hero {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 640px;
+  padding-top: var(--space-64);
+  text-align: center;
+}
+
+.hero-title {
+  margin-bottom: var(--space-16);
+  font-size: var(--text-hero);
+  line-height: var(--text-hero-leading);
+  font-weight: var(--text-hero-weight);
+  color: var(--text-default);
+}
+
+.hero-subtitle {
+  margin-bottom: var(--space-32);
+  font-size: var(--text-body);
+  line-height: var(--text-body-leading);
+  font-weight: var(--text-body-weight);
+  color: var(--text-muted);
+}
+
+.hero-cta {
+  padding: 10px 18px;
+  border-radius: 9999px;
+  background-color: #F4F6F8;
+  color: #0B0D0E;
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: var(--text-body-leading);
+  text-decoration: none;
+  font-family: "Geist", "Geist Sans", system-ui, -apple-system, "SF Pro Text", Inter, sans-serif;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  transition:
+    background-color var(--motion-normal) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-emphasized),
+    box-shadow var(--motion-normal) var(--ease-standard);
+}
+
+.hero-cta:hover {
+  background-color: #FFFFFF;
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.hero-cta:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+
+/* ========================================
+   8. ANIMATIONS
 ======================================== */
 
 @keyframes spin {
