@@ -1,28 +1,23 @@
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
-import Card from "../components/Card";
 
 function Home() {
   return (
-    <Card className="space-y-24" surface="1">
-      <h1 className="text-3xl font-semibold text-default">
-        Access Lens
+    <div className="hero">
+      <h1 className="hero-title">
+        Accessibility, surfaced early.
       </h1>
 
-      <p className="text-base text-muted">
-        Run early-stage accessibility audits for any screen description.
-        Instant WCAG issues, fixes, severities, and Jira-ready output.
+      <p className="hero-subtitle">
+        Turn screen descriptions into early accessibility signals — before design or code exists.
       </p>
 
-      <Button
-        variant="primary"
-        size="md"
-        as={Link}
+      <Link
         to="/audit"
+        className="hero-cta"
       >
-        Start New Audit
-      </Button>
-    </Card>
+        Start a new audit
+      </Link>
+    </div>
   );
 }
 

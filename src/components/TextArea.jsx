@@ -1,24 +1,28 @@
-function TextArea({ 
-  label, 
-  value, 
-  onChange, 
-  placeholder = '', 
+import useStableId from '../lib/useStableId'
+
+function TextArea({
+  label,
+  value,
+  onChange,
+  placeholder = '',
   className = '',
   required = false,
   id,
   ariaDescribedBy,
   ariaInvalid = false,
 }) {
-  const textareaId = id || `textarea-${Math.random().toString(36).slice(2, 9)}`
+  const textareaId = useStableId(id)
+  const describedBy = ariaDescribedBy || undefined
 
   return (
     <div className={`flex flex-col gap-8 ${className}`}>
       {label && (
-        <label 
+        <label
           htmlFor={textareaId}
           className="form-label"
         >
           {label}
+          {required && <span aria-hidden="true"> *</span>}
         </label>
       )}
 
@@ -30,7 +34,7 @@ function TextArea({
         required={required}
         aria-required={required}
         aria-invalid={ariaInvalid}
-        aria-describedby={ariaDescribedBy}
+        aria-describedby={describedBy}
         className="form-input-base"
       />
     </div>

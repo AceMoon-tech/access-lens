@@ -9,7 +9,7 @@
    ======================================== */
    :root {
     /* Font Families */
-    --font-base: system-ui, "SF Pro Text", Inter, sans-serif;
+    --font-base: "Geist", "Geist Sans", system-ui, -apple-system, "SF Pro Text", Inter, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
     --font-dyslexic: "Atkinson Hyperlegible", "OpenDyslexic", sans-serif;
   
@@ -34,6 +34,7 @@
     --space-16: 16px;
     --space-24: 24px;
     --space-32: 32px;
+    --space-64: 64px;
   
     /* Layout */
     --max-width-content: 840px;
@@ -126,7 +127,7 @@
     --border-strong: #374456;
   
     /* Text */
-    --text-default: #E6EDF3;
+    --text-default: #D1D9E6;
     --text-muted: #9BA7B5;
     --text-inverse: #FFFFFF;
   
@@ -182,6 +183,28 @@
      TYPE SCALE
      ======================================== */
   :root {
+    /* Semantic Type Scale */
+    --text-hero: 48px;
+    --text-hero-leading: 56px;
+    --text-hero-weight: 700;
+  
+    --text-h1: 32px;
+    --text-h1-leading: 40px;
+    --text-h1-weight: 600;
+  
+    --text-h2: 24px;
+    --text-h2-leading: 32px;
+    --text-h2-weight: 600;
+  
+    --text-body: 16px;
+    --text-body-leading: 24px;
+    --text-body-weight: 400;
+  
+    --text-caption: 12px;
+    --text-caption-leading: 18px;
+    --text-caption-weight: 400;
+  
+    /* Legacy Size Scale (kept for compatibility) */
     --text-xs: 12px;
     --text-xs-leading: 18px;
   
@@ -203,6 +226,7 @@
     --text-3xl: 28px;
     --text-3xl-leading: 36px;
   
+    /* Font Weights */
     --weight-regular: 400;
     --weight-medium: 500;
     --weight-semibold: 600;

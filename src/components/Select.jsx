@@ -1,23 +1,29 @@
-function Select({ 
-  label, 
-  value, 
-  onChange, 
-  children, 
+import useStableId from '../lib/useStableId'
+
+function Select({
+  label,
+  value,
+  onChange,
+  options,
+  placeholder = 'Select…',
   className = '',
-  id,
   required = false,
+  id,
   ariaDescribedBy,
+  ariaInvalid = false,
 }) {
-  const selectId = id || `select-${Math.random().toString(36).slice(2, 9)}`
+  const selectId = useStableId(id)
+  const describedBy = ariaDescribedBy || undefined
 
   return (
     <div className={`flex flex-col gap-8 ${className}`}>
       {label && (
-        <label 
+        <label
           htmlFor={selectId}
           className="form-label"
         >
           {label}
+          {required && <span aria-hidden="true"> *</span>}
         </label>
       )}
 
@@ -27,10 +33,21 @@ function Select({
         onChange={onChange}
         required={required}
         aria-required={required}
-        aria-describedby={ariaDescribedBy}
-        className="form-input-base form-select"
+        aria-invalid={ariaInvalid}
+        aria-describedby={describedBy}
+        className="form-input-base"
       >
-        {children}
+        {placeholder && (
+          <option value="" disabled>
+            {placeholder}
+          </option>
+        )}
+
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
       </select>
     </div>
   )
