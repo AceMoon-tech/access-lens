@@ -118,9 +118,14 @@
     --bg-default: #0E131A;
     --bg-subtle: #141B24;
   
-    --surface-1: #181F2A;
-    --surface-2: #141B25;
-    --surface-3: #1E2733;
+    --bg-surface-0: #0B0D0E;
+    --bg-surface-1: #12161D;
+    --bg-surface-2: #171C24;
+    --bg-surface-3: #1E2430;
+  
+    --surface-1: #12161D;
+    --surface-2: #171C24;
+    --surface-3: #1E2430;
   
     /* Borders */
     --border-default: #273341;

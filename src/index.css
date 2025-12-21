@@ -13,14 +13,14 @@
    ------------------------------------------------------- */
 html {
   color: var(--text-default);
-  background-color: var(--bg-default);
+  background-color: var(--bg-surface-0);
   font-family: var(--font-base);
 }
 
 body {
   margin: 0;
   color: var(--text-default);
-  background-color: var(--bg-default);
+  background-color: var(--bg-surface-0);
   font-family: var(--font-base);
   line-height: var(--text-base-leading);
 }
@@ -297,40 +297,40 @@ body {
   align-items: center;
   justify-content: center;
 
-  padding: var(--space-8);
-  border-radius: var(--radius-sm);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 9999px;
 
   background-color: var(--surface-1);
   border: 1px solid var(--border-default);
   color: var(--text-default);
 
-  box-shadow: var(--shadow-sm);
   cursor: pointer;
 
   transition:
     background-color var(--motion-normal) var(--ease-standard),
-    box-shadow var(--motion-normal) var(--ease-standard),
     transform var(--motion-fast) var(--ease-emphasized);
 }
 
 /* Dark mode default */
 [data-theme="dark"] .theme-toggle {
   background-color: var(--surface-2);
+  border: 1px solid var(--border-default);
 }
 
-/* Hover = lift (both themes) */
-.theme-toggle:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+/* Light mode hover - shift to next surface level */
+:root:not([data-theme="dark"]) .theme-toggle:hover:not(:disabled),
+[data-theme="light"] .theme-toggle:hover:not(:disabled) {
+  background-color: var(--surface-2);
 }
 
-/* Active = press (both themes) */
+/* Dark mode hover - shift to next surface level */
+[data-theme="dark"] .theme-toggle:hover:not(:disabled) {
+  background-color: var(--surface-3);
+}
+
+/* Active state - subtle press (both modes) */
 .theme-toggle:active:not(:disabled) {
-  transform: translateY(0) scale(0.98);
-  box-shadow: var(--shadow-sm);
-}
-
-
-button.theme-toggle {
-  border-radius: var(--radius-sm);
+  transform: translateY(1px);
 }

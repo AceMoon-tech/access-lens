@@ -8,7 +8,7 @@ function Home() {
       </h1>
 
       <p className="hero-subtitle">
-        Turn screen descriptions into early accessibility signals — before design or code exists.
+        Turn screen descriptions into early accessibility signals, before design or code exists.
       </p>
 
       <Link
