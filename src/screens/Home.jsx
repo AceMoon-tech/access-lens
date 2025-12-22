@@ -4,7 +4,7 @@ function Home() {
   return (
     <div className="hero">
       <h1 className="hero-title">
-        Accessibility, surfaced early...
+        Accessibility, surfaced early.
       </h1>
 
       <p className="hero-subtitle">
