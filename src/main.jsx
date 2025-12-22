@@ -26,7 +26,7 @@ try {
 
 // Show configuration error UI if validation failed
 if (configError) {
-  const root = document.getElementById("root");
+  document.body.innerHTML = `
   if (root) {
     root.innerHTML = `
       <div style="

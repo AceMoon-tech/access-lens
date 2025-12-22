@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import Button from '../components/Button'
 import Results from '../components/Results'
@@ -17,6 +17,7 @@ function ResultsScreen() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [downloaded, setDownloaded] = useState(false)
+  const errorAlertRef = useRef(null)
 
   // Get audit_id from URL params (primary) or location state (temporary bridge)
   const auditId = params.auditId || location.state?.audit_id
@@ -91,6 +92,16 @@ function ResultsScreen() {
   // Get JSON string for copy action
   const jsonString = results ? JSON.stringify(results, null, 2) : ''
 
+  // Focus error Alert when error state appears
+  useEffect(() => {
+    if (error && errorAlertRef.current) {
+      // Use setTimeout to ensure the DOM has updated
+      setTimeout(() => {
+        errorAlertRef.current?.focus()
+      }, 0)
+    }
+  }, [error])
+
   // Loading state
   if (loading) {
     return (
@@ -107,9 +118,14 @@ function ResultsScreen() {
   if (error) {
     return (
       <div className="space-y-24">
-        <Alert variant="error">
-          {error}
-        </Alert>
+        <div
+          ref={errorAlertRef}
+          tabIndex="-1"
+        >
+          <Alert variant="error">
+            {error}
+          </Alert>
+        </div>
 
         <Button
           variant="primary"
