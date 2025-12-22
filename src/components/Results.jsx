@@ -1,6 +1,24 @@
-import CopyAllButton from '../components/CopyAllButton'
+import Loading from './Loading'
+import Card from './Card'
 
-function Results({ results }) {
+function Results({ results, loading = false, errorText }) {
+  // Loading state
+  if (loading) {
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        aria-label="Loading audit results"
+        className="flex flex-col items-center justify-center py-64 gap-16"
+      >
+        <Loading size="md" />
+        <p className="text-muted text-base" style={{ color: 'var(--text-muted)' }}>
+          Running audit…
+        </p>
+      </div>
+    )
+  }
+
   if (!results) return null
 
   const { issues, error } = results
@@ -30,68 +48,150 @@ function Results({ results }) {
       aria-label="Accessibility audit results"
       className="space-y-24"
     >
-      {/* Error */}
-      {error && (
+      {/* Error state UI */}
+      {errorText && (
+        <div
+          role="alert"
+          aria-live="assertive"
+          className="flex items-start gap-12 p-16 rounded-sm border"
+          style={{
+            backgroundColor: 'var(--surface-1)',
+            borderColor: 'var(--sev-high)',
+            color: 'var(--sev-high)'
+          }}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            style={{ flexShrink: 0, marginTop: '2px' }}
+          >
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          <p className="text-base" style={{ color: 'var(--sev-high)' }}>
+            {errorText}
+          </p>
+        </div>
+      )}
+
+      {/* Results error (from API) */}
+      {error && !errorText && (
         <p className="text-sev-high text-lg" role="alert">
           {error}
         </p>
       )}
 
-      {/* No issues */}
+      {/* No issues - Empty state */}
       {!error && issues.length === 0 && (
-        <p className="text-muted text-lg">
-          No accessibility issues found.
-        </p>
+        <div className="text-center py-32">
+          <h3 className="text-lg font-semibold mb-8" style={{ color: 'var(--text-muted)' }}>
+            No issues found
+          </h3>
+          <p className="text-base" style={{ color: 'var(--text-muted)' }}>
+            This screen description didn't surface accessibility issues.
+          </p>
+        </div>
       )}
 
-      {/* Issues */}
-      {issues.map((issue) => {
-        const severityText = normalizeSeverityText(issue.severity)
-        const sevClass = getSeverityColorClass(issue.severity)
+      {/* Issues - Vertical card stack */}
+      <div className="flex flex-col gap-24">
+        {issues.map((issue) => {
+          const severityText = normalizeSeverityText(issue.severity)
+          
+          // Get severity color token for badge background
+          const getSeverityColor = (severity) => {
+            const s = severity?.toLowerCase().trim() || 'low'
+            if (s === 'medium' || s === 'med') return 'var(--sev-med)'
+            if (s === 'high') return 'var(--sev-high)'
+            return 'var(--sev-low)'
+          }
 
-        return (
-          <div
-            key={issue.id}
-            role="group"
-            aria-label={`${issue.title} (severity: ${severityText})`}
-            className="border border-default bg-surface-1 p-24 rounded-sm shadow-sm"
-          >
-            <h3 className="text-xl font-semibold mb-16">
-              {issue.title}
-            </h3>
+          return (
+            <Card
+              key={issue.id}
+              role="group"
+              aria-label={`${issue.title} (severity: ${severityText})`}
+              className="flex flex-col gap-16"
+            >
+              {/* Header: Severity badge + Rule name */}
+              <div className="flex items-start gap-16">
+                {/* Severity badge */}
+                <span
+                  className="inline-flex items-center px-12 py-4 rounded-sm text-xs font-medium uppercase tracking-wide"
+                  style={{
+                    backgroundColor: getSeverityColor(issue.severity),
+                    color: 'var(--text-inverse)',
+                  }}
+                  aria-label={`Severity: ${severityText}`}
+                >
+                  {severityText}
+                </span>
+                
+                {/* Rule name */}
+                <h3 
+                  className="flex-1 font-semibold"
+                  style={{
+                    fontSize: 'var(--text-h2)',
+                    lineHeight: 'var(--text-h2-leading)',
+                    fontWeight: 'var(--text-h2-weight)',
+                    color: 'var(--text-default)'
+                  }}
+                >
+                  {issue.title}
+                </h3>
+              </div>
 
-            {/* Severity */}
-            <p className="text-muted text-sm mb-16">
-              Severity:{' '}
-              <span className={sevClass}>
-                {severityText}
-              </span>
-            </p>
+              {/* Short description */}
+              {issue.details && (
+                <p 
+                  className="text-base"
+                  style={{
+                    fontSize: 'var(--text-body)',
+                    lineHeight: 'var(--text-body-leading)',
+                    color: 'var(--text-muted)'
+                  }}
+                >
+                  {issue.details}
+                </p>
+              )}
 
-            {/* Details */}
-            {issue.details && (
-              <p className="text-base mb-16">
-                {issue.details}
-              </p>
-            )}
-
-            {/* Fixes */}
-            {issue.fixes?.length > 0 && (
-              <ul className="list-disc space-y-8 pl-24">
-                {issue.fixes.map((fix, i) => (
-                  <li key={i} className="text-sm">
-                    {fix}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        )
-      })}
-
-      {/* Copy JSON */}
-      <div className="pt-24">
-        <CopyAllButton text={JSON.stringify(results, null, 2)} />
+              {/* Fix suggestion */}
+              {issue.fixes?.length > 0 && (
+                <div className="flex flex-col gap-8">
+                  <p 
+                    className="text-sm font-medium"
+                    style={{ color: 'var(--text-default)' }}
+                  >
+                    Fix suggestion:
+                  </p>
+                  <ul className="list-disc space-y-8 pl-24">
+                    {issue.fixes.map((fix, i) => (
+                      <li 
+                        key={i} 
+                        className="text-sm"
+                        style={{
+                          fontSize: 'var(--text-body)',
+                          lineHeight: 'var(--text-body-leading)',
+                          color: 'var(--text-muted)'
+                        }}
+                      >
+                        {fix}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </Card>
+          )
+        })}
       </div>
     </div>
   )

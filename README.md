@@ -83,11 +83,100 @@ npm run preview
 
 ## Environment Variables
 
-Create a `.env` file in the root directory:
+### Development
 
+1. Create a `.env` file in the root directory:
+   ```bash
+   # Create .env file
+   touch .env
+   ```
+
+2. Add environment variables to `.env`:
+   ```env
+   # API Configuration
+   # Base URL for API requests (defaults to '/api' if not set)
+   VITE_API_BASE_URL=/api
+   
+   # Note: OPENAI_API_KEY is server-side only
+   # For local development with Vercel CLI, set it via:
+   # vercel env add OPENAI_API_KEY
+   ```
+
+**Development Variables:**
+- `VITE_API_BASE_URL` (optional) - API base URL, defaults to `/api` for relative paths
+- `OPENAI_API_KEY` - Server-side only, set in your local serverless function environment
+
+### Production (Vercel)
+
+Configure environment variables in the Vercel dashboard or via CLI:
+
+**Required:**
+- `OPENAI_API_KEY` - OpenAI API key for audit service (used by serverless function in `/api`)
+
+**Optional:**
+- `VITE_API_BASE_URL` - API base URL (defaults to `/api` if not set)
+  - Use `/api` for same-domain API routes (default)
+  - Use full URL (e.g., `https://api.example.com`) if API is on different domain
+
+**Environment Variable Notes:**
+- Variables prefixed with `VITE_` are exposed to the client-side code
+- `OPENAI_API_KEY` is server-side only (used in `/api/run-audit.js`)
+- Never commit `.env` files with real API keys
+- Use Vercel's environment variable settings for production secrets
+
+## Deployment
+
+### Vercel
+
+This project is configured for Vercel deployment.
+
+**Build Configuration:**
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+- **Framework:** Vite
+
+**Serverless Functions:**
+- API routes are located in `/api` directory
+- `api/run-audit.js` - Handles audit requests via OpenAI
+
+**Deployment Steps:**
+
+1. Push your code to GitHub/GitLab/Bitbucket
+2. Import your repository in [Vercel](https://vercel.com)
+3. Configure environment variables in Vercel dashboard:
+   - `OPENAI_API_KEY` (required) - OpenAI API key for audit service
+   - `VITE_API_BASE_URL` (optional) - API base URL, defaults to `/api` if not set
+4. Deploy
+
+Vercel will automatically detect the Vite framework and use the configuration from `vercel.json`.
+
+**Configuration Details:**
+
+- **Build Command:** `npm run build` (defined in `vercel.json`)
+- **Output Directory:** `dist` (Vite's default output)
+- **Framework:** Vite (auto-detected)
+- **API Routes:** Serverless functions in `/api` directory are automatically deployed
+- **SPA Routing:** All non-API routes are rewritten to `/index.html` for client-side routing
+
+**Manual Deployment via CLI:**
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy (follow prompts)
+vercel
+
+# Deploy to production
+vercel --prod
 ```
-VITE_API_BASE_URL=/api
-```
+
+**API Routes:**
+
+Serverless functions are located in the `/api` directory:
+- `/api/run-audit.js` - Handles audit requests via OpenAI API
+
+API routes are automatically deployed as Vercel serverless functions and accessible at `/api/*` endpoints.
 
 ## Expanding the ESLint configuration
 

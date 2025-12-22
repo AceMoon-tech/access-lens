@@ -1,4 +1,5 @@
 import { post } from "../lib/api";
+import { API_ENDPOINTS } from "../lib/config";
 import normalizeResults from "./normalizeResults";
 
 /**
@@ -24,7 +25,7 @@ export async function runAudit(input) {
     }
 
     // --- STEP 2: Server-side LLM call -------------------------------------
-    const result = await post("/run-audit", { input: formattedInput });
+    const result = await post(API_ENDPOINTS.RUN_AUDIT, { input: formattedInput });
 
     // --- STEP 3: Normalize + return ----------------------------------------
     return normalizeResults(result);

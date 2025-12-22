@@ -20,6 +20,21 @@
   font-family: var(--font-base);
 }
 
+/* Header link */
+.header-link {
+  color: var(--text-default);
+  text-decoration: none;
+  transition: opacity var(--motion-normal) var(--ease-standard);
+}
+
+.header-link:hover {
+  opacity: 0.7;
+}
+
+.header-link:active {
+  opacity: 0.5;
+}
+
 /* Global focus ring */
 :where(a, button, input, select, textarea, [role="button"], [tabindex]):focus-visible {
   outline: 2px solid var(--focus-ring);
@@ -65,51 +80,74 @@
 .btn-base:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: #F4F6F8;
+}
+
+[data-theme="light"] .btn-primary:disabled {
+  background-color: #0B0D0E;
+  opacity: 0.5;
 }
 
 /* PRIMARY */
 .btn-primary {
-  color: var(--text-inverse);
-
-  background:
-    var(--accent-sheen),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--accent-600) 96%, white 4%) 0%,
-      color-mix(in srgb, var(--accent-700) 96%, black 4%) 100%
-    );
-
-  background-clip: padding-box;
-  border-color: color-mix(in srgb, var(--accent-700) 78%, transparent);
-
+  padding: 10px 18px;
+  border-radius: 9999px;
+  background-color: #F4F6F8;
+  color: #0B0D0E;
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: var(--text-body-leading);
+  border: none;
   box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.16) inset,
-    0px 0px 0px 1px rgba(255, 255, 255, 0.08) inset,
-    var(--shadow-md),
-    0px 18px 44px color-mix(in srgb, var(--accent-500) 26%, transparent);
+    0 6px 18px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  transition:
+    background-color var(--motion-normal) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-emphasized),
+    box-shadow var(--motion-normal) var(--ease-standard);
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: translateY(-1px);
+  background-color: #FFFFFF;
   box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.18) inset,
-    var(--shadow-lg),
-    0px 22px 52px color-mix(in srgb, var(--accent-500) 30%, transparent);
+    0 8px 22px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
 .btn-primary:active:not(:disabled) {
-  transform: scale(0.97);
+  transform: translateY(1px);
   box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.08) inset,
-    var(--shadow-sm);
+    0 3px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
-/* Dark-mode button dominance lock */
-[data-theme="dark"] .btn-primary {
+/* Light mode variant */
+[data-theme="light"] .btn-primary {
+  background-color: #0B0D0E;
+  color: #FFFFFF;
   box-shadow:
-    0px 1px 0px rgba(255, 255, 255, 0.14) inset,
-    var(--shadow-md),
-    0px 18px 44px color-mix(in srgb, var(--accent-500) 26%, transparent);
+    0 6px 18px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .btn-primary:hover:not(:disabled) {
+  background-color: #25282E;
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] .btn-primary:active:not(:disabled) {
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 
@@ -279,11 +317,69 @@ textarea.form-input-base {
     0px 1px 1px rgba(0, 0, 0, 0.35) inset;
 }
 
+/* ========================================
+   FORM FEEDBACK STATES (UI-only)
+======================================== */
+
+/* Helper Text - Neutral guidance */
+.form-helper-text {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm-leading);
+  color: var(--text-muted);
+}
+
+/* Inline Error */
+.form-error-text {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm-leading);
+  color: var(--sev-high);
+}
+
+/* Inline Warning */
+.form-warning-text {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm-leading);
+  color: var(--sev-med);
+}
+
+/* Success Text */
 .form-success-text {
   margin-top: var(--space-4);
   font-size: var(--text-sm);
   line-height: var(--text-sm-leading);
   color: var(--sev-low);
+}
+
+/* Form Loading State - Visual indicator */
+.form-loading {
+  position: relative;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.form-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--text-muted);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Input Warning State */
+.form-input-base.is-warning {
+  border-color: var(--sev-med);
+  box-shadow:
+    0 0 0 1px var(--sev-med),
+    0px 1px 1px rgba(0, 0, 0, 0.35) inset;
 }
 
 

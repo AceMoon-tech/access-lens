@@ -21,8 +21,14 @@ export default function Header() {
           />
         </Link>
 
-        {/* Right: Theme toggle */}
-        <nav aria-label="Global" className="flex items-center">
+        {/* Right: Navigation */}
+        <nav aria-label="Global" className="flex items-center gap-16">
+          <Link
+            to="/about"
+            className="header-link text-sm font-medium"
+          >
+            About
+          </Link>
           <ThemeToggle />
         </nav>
       </div>
