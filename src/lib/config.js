@@ -55,20 +55,27 @@ function getApiBaseUrl() {
 
 /**
  * API base URL
- * Evaluated at module load - errors are caught in main.jsx validation
+ * Safe evaluation - never throws during module load
+ * Errors are deferred to validateEnv() call
  */
-let _apiBaseUrl = null
-
-function initializeApiBaseUrl() {
-  if (_apiBaseUrl === null) {
-    _apiBaseUrl = getApiBaseUrl()
+function getApiBaseUrlSafe() {
+  try {
+    return getApiBaseUrl()
+  } catch (error) {
+    // In development, always return default
+    if (isDevelopment) {
+      console.warn('[Config] Error getting API_BASE_URL, using default:', error.message)
+      return '/api'
+    }
+    // In production, return null to signal error (will be caught in validateEnv)
+    return null
   }
-  return _apiBaseUrl
 }
 
-// Initialize immediately - if this throws, it will be caught by wrapping the import
-// in main.jsx with try-catch around the module evaluation
-export const API_BASE_URL = initializeApiBaseUrl()
+// Export API base URL - safe for module load
+// In development: always returns '/api' (never throws)
+// In production: returns null if missing (error caught in validateEnv)
+export const API_BASE_URL = getApiBaseUrlSafe() || '/api'
 
 /**
  * API endpoints
@@ -86,12 +93,19 @@ export const API_ENDPOINTS = {
  * Called in main.jsx before app renders
  */
 export function validateEnv() {
-  // API_BASE_URL is evaluated at module load
-  // In production, it throws ConfigError if VITE_API_BASE_URL is missing
-  // In development, it falls back to '/api' with a warning
-  
-  // Just verify it's accessible (will throw if there was an error during evaluation)
-  const _ = API_BASE_URL
+  // Check if API_BASE_URL is properly configured
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+
+  if (isProduction) {
+    // In production, require explicit configuration
+    if (!apiBaseUrl || apiBaseUrl.trim() === '') {
+      throw new ConfigError(
+        'VITE_API_BASE_URL is required in production but is not set. ' +
+        'Please configure this environment variable in your deployment settings.',
+        'VITE_API_BASE_URL'
+      )
+    }
+  }
 
   if (isDevelopment) {
     console.log('[Config] Environment configuration validated')
