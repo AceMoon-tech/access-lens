@@ -4,7 +4,7 @@ import TextArea from '../components/TextArea'
 import PageContainer from '../components/PageContainer'
 import Loading from '../components/Loading'
 import Alert from '../components/Alert'
-import runAudit from '../llm/runAudit'
+import { post } from '../lib/api'
 import { formMessages } from '../lib/formMessages'
 import { trackAuditStarted, trackAuditFailed } from '../lib/analytics'
 import { createAudit } from '../lib/api/audits'
@@ -176,10 +176,23 @@ function AuditForm({ onResults }) {
     })
 
     try {
-      const results = await runAudit({
-        ui: uiDescription,
-        copy: copyBlocks
-      })
+      let results
+      try {
+        results = await post('/run-audit', {
+          input: uiDescription,
+          context: copyBlocks
+        })
+      } catch (apiError) {
+        // Convert API errors to expected format
+        if (apiError.data) {
+          results = apiError.data
+        } else {
+          results = {
+            error: apiError.errorType || 'server_error',
+            message: apiError.message || 'An error occurred with the audit service.'
+          }
+        }
+      }
 
       // Check if audit returned an error
       if (results.error) {

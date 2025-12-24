@@ -94,6 +94,10 @@ export function post(endpoint, body, options = {}) {
     ...options,
     method: 'POST',
     body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
   })
 }
 
