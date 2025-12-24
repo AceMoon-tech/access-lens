@@ -1,83 +1,138 @@
-/**
- * Mock audit endpoint for frontend → backend → results rendering validation
- * Returns hardcoded AuditResult following auditContract.js structure
- * No LLM calls - pure mock data for testing
- */
+import OpenAI from 'openai'
 
 /**
- * @typedef {Object} AuditResult
- * @property {Object} summary - Summary counts by severity
- * @property {number} summary.total - Total number of issues
- * @property {number} summary.high - High severity count
- * @property {number} summary.medium - Medium severity count
- * @property {number} summary.low - Low severity count
- * @property {Array} issues - Array of audit issues
- * @property {Object} metadata - Audit metadata
- * @property {string} metadata.model - Model identifier
- * @property {string} metadata.generatedAt - ISO 8601 timestamp
+ * Get OpenAI API key from environment
+ * @returns {string} API key
+ * @throws {Error} If API key is not set
  */
+function getOpenAIApiKey() {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey || apiKey.trim() === '') {
+    throw new Error('OPENAI_API_KEY is not configured')
+  }
+  return apiKey.trim()
+}
 
 /**
- * Generate mock audit result following auditContract.js structure
- * @returns {AuditResult} Mock audit result
+ * Call OpenAI to generate audit results
+ * @param {string} input - UI description to audit
+ * @returns {Promise<Object>} Audit result matching contract
  */
-function generateMockAuditResult() {
-  return {
-    summary: {
-      total: 4,
-      high: 1,
-      medium: 2,
-      low: 1
-    },
-    issues: [
-      {
-        id: "issue-1",
-        title: "Missing alternative text on images",
-        severity: "high",
-        wcagRef: "WCAG 2.2.1.1",
-        description: "The login screen contains images without alternative text descriptions. Screen reader users will not be able to understand the content or purpose of these images.",
-        recommendation: "Add descriptive alt attributes to all img elements. Use alt=\"\" for decorative images that don't convey meaningful information."
-      },
-      {
-        id: "issue-2",
-        title: "Insufficient color contrast for button text",
-        severity: "medium",
-        wcagRef: "WCAG 2.2.1.4.3",
-        description: "The primary button text color does not meet the minimum contrast ratio of 4.5:1 against the background for normal text.",
-        recommendation: "Increase the contrast ratio between the button text and background colors. Use a color contrast checker to verify the ratio meets WCAG 2.2 Level AA standards."
-      },
-      {
-        id: "issue-3",
-        title: "Form inputs lack associated labels",
-        severity: "medium",
-        wcagRef: "WCAG 2.2.1.3.1",
-        description: "The email and password input fields do not have programmatically associated labels. This makes it difficult for screen reader users to understand what information is expected.",
-        recommendation: "Associate labels with input fields using the 'for' attribute on label elements or by wrapping inputs within label elements. Ensure labels are descriptive and visible."
-      },
-      {
-        id: "issue-4",
-        title: "Keyboard focus indicator is not clearly visible",
-        severity: "low",
-        wcagRef: "WCAG 2.2.2.7",
-        description: "When navigating with keyboard, the focus indicator on interactive elements is subtle and may be difficult to perceive for some users.",
-        recommendation: "Enhance the keyboard focus indicator to be more prominent. Consider using a 2px solid outline or adding a high-contrast background highlight to ensure visibility."
-      }
-    ],
-    metadata: {
-      model: "mock-audit-service",
-      generatedAt: new Date().toISOString()
+async function generateAuditResult(input) {
+  const apiKey = getOpenAIApiKey()
+  const client = new OpenAI({ apiKey })
+
+  const prompt = `You are Access Lens, a WCAG 2.2 accessibility auditor.
+
+Analyze the following UI description for accessibility issues.
+
+INPUT:
+${input}
+
+Return ONLY valid JSON matching this exact schema (no extra keys, no markdown, no code blocks):
+{
+  "summary": {
+    "total": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "issues": [
+    {
+      "id": "unique-issue-id",
+      "title": "Brief issue summary",
+      "severity": "low" | "medium" | "high",
+      "wcagRef": "WCAG 2.2.X.X",
+      "description": "Detailed description of the accessibility issue",
+      "recommendation": "Recommended fix or solution"
     }
+  ],
+  "metadata": {
+    "model": "gpt-4o-mini",
+    "generatedAt": "ISO 8601 timestamp"
   }
 }
 
+Requirements:
+- "id": unique string identifier for each issue
+- "title": concise one-line summary
+- "severity": must be exactly "low", "medium", or "high"
+- "wcagRef": single WCAG 2.2 criterion reference (e.g., "WCAG 2.2.1.1")
+- "description": detailed explanation of the issue
+- "recommendation": clear, actionable fix suggestion
+- "summary": object with counts for total, high, medium, and low severity issues
+- "metadata": object with "model" (e.g., "gpt-4o-mini") and "generatedAt" (ISO 8601 timestamp)
+- Return only the JSON object, no markdown formatting, no code blocks, no explanations.`
+
+  console.log('calling OpenAI')
+  const response = await client.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [
+      {
+        role: 'system',
+        content: 'You are a WCAG 2.2 accessibility auditor. Always return valid JSON only, no markdown, no code blocks, no explanations.'
+      },
+      {
+        role: 'user',
+        content: prompt
+      }
+    ],
+    temperature: 0,
+    response_format: { type: 'json_object' }
+  })
+
+  console.log('OpenAI response received')
+  const content = response.choices[0].message.content.trim()
+  
+  // Remove markdown code blocks if present
+  let jsonContent = content
+  if (content.startsWith('```')) {
+    jsonContent = content.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '')
+  }
+
+  // Parse JSON
+  let auditResult
+  try {
+    auditResult = JSON.parse(jsonContent)
+  } catch (parseError) {
+    throw new Error(`Failed to parse OpenAI response as JSON: ${parseError.message}`)
+  }
+
+  // Validate structure matches contract
+  if (!auditResult.summary || !auditResult.issues || !auditResult.metadata) {
+    throw new Error('OpenAI response missing required fields: summary, issues, or metadata')
+  }
+
+  // Ensure metadata has required fields
+  if (!auditResult.metadata.generatedAt) {
+    auditResult.metadata.generatedAt = new Date().toISOString()
+  }
+  if (!auditResult.metadata.model) {
+    auditResult.metadata.model = 'gpt-4o-mini'
+  }
+
+  // Validate and calculate summary counts if needed
+  if (!auditResult.summary.total && auditResult.issues.length > 0) {
+    auditResult.summary.total = auditResult.issues.length
+    auditResult.summary.high = auditResult.issues.filter(i => i.severity === 'high').length
+    auditResult.summary.medium = auditResult.issues.filter(i => i.severity === 'medium').length
+    auditResult.summary.low = auditResult.issues.filter(i => i.severity === 'low').length
+  }
+
+  return auditResult
+}
+
 export default async function handler(req, res) {
+  console.log('run-audit invoked')
+  
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' })
   }
 
   try {
-    // Parse request body (not used for mock, but validates request format)
+    // Parse request body
     const { input } = req.body;
+    console.log('input length:', input?.length || 0)
 
     if (!input || input.trim().length === 0) {
       return res.status(400).json({
@@ -86,14 +141,30 @@ export default async function handler(req, res) {
       });
     }
 
-    // Generate mock audit result
-    const mockResult = generateMockAuditResult();
+    // Generate audit result using OpenAI
+    const auditResult = await generateAuditResult(input);
 
-    // Return mock result as JSON
-    return res.status(200).json(mockResult);
+    // Return audit result as JSON
+    return res.status(200).json(auditResult);
   } catch (err) {
-    console.error("Mock endpoint error:", err);
+    console.error("Audit endpoint error:", err);
 
+    // Handle specific error types
+    if (err.message && err.message.includes('OPENAI_API_KEY')) {
+      return res.status(500).json({
+        error: "config_error",
+        message: "Server configuration error. The audit service is not properly configured."
+      });
+    }
+
+    if (err.message && err.message.includes('parse')) {
+      return res.status(500).json({
+        error: "invalid_response",
+        message: "The audit service returned an invalid response. Please try again."
+      });
+    }
+
+    // Generic error
     return res.status(500).json({
       error: "server_error",
       message: "An error occurred processing the request."
