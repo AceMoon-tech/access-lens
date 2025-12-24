@@ -30,6 +30,7 @@ export class ConfigError extends Error {
 function getApiBaseUrl() {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
+
   if (isProduction) {
     // In production, require explicit configuration
     if (!apiBaseUrl || apiBaseUrl.trim() === '') {
@@ -75,7 +76,7 @@ function getApiBaseUrlSafe() {
 // Export API base URL - safe for module load
 // In development: always returns '/api' (never throws)
 // In production: returns null if missing (error caught in validateEnv)
-export const API_BASE_URL = getApiBaseUrlSafe() || '/api'
+export const API_BASE_URL = getApiBaseUrlSafe()
 
 /**
  * API endpoints

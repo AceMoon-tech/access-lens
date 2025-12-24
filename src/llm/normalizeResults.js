@@ -1,42 +1,48 @@
 /**
- * Normalize raw LLM audit results into a safe, predictable structure.
- * This prevents UI crashes from malformed LLM output.
+ * Normalize raw API audit results into a safe, predictable structure.
+ * Handles the strict audit schema: id, summary, description, severity, wcagRefs, confidence
  */
 
 export const severityColors = {
   low: 'text-[var(--sev-low)]',
   med: 'text-[var(--sev-med)]',
   high: 'text-[var(--sev-high)]',
-  medium: 'text-[var(--sev-med)]', // Handle "medium" from LLM
+  medium: 'text-[var(--sev-med)]', // Handle "medium" from API
 }
 
 export default function normalizeResults(raw) {
   if (!raw || typeof raw !== 'object') {
     return {
       issues: [],
-      error: 'Invalid LLM response shape.',
+      error: 'Invalid API response shape.',
     }
   }
 
-  // If LLM returned its own error structure
+  // If API returned an error structure
   if (raw.error) {
     return {
       issues: [],
-      error: raw.error,
+      error: raw.message || raw.error || 'An error occurred during the audit.',
+      details: raw.details || null,
     }
   }
 
   let issues = []
 
-  // Defensive parsing
+  // Parse issues from validated API response
   try {
     if (Array.isArray(raw.issues)) {
       issues = raw.issues.map((issue) => ({
         id: issue.id || crypto.randomUUID(),
-        title: issue.title || 'Untitled Issue',
+        summary: issue.summary || 'Untitled Issue',
+        description: issue.description || '',
         severity: issue.severity || 'low',
-        details: issue.details || '',
-        fixes: issue.fixes || [],
+        wcagRefs: Array.isArray(issue.wcagRefs) ? issue.wcagRefs : [],
+        confidence: typeof issue.confidence === 'number' ? issue.confidence : 1,
+        // Legacy fields for backward compatibility with UI
+        title: issue.summary || 'Untitled Issue',
+        details: issue.description || '',
+        fixes: [], // No longer in schema, but UI may expect it
       }))
     }
   } catch (e) {
