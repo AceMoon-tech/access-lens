@@ -70,47 +70,33 @@ function generateMockAuditResult() {
   }
 }
 
-export async function POST(req) {
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' })
+  }
+
   try {
     // Parse request body (not used for mock, but validates request format)
-    const { input } = await req.json();
+    const { input } = req.body;
 
     if (!input || input.trim().length === 0) {
-      return new Response(
-        JSON.stringify({
-          error: "validation_error",
-          message: "No input provided."
-        }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" }
-        }
-      );
+      return res.status(400).json({
+        error: "validation_error",
+        message: "No input provided."
+      });
     }
 
     // Generate mock audit result
     const mockResult = generateMockAuditResult();
 
     // Return mock result as JSON
-    return new Response(
-      JSON.stringify(mockResult),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" }
-      }
-    );
+    return res.status(200).json(mockResult);
   } catch (err) {
     console.error("Mock endpoint error:", err);
 
-    return new Response(
-      JSON.stringify({
-        error: "server_error",
-        message: "An error occurred processing the request."
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" }
-      }
-    );
+    return res.status(500).json({
+      error: "server_error",
+      message: "An error occurred processing the request."
+    });
   }
 }
