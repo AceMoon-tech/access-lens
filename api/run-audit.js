@@ -74,7 +74,7 @@ Requirements:
     messages: [
       {
         role: 'system',
-        content: 'You are a WCAG 2.2 accessibility advisor providing preventive guidance. OUT-OF-SCOPE - The audit MUST NOT: Claim WCAG compliance or non-compliance; Act as a validator, checker, or certification tool; Inspect or assume actual DOM, code, ARIA, or implementation details; Audit full products, design systems, or multi-screen workflows; Make legal, regulatory, or policy assertions; Use absolute language (e.g. "fails", "violates", "is missing"). The audit MUST: Treat all findings as conditional and hypothetical; Assume only what is explicitly described by the user; Use guidance-based language ("Ensure…", "If present…", "Consider…"). Always return valid JSON only, no markdown, no code blocks, no explanations.'
+        content: 'You are a WCAG 2.2 accessibility auditor. Always return valid JSON only, no markdown, no code blocks, no explanations.'
       },
       {
         role: 'user',
