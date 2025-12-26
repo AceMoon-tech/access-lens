@@ -34,18 +34,15 @@ export default function normalizeResults(raw) {
     if (Array.isArray(raw.issues)) {
       issues = raw.issues.map((issue) => ({
         id: issue.id || crypto.randomUUID(),
-        guidance: issue.guidance || issue.title || issue.summary || 'No guidance provided',
-        whoItAffects: issue.whoItAffects || '',
-        whyItMatters: issue.whyItMatters || '',
+        summary: issue.summary || 'Untitled Issue',
+        description: issue.description || '',
         severity: issue.severity || 'low',
-        wcagRefs: Array.isArray(issue.wcagRefs) ? issue.wcagRefs : (issue.wcagRef ? [issue.wcagRef] : []),
-        confidence: issue.confidence || 'low',
+        wcagRefs: Array.isArray(issue.wcagRefs) ? issue.wcagRefs : [],
+        confidence: typeof issue.confidence === 'number' ? issue.confidence : 1,
         // Legacy fields for backward compatibility with UI
-        summary: issue.guidance || issue.title || issue.summary || 'No guidance provided',
-        title: issue.guidance || issue.title || issue.summary || 'No guidance provided',
-        description: issue.guidance || issue.description || '',
-        details: issue.guidance || issue.description || '',
-        fixes: issue.recommendation ? [issue.recommendation] : [], // Map recommendation to fixes for backward compatibility
+        title: issue.summary || 'Untitled Issue',
+        details: issue.description || '',
+        fixes: [], // No longer in schema, but UI may expect it
       }))
     }
   } catch (e) {

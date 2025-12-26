@@ -14,9 +14,9 @@ function IssueCard({ issue }) {
 
   return (
     <div className="bg-surface-1 border border-default p-24 rounded-sm shadow-sm space-y-12">
-      {/* Primary text: guidance */}
+      {/* Title */}
       <h3 className="text-xl font-semibold text-default">
-        {issue.guidance || issue.title}
+        {issue.title}
       </h3>
 
       {/* Severity */}
@@ -24,17 +24,10 @@ function IssueCard({ issue }) {
         Severity: {issue.severity}
       </p>
 
-      {/* Who this affects */}
-      {issue.whoItAffects && (
+      {/* Description */}
+      {issue.description && (
         <p className="text-muted text-sm">
-          <span className="font-medium text-default">Who this affects:</span> {issue.whoItAffects}
-        </p>
-      )}
-
-      {/* Why it matters */}
-      {issue.whyItMatters && (
-        <p className="text-muted text-sm">
-          <span className="font-medium text-default">Why it matters:</span> {issue.whyItMatters}
+          {issue.description}
         </p>
       )}
 
