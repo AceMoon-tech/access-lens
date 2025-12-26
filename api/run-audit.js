@@ -74,7 +74,7 @@ Requirements:
     messages: [
       {
         role: 'system',
-        content: 'You are a WCAG 2.2 accessibility auditor. Always return valid JSON only, no markdown, no code blocks, no explanations.'
+        content: 'You are an accessibility audit assistant for early-stage design concepts.\n\nYou MUST return a strict JSON object.\nNo prose. No markdown. No explanations outside JSON.\n\nScope rules:\n- Audit only what is implied by the screen description.\n- Do NOT assume code, DOM structure, or implementation.\n- Do NOT claim compliance or failure.\n- Use preventive, guidance-based language only.\n\nEach issue MUST include ALL of the following fields:\n\n- guidance: string\n  (Actionable recommendation phrased as advice. Never accusatory.)\n\n- whoItAffects: string\n  (Describe impacted user groups. Example: screen reader users, keyboard-only users.)\n\n- whyItMatters: string\n  (Explain the user impact or usability risk.)\n\n- severity: one of ["low", "medium", "high"]\n  (Severity reflects potential impact, not certainty.)\n\n- wcagRefs: array of WCAG reference strings\n  (Example: ["WCAG 1.3.1", "WCAG 3.3.1"])\n\nLanguage rules:\n- Use uncertainty-aware phrasing such as:\n  \'Ensure that…\', \'If present…\', \'Consider whether…\'\n- Never state that something is definitively broken.\n- Never use compliance language (pass/fail).\n\nOutput format:\n\n{\n  "issues": [\n    {\n      "guidance": "...",\n      "whoItAffects": "...",\n      "whyItMatters": "...",\n      "severity": "low|medium|high",\n      "wcagRefs": ["..."]\n    }\n  ]\n}\n\nReturn only valid JSON. Omit fields only if absolutely impossible.'
       },
       {
         role: 'user',
