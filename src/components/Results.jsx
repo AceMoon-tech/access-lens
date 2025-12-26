@@ -118,7 +118,7 @@ function Results({ results, loading = false, errorText }) {
             <Card
               key={issue.id}
               role="group"
-              aria-label={`${issue.title} (severity: ${severityText})`}
+              aria-label={`${issue.guidance || issue.title} (severity: ${severityText})`}
               className="flex flex-col gap-16"
             >
               {/* Header: Severity badge + Rule name */}
@@ -145,12 +145,12 @@ function Results({ results, loading = false, errorText }) {
                     color: 'var(--text-default)'
                   }}
                 >
-                  {issue.title}
+                  {issue.guidance || issue.title}
                 </h3>
               </div>
 
-              {/* Short description */}
-              {issue.details && (
+              {/* Who this affects */}
+              {issue.whoItAffects && (
                 <p 
                   className="text-base"
                   style={{
@@ -159,7 +159,21 @@ function Results({ results, loading = false, errorText }) {
                     color: 'var(--text-muted)'
                   }}
                 >
-                  {issue.details}
+                  <span style={{ fontWeight: 'var(--text-body-weight)', color: 'var(--text-default)' }}>Who this affects:</span> {issue.whoItAffects}
+                </p>
+              )}
+
+              {/* Why it matters */}
+              {issue.whyItMatters && (
+                <p 
+                  className="text-base"
+                  style={{
+                    fontSize: 'var(--text-body)',
+                    lineHeight: 'var(--text-body-leading)',
+                    color: 'var(--text-muted)'
+                  }}
+                >
+                  <span style={{ fontWeight: 'var(--text-body-weight)', color: 'var(--text-default)' }}>Why it matters:</span> {issue.whyItMatters}
                 </p>
               )}
 
