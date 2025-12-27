@@ -13,7 +13,7 @@ function Results({ results, loading = false, errorText }) {
       >
         <Loading size="md" />
         <p className="text-muted text-base" style={{ color: 'var(--text-muted)' }}>
-          Running audit…
+          Audit in progress. Please wait…
         </p>
       </div>
     )

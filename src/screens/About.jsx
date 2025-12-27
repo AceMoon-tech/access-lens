@@ -27,6 +27,18 @@ function About() {
           evaluate UI concepts using natural language descriptions.
         </p>
 
+        <p 
+          className="mb-16"
+          style={{
+            fontSize: 'var(--text-body)',
+            lineHeight: 'var(--text-body-leading)',
+            color: 'var(--text-muted)'
+          }}
+        >
+          This tool provides early accessibility guidance based on screen descriptions.
+          It is not an accessibility checker, validator, or certification tool, and does not determine compliance.
+        </p>
+
         <ul 
           className="list-disc list-inside space-y-8"
           style={{

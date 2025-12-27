@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Button from '../components/Button'
 import TextArea from '../components/TextArea'
 import PageContainer from '../components/PageContainer'
@@ -71,12 +71,23 @@ function AuditForm({ onResults }) {
   const [requestState, setRequestState] = useState('idle') // "idle" | "loading" | "error" | "success"
   const [errorMessage, setErrorMessage] = useState('')
   const errorId = 'audit-form-error'
+  const errorAlertRef = useRef(null)
   
   // Sync local state with context when context changes
   useEffect(() => {
     setUiDescription(auditFormInputs.uiDescription)
     setCopyBlocks(auditFormInputs.copyBlocks)
   }, [auditFormInputs])
+
+  // Focus error Alert when error state appears
+  useEffect(() => {
+    if (requestState === 'error' && errorMessage && errorAlertRef.current) {
+      // Use setTimeout to ensure the DOM has updated
+      setTimeout(() => {
+        errorAlertRef.current?.focus()
+      }, 0)
+    }
+  }, [requestState, errorMessage])
   
   // Field-level error states (hidden by default)
   const [uiDescriptionError, setUiDescriptionError] = useState('')
@@ -387,7 +398,11 @@ function AuditForm({ onResults }) {
 
         {/* Error state UI with Retry button */}
         {requestState === 'error' && errorMessage && (
-          <div className="flex flex-col gap-16">
+          <div 
+            ref={errorAlertRef}
+            tabIndex="-1"
+            className="flex flex-col gap-16"
+          >
             <Alert id={errorId} variant="error">
               {errorMessage}
             </Alert>
@@ -416,6 +431,10 @@ function AuditForm({ onResults }) {
         <div className="space-y-8">
           <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
             Your audit runs locally. Results appear on the next screen and can be exported.
+          </p>
+
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            Guidance only — not a compliance check.
           </p>
 
           <div 
