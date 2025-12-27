@@ -18,8 +18,8 @@ function IssueCard({ issue }) {
     issue.summary ||
     "Accessibility recommendation"
 
-  const hasWho = !!issue.whoItAffects && String(issue.whoItAffects).trim() !== ""
-  const hasWhy = !!issue.whyItMatters && String(issue.whyItMatters).trim() !== ""
+    const hasWho = Boolean(issue.whoItAffects)
+    const hasWhy = Boolean(issue.whyItMatters)    
 
   const hasDescription =
     !!issue.description && String(issue.description).trim() !== ""
