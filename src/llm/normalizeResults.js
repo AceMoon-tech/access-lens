@@ -36,16 +36,13 @@ export default function normalizeResults(raw) {
     if (Array.isArray(raw.issues)) {
       issues = raw.issues.map((issue) => ({
         id: issue.id || crypto.randomUUID(),
-        summary: issue.summary || 'Untitled Issue',
-        description: issue.description || '',
+        guidance: issue.guidance || '',
+        whoItAffects: issue.whoItAffects || '',
+        whyItMatters: issue.whyItMatters || '',
         severity: issue.severity || 'low',
         wcagRefs: Array.isArray(issue.wcagRefs) ? issue.wcagRefs : [],
-        confidence: typeof issue.confidence === 'number' ? issue.confidence : 1,
-        // Legacy fields for backward compatibility with UI
-        title: issue.summary || 'Untitled Issue',
-        details: issue.description || '',
-        fixes: [], // No longer in schema, but UI may expect it
       }))
+      
     }
   } catch (e) {
     return {
