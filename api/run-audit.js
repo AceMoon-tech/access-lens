@@ -51,9 +51,9 @@ Each issue MUST include ALL fields below:
   (Impacted user groups. Use conditional phrasing only (e.g., 'If present…', 'May affect…', 'Could impact…').)
 - whyItMatters: string
   (User impact or usability risk. Use conditional phrasing only (e.g., 'If present…', 'May affect…', 'Could impact…').)
+- wcagRefs: array of WCAG reference strings
 - severity: "low" | "medium" | "high"
   (Severity must represent potential user impact, not a confirmed failure. Avoid compliance/failure claims.)
-- wcagRefs: array of WCAG reference strings
 
 Language rules:
 - Use phrasing like:
@@ -73,8 +73,8 @@ Return JSON in this exact shape:
       "guidance": "",
       "whoItAffects": "",
       "whyItMatters": "",
-      "severity": "low",
-      "wcagRefs": []
+      "wcagRefs": [],
+      "severity": "low"
     }
   ]
 }

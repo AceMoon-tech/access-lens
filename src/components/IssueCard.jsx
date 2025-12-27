@@ -30,13 +30,6 @@ function IssueCard({ issue }) {
         {titleText}
       </h3>
 
-      {/* Severity */}
-      {issue.severity && (
-        <p className={`text-sm font-medium ${sevClass}`}>
-          Potential impact: {issue.severity}
-        </p>
-      )}
-
       {/* Who it affects */}
       <div className="space-y-4">
         <p className="text-xs font-semibold text-muted uppercase tracking-wide">
@@ -53,13 +46,6 @@ function IssueCard({ issue }) {
         <p className="text-default text-sm">{issue.whyItMatters || "Not specified."}</p>
       </div>
 
-      {/* Description (old contract support) */}
-      {hasDescription && (
-        <p className="text-muted text-sm">
-          {issue.description}
-        </p>
-      )}
-
       {/* WCAG refs */}
       {hasWcagRefs && (
         <div className="space-y-4">
@@ -70,6 +56,20 @@ function IssueCard({ issue }) {
             {issue.wcagRefs.join(", ")}
           </p>
         </div>
+      )}
+
+      {/* Severity */}
+      {issue.severity && (
+        <p className={`text-sm font-medium ${sevClass}`}>
+          Potential impact: {issue.severity}
+        </p>
+      )}
+
+      {/* Description (old contract support) */}
+      {hasDescription && (
+        <p className="text-muted text-sm">
+          {issue.description}
+        </p>
       )}
 
       {/* Fixes (old contract support) */}

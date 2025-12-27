@@ -39,9 +39,8 @@ export default function normalizeResults(raw) {
         guidance: issue.guidance,
         whoItAffects: issue.whoItAffects,
         whyItMatters: issue.whyItMatters,
-
-        severity: issue.severity || 'low',
         wcagRefs: Array.isArray(issue.wcagRefs) ? issue.wcagRefs : [],
+        severity: issue.severity || 'low',
       }))
       
     }
