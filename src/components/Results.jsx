@@ -1,5 +1,5 @@
 import Loading from './Loading'
-import Card from './Card'
+import IssueCard from './IssueCard'
 
 function Results({ results, loading = false, errorText }) {
   // Loading state
@@ -21,25 +21,7 @@ function Results({ results, loading = false, errorText }) {
 
   if (!results) return null
 
-  const { issues, error } = results
-
-  // Severity → token color classes
-  const getSeverityColorClass = (severity) => {
-    if (!severity) return "text-sev-low"
-    const s = severity.toLowerCase().trim()
-    if (s === "medium" || s === "med") return "text-sev-med"
-    if (s === "high") return "text-sev-high"
-    if (s === "low") return "text-sev-low"
-    return "text-sev-low"
-  }
-
-  const normalizeSeverityText = (severity) => {
-    if (!severity) return 'low'
-    const s = severity.toLowerCase().trim()
-    if (s === 'med') return 'medium'
-    if (['low', 'medium', 'high'].includes(s)) return s
-    return 'low'
-  }
+  const { issues = [], error } = results
 
   return (
     <div
@@ -48,7 +30,7 @@ function Results({ results, loading = false, errorText }) {
       aria-label="Accessibility audit results"
       className="space-y-24"
     >
-      {/* Error state UI */}
+      {/* Error state UI (client-side / pipeline errorText) */}
       {errorText && (
         <div
           role="alert"
@@ -57,7 +39,7 @@ function Results({ results, loading = false, errorText }) {
           style={{
             backgroundColor: 'var(--surface-1)',
             borderColor: 'var(--sev-high)',
-            color: 'var(--sev-high)'
+            color: 'var(--sev-high)',
           }}
         >
           <svg
@@ -101,97 +83,11 @@ function Results({ results, loading = false, errorText }) {
         </div>
       )}
 
-      {/* Issues - Vertical card stack */}
+      {/* Issues - use IssueCard (single source of truth) */}
       <div className="flex flex-col gap-24">
-        {issues.map((issue) => {
-          const severityText = normalizeSeverityText(issue.severity)
-          
-          // Get severity color token for badge background
-          const getSeverityColor = (severity) => {
-            const s = severity?.toLowerCase().trim() || 'low'
-            if (s === 'medium' || s === 'med') return 'var(--sev-med)'
-            if (s === 'high') return 'var(--sev-high)'
-            return 'var(--sev-low)'
-          }
-
-          return (
-            <Card
-              key={issue.id}
-              role="group"
-              aria-label={`${issue.title} (severity: ${severityText})`}
-              className="flex flex-col gap-16"
-            >
-              {/* Header: Severity badge + Rule name */}
-              <div className="flex items-start gap-16">
-                {/* Severity badge */}
-                <span
-                  className="inline-flex items-center px-12 py-4 rounded-sm text-xs font-medium uppercase tracking-wide"
-                  style={{
-                    backgroundColor: getSeverityColor(issue.severity),
-                    color: 'var(--text-inverse)',
-                  }}
-                  aria-label={`Severity: ${severityText}`}
-                >
-                  {severityText}
-                </span>
-                
-                {/* Rule name */}
-                <h3 
-                  className="flex-1 font-semibold"
-                  style={{
-                    fontSize: 'var(--text-h2)',
-                    lineHeight: 'var(--text-h2-leading)',
-                    fontWeight: 'var(--text-h2-weight)',
-                    color: 'var(--text-default)'
-                  }}
-                >
-                  {issue.title}
-                </h3>
-              </div>
-
-              {/* Short description */}
-              {issue.details && (
-                <p 
-                  className="text-base"
-                  style={{
-                    fontSize: 'var(--text-body)',
-                    lineHeight: 'var(--text-body-leading)',
-                    color: 'var(--text-muted)'
-                  }}
-                >
-                  {issue.details}
-                </p>
-              )}
-
-              {/* Fix suggestion */}
-              {issue.fixes?.length > 0 && (
-                <div className="flex flex-col gap-8">
-                  <p 
-                    className="text-sm font-medium"
-                    style={{ color: 'var(--text-default)' }}
-                  >
-                    Fix suggestion:
-                  </p>
-                  <ul className="list-disc space-y-8 pl-24">
-                    {issue.fixes.map((fix, i) => (
-                      <li 
-                        key={i} 
-                        className="text-sm"
-                        style={{
-                          fontSize: 'var(--text-body)',
-                          lineHeight: 'var(--text-body-leading)',
-                          color: 'var(--text-muted)'
-                        }}
-                      >
-                        {fix}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </Card>
-          )
-        })}
+        {issues.map((issue) => (
+          <IssueCard key={issue.id} issue={issue} />
+        ))}
       </div>
     </div>
   )

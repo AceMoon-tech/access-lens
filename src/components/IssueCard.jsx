@@ -18,9 +18,6 @@ function IssueCard({ issue }) {
     issue.summary ||
     "Accessibility recommendation"
 
-    const hasWho = Boolean(issue.whoItAffects)
-    const hasWhy = Boolean(issue.whyItMatters)    
-
   const hasDescription =
     !!issue.description && String(issue.description).trim() !== ""
 
@@ -41,24 +38,20 @@ function IssueCard({ issue }) {
       )}
 
       {/* Who it affects */}
-      {hasWho && (
-        <div className="space-y-4">
-          <p className="text-xs font-semibold text-muted uppercase tracking-wide">
-            Who it affects
-          </p>
-          <p className="text-default text-sm">{issue.whoItAffects}</p>
-        </div>
-      )}
+      <div className="space-y-4">
+        <p className="text-xs font-semibold text-muted uppercase tracking-wide">
+          Who it affects
+        </p>
+        <p className="text-default text-sm">{issue.whoItAffects || "Not specified."}</p>
+      </div>
 
       {/* Why it matters */}
-      {hasWhy && (
-        <div className="space-y-4">
-          <p className="text-xs font-semibold text-muted uppercase tracking-wide">
-            Why it matters
-          </p>
-          <p className="text-default text-sm">{issue.whyItMatters}</p>
-        </div>
-      )}
+      <div className="space-y-4">
+        <p className="text-xs font-semibold text-muted uppercase tracking-wide">
+          Why it matters
+        </p>
+        <p className="text-default text-sm">{issue.whyItMatters || "Not specified."}</p>
+      </div>
 
       {/* Description (old contract support) */}
       {hasDescription && (

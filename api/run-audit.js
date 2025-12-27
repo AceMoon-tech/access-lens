@@ -90,7 +90,7 @@ Return only valid JSON matching the required schema.
     const raw = response.choices[0].message.content;
     console.log('RAW_OPENAI_JSON:', raw);
     const parsed = JSON.parse(raw);
-    console.log("FIRST ISSUE FROM OPENAI:", parsed?.issues?.[0]);
+  
 
 
 return res.status(200).json(parsed);
