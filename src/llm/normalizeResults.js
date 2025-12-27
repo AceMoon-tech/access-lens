@@ -36,9 +36,10 @@ export default function normalizeResults(raw) {
     if (Array.isArray(raw.issues)) {
       issues = raw.issues.map((issue) => ({
         id: issue.id || crypto.randomUUID(),
-        guidance: issue.guidance || '',
-        whoItAffects: issue.whoItAffects || '',
-        whyItMatters: issue.whyItMatters || '',
+        guidance: issue.guidance,
+        whoItAffects: issue.whoItAffects,
+        whyItMatters: issue.whyItMatters,
+
         severity: issue.severity || 'low',
         wcagRefs: Array.isArray(issue.wcagRefs) ? issue.wcagRefs : [],
       }))
