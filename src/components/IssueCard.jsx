@@ -8,30 +8,78 @@ function IssueCard({ issue }) {
     high: "text-sev-high",
   }
 
-  const sevClass =
-    severityColors[issue.severity?.toLowerCase()] ||
-    "text-sev-low"
+  const sev = (issue.severity || "").toLowerCase()
+  const sevClass = severityColors[sev] || "text-sev-low"
+
+  // Primary display text (new contract first, fallback to old)
+  const titleText =
+    issue.guidance ||
+    issue.title ||
+    issue.summary ||
+    "Accessibility recommendation"
+
+  const hasWho = !!issue.whoItAffects && String(issue.whoItAffects).trim() !== ""
+  const hasWhy = !!issue.whyItMatters && String(issue.whyItMatters).trim() !== ""
+
+  const hasDescription =
+    !!issue.description && String(issue.description).trim() !== ""
+
+  const hasWcagRefs = Array.isArray(issue.wcagRefs) && issue.wcagRefs.length > 0
 
   return (
     <div className="bg-surface-1 border border-default p-24 rounded-sm shadow-sm space-y-12">
-      {/* Title */}
+      {/* Title (Guidance) */}
       <h3 className="text-xl font-semibold text-default">
-        {issue.title}
+        {titleText}
       </h3>
 
       {/* Severity */}
-      <p className={`text-sm font-medium ${sevClass}`}>
-        Severity: {issue.severity}
-      </p>
+      {issue.severity && (
+        <p className={`text-sm font-medium ${sevClass}`}>
+          Severity: {issue.severity}
+        </p>
+      )}
 
-      {/* Description */}
-      {issue.description && (
+      {/* Who it affects */}
+      {hasWho && (
+        <div className="space-y-4">
+          <p className="text-xs font-semibold text-muted uppercase tracking-wide">
+            Who it affects
+          </p>
+          <p className="text-default text-sm">{issue.whoItAffects}</p>
+        </div>
+      )}
+
+      {/* Why it matters */}
+      {hasWhy && (
+        <div className="space-y-4">
+          <p className="text-xs font-semibold text-muted uppercase tracking-wide">
+            Why it matters
+          </p>
+          <p className="text-default text-sm">{issue.whyItMatters}</p>
+        </div>
+      )}
+
+      {/* Description (old contract support) */}
+      {hasDescription && (
         <p className="text-muted text-sm">
           {issue.description}
         </p>
       )}
 
-      {/* Fixes */}
+      {/* WCAG refs */}
+      {hasWcagRefs && (
+        <div className="space-y-4">
+          <p className="text-xs font-semibold text-muted uppercase tracking-wide">
+            WCAG references
+          </p>
+          <p className="text-muted text-sm">
+            {issue.wcagRefs.join(", ")}
+          </p>
+        </div>
+      )}
+
+      {/* Fixes (old contract support) */}
       {Array.isArray(issue.fixes) && issue.fixes.length > 0 && (
         <ul className="list-disc pl-16 space-y-8">
           {issue.fixes.map((fix, i) => (
