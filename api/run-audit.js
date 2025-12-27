@@ -40,15 +40,19 @@ Scope rules:
 - Do NOT claim compliance or failure.
 - Use preventive, guidance-based language only.
 
+Global rule:
+- All findings must be conditional and hypothetical. The audit does not confirm the presence of issues.
+
 Each issue MUST include ALL fields below:
 
 - guidance: string
-  (Actionable advice. Never accusatory.)
+  (Actionable advice. Never accusatory. Use conditional phrasing only (e.g., 'If present…', 'May affect…', 'Could impact…').)
 - whoItAffects: string
-  (Impacted user groups.)
+  (Impacted user groups. Use conditional phrasing only (e.g., 'If present…', 'May affect…', 'Could impact…').)
 - whyItMatters: string
-  (User impact or usability risk.)
+  (User impact or usability risk. Use conditional phrasing only (e.g., 'If present…', 'May affect…', 'Could impact…').)
 - severity: "low" | "medium" | "high"
+  (Severity must represent potential user impact, not a confirmed failure. Avoid compliance/failure claims.)
 - wcagRefs: array of WCAG reference strings
 
 Language rules:
@@ -58,6 +62,8 @@ Language rules:
   "Consider whether…"
 - Never say something is broken.
 - Never say pass/fail.
+- Never use definitive language such as:
+  'is missing', 'lacks', 'fails', 'violates', 'does not have', 'is incorrect', 'is inaccessible'.
 
 Return JSON in this exact shape:
 

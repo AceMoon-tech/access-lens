@@ -75,10 +75,10 @@ function Results({ results, loading = false, errorText }) {
       {!error && issues.length === 0 && (
         <div className="text-center py-32">
           <h3 className="text-lg font-semibold mb-8" style={{ color: 'var(--text-muted)' }}>
-            No issues found
+            No potential issues surfaced
           </h3>
           <p className="text-base" style={{ color: 'var(--text-muted)' }}>
-            This screen description didn't surface accessibility issues.
+            Based on this screen description, no potential accessibility risks surfaced.
           </p>
         </div>
       )}

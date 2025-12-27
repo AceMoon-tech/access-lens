@@ -33,7 +33,7 @@ function IssueCard({ issue }) {
       {/* Severity */}
       {issue.severity && (
         <p className={`text-sm font-medium ${sevClass}`}>
-          Severity: {issue.severity}
+          Potential impact: {issue.severity}
         </p>
       )}
 
