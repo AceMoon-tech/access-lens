@@ -11,6 +11,8 @@ export const severityColors = {
 }
 
 export default function normalizeResults(raw) {
+  console.log("NORMALIZE INPUT FIRST ISSUE:", raw?.issues?.[0]);
+
   if (!raw || typeof raw !== 'object') {
     return {
       issues: [],
@@ -51,6 +53,8 @@ export default function normalizeResults(raw) {
       error: 'Failed to parse audit results.',
     }
   }
+
+  console.log("NORMALIZE OUTPUT FIRST ISSUE:", issues?.[0]);
 
   return {
     issues,
