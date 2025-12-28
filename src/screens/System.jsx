@@ -45,7 +45,7 @@ function System() {
             <div className="grid grid-cols-2 gap-16">
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--bg-default)',
                     borderColor: 'var(--border-default)'
@@ -56,7 +56,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--bg-subtle)',
                     borderColor: 'var(--border-default)'
@@ -67,7 +67,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--bg-surface-0)',
                     borderColor: 'var(--border-default)'
@@ -78,7 +78,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--surface-1)',
                     borderColor: 'var(--border-default)'
@@ -89,7 +89,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--surface-2)',
                     borderColor: 'var(--border-default)'
@@ -100,7 +100,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--surface-3)',
                     borderColor: 'var(--border-default)'
@@ -180,7 +180,7 @@ function System() {
             <div className="grid grid-cols-3 gap-16">
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--sev-low)',
                     borderColor: 'var(--border-default)'
@@ -191,7 +191,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--sev-med)',
                     borderColor: 'var(--border-default)'
@@ -202,7 +202,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--sev-high)',
                     borderColor: 'var(--border-default)'
@@ -229,7 +229,7 @@ function System() {
             <div className="grid grid-cols-2 gap-16">
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--button-primary-bg)',
                     borderColor: 'var(--border-default)'
@@ -240,7 +240,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--button-primary-bg-hover)',
                     borderColor: 'var(--border-default)'
@@ -251,7 +251,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--button-primary-disabled-bg)',
                     borderColor: 'var(--border-default)',
@@ -263,7 +263,7 @@ function System() {
               </div>
               <div>
                 <div 
-                  className="p-16 rounded-sm border mb-8"
+                  className="p-16 rounded-sm border"
                   style={{
                     backgroundColor: 'var(--surface-1)',
                     borderColor: 'var(--border-default)'
@@ -289,11 +289,11 @@ function System() {
             >
               Accent Ramp
             </h3>
-            <div className="grid grid-cols-5 gap-8">
+            <div className="grid grid-cols-5 gap-16">
               {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((num) => (
                 <div key={num}>
                   <div 
-                    className="p-16 rounded-sm border mb-8"
+                    className="p-16 rounded-sm border"
                     style={{
                       backgroundColor: `var(--accent-${num})`,
                       borderColor: 'var(--border-default)'
@@ -456,7 +456,7 @@ function System() {
           Spacing
         </h2>
 
-        <div className="space-y-16">
+        <div className="space-y-24">
           {[4, 8, 12, 16, 20, 24, 32, 64].map((size) => (
             <div key={size} className="flex items-center gap-16">
               <div 
@@ -489,7 +489,7 @@ function System() {
           Radius
         </h2>
 
-        <div className="space-y-16">
+        <div className="space-y-24">
           <div className="flex items-center gap-16">
             <div 
               className="border"
@@ -582,7 +582,7 @@ function System() {
           Depth (Shadows)
         </h2>
 
-        <div className="space-y-16">
+        <div className="space-y-24">
           <div className="flex items-center gap-16">
             <div 
               className="p-24 rounded-sm"
