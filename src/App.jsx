@@ -7,6 +7,7 @@ import Home from './screens/Home'
 import About from './screens/About'
 import AuditForm from './screens/AuditForm'
 import ResultsScreen from './screens/ResultsScreen'
+import System from './screens/System'
 import NotFound from './screens/NotFound'
 
 // Wrapper component to provide navigation to AuditForm
@@ -36,6 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/system" element={<System />} />
           <Route 
             path="/audit" 
             element={
