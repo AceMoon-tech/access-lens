@@ -87,27 +87,25 @@
   opacity: 0.6;
   cursor: not-allowed;
   pointer-events: none;
-  background-color: #F4F6F8;
+  background-color: var(--button-primary-disabled-bg);
 }
 
 [data-theme="light"] .btn-primary:disabled {
-  background-color: #0B0D0E;
+  background-color: var(--button-primary-disabled-bg);
   opacity: 0.5;
 }
 
 /* PRIMARY */
 .btn-primary {
-  padding: 10px 18px;
-  border-radius: 9999px;
-  background-color: #F4F6F8;
-  color: #0B0D0E;
+  padding: var(--button-padding-y) var(--button-padding-x);
+  border-radius: var(--radius-full);
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
   font-size: var(--text-body);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   line-height: var(--text-body-leading);
   border: none;
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  box-shadow: var(--button-shadow-default);
   transition:
     background-color var(--motion-normal) var(--ease-standard),
     transform var(--motion-fast) var(--ease-emphasized),
@@ -115,39 +113,29 @@
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #FFFFFF;
-  box-shadow:
-    0 8px 22px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  background-color: var(--button-primary-bg-hover);
+  box-shadow: var(--button-shadow-hover);
 }
 
 .btn-primary:active:not(:disabled) {
   transform: translateY(1px);
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  box-shadow: var(--button-shadow-active);
 }
 
 /* Light mode variant */
 [data-theme="light"] .btn-primary {
-  background-color: #0B0D0E;
-  color: #FFFFFF;
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  box-shadow: var(--button-shadow-default);
 }
 
 [data-theme="light"] .btn-primary:hover:not(:disabled) {
-  background-color: #25282E;
-  box-shadow:
-    0 8px 22px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  background-color: var(--button-primary-bg-hover);
+  box-shadow: var(--button-shadow-hover);
 }
 
 [data-theme="light"] .btn-primary:active:not(:disabled) {
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: var(--button-shadow-active);
 }
 
 
@@ -268,9 +256,7 @@
   /* Recessed control surface */
   background-color: var(--surface-1);
 
-  box-shadow:
-    0px 1px 1px rgba(0, 0, 0, 0.35) inset,
-    0px -1px 0px rgba(255, 255, 255, 0.04) inset;
+  box-shadow: var(--form-input-shadow);
 }
 
 .form-input-base:focus-visible {
@@ -278,7 +264,7 @@
   outline-offset: 2px;
   box-shadow:
     0 0 0 4px var(--focus-bg),
-    0px 1px 0px rgba(255, 255, 255, 0.03) inset;
+    var(--form-input-shadow-focus);
 }
 
 
@@ -297,7 +283,7 @@ textarea.form-input-base {
   border-color: var(--sev-high);
   box-shadow:
     0 0 0 1px var(--sev-high),
-    0px 1px 1px rgba(0, 0, 0, 0.35) inset;
+    var(--form-input-shadow-error);
 }
 
 .form-error-text {
@@ -314,7 +300,7 @@ textarea.form-input-base {
   border-color: var(--sev-low);
   box-shadow:
     0 0 0 1px var(--sev-low),
-    0px 1px 1px rgba(0, 0, 0, 0.35) inset;
+    var(--form-input-shadow-error);
 }
 
 /* ========================================
@@ -379,7 +365,7 @@ textarea.form-input-base {
   border-color: var(--sev-med);
   box-shadow:
     0 0 0 1px var(--sev-med),
-    0px 1px 1px rgba(0, 0, 0, 0.35) inset;
+    var(--form-input-shadow-error);
 }
 
 
@@ -430,21 +416,19 @@ h1, h2, h3, h4, h5, h6, p {
 
 
 .hero-cta {
-  padding: 10px 18px;
-  border-radius: 9999px;
-  background-color: #F4F6F8;
-  color: #0B0D0E;
+  padding: var(--button-padding-y) var(--button-padding-x);
+  border-radius: var(--radius-full);
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
   font-size: var(--text-body);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   line-height: var(--text-body-leading);
   text-decoration: none;
-  font-family: "Geist", "Geist Sans", system-ui, -apple-system, "SF Pro Text", Inter, sans-serif;
+  font-family: var(--font-base);
   border: none;
   cursor: pointer;
   display: inline-block;
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  box-shadow: var(--button-shadow-default);
   transition:
     background-color var(--motion-normal) var(--ease-standard),
     transform var(--motion-fast) var(--ease-emphasized),
@@ -452,39 +436,29 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .hero-cta:hover {
-  background-color: #FFFFFF;
-  box-shadow:
-    0 8px 22px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  background-color: var(--button-primary-bg-hover);
+  box-shadow: var(--button-shadow-hover);
 }
 
 .hero-cta:active {
   transform: translateY(1px);
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  box-shadow: var(--button-shadow-active);
 }
 
 /* Light mode variant */
 [data-theme="light"] .hero-cta {
-  background-color: #0B0D0E;
-  color: #FFFFFF;
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  box-shadow: var(--button-shadow-default);
 }
 
 [data-theme="light"] .hero-cta:hover {
-  background-color: #25282E;
-  box-shadow:
-    0 8px 22px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  background-color: var(--button-primary-bg-hover);
+  box-shadow: var(--button-shadow-hover);
 }
 
 [data-theme="light"] .hero-cta:active {
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: var(--button-shadow-active);
 }
 
 

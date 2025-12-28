@@ -18,6 +18,7 @@
     --radius-sm: 6px;
     --radius-md: 8px;
     --radius-lg: 12px;
+    --radius-full: 9999px;
   
     /* Motion */
     --motion-fast: 120ms;
@@ -32,9 +33,14 @@
     --space-8: 8px;
     --space-12: 12px;
     --space-16: 16px;
+    --space-20: 20px;
     --space-24: 24px;
     --space-32: 32px;
     --space-64: 64px;
+    
+    /* Button Padding */
+    --button-padding-y: 10px;
+    --button-padding-x: 18px;
   
     /* Layout */
     --max-width-content: 840px;
@@ -52,6 +58,12 @@
     --surface-1: #FFFFFF;
     --surface-2: #F8FAFC;
     --surface-3: #EDF1F7;
+    
+    /* Button Colors (Light Mode) */
+    --button-primary-bg: #0B0D0E;
+    --button-primary-bg-hover: #25282E;
+    --button-primary-text: #FFFFFF;
+    --button-primary-disabled-bg: #0B0D0E;
   
     /* Borders */
     --border-default: #D0D7E2;
@@ -108,6 +120,11 @@
     --shadow-sm: 0px 1px 2px rgba(15, 23, 42, 0.05);
     --shadow-md: 0px 2px 6px rgba(15, 23, 42, 0.08);
     --shadow-lg: 0px 4px 12px rgba(15, 23, 42, 0.10);
+    
+    /* Button Shadows (Light Mode) */
+    --button-shadow-default: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    --button-shadow-hover: 0 8px 22px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    --button-shadow-active: 0 3px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   
   /* ========================================
@@ -126,6 +143,12 @@
     --surface-1: #12161D;
     --surface-2: #171C24;
     --surface-3: #1E2430;
+    
+    /* Button Colors (Dark Mode) */
+    --button-primary-bg: #F4F6F8;
+    --button-primary-bg-hover: #FFFFFF;
+    --button-primary-text: #0B0D0E;
+    --button-primary-disabled-bg: #F4F6F8;
   
     /* Borders */
     --border-default: #273341;
@@ -182,6 +205,16 @@
     --shadow-sm: 0px 1px 2px rgba(0, 0, 0, 0.30);
     --shadow-md: 0px 2px 6px rgba(0, 0, 0, 0.40);
     --shadow-lg: 0px 4px 12px rgba(0, 0, 0, 0.45);
+    
+    /* Button Shadows (Dark Mode) */
+    --button-shadow-default: 0 6px 18px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    --button-shadow-hover: 0 8px 22px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    --button-shadow-active: 0 3px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    
+    /* Form Input Shadows */
+    --form-input-shadow: 0px 1px 1px rgba(0, 0, 0, 0.35) inset, 0px -1px 0px rgba(255, 255, 255, 0.04) inset;
+    --form-input-shadow-focus: 0px 1px 0px rgba(255, 255, 255, 0.03) inset;
+    --form-input-shadow-error: 0px 1px 1px rgba(0, 0, 0, 0.35) inset;
   }
   
   /* ========================================
@@ -232,6 +265,7 @@
     --text-3xl-leading: 36px;
   
     /* Font Weights */
+    --weight-light: 300;
     --weight-regular: 400;
     --weight-medium: 500;
     --weight-semibold: 600;
