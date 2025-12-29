@@ -441,17 +441,16 @@ function AuditForm({ onResults }) {
 
           {/* Privacy section */}
           <div 
-            className="p-16 rounded-sm border text-sm"
+            className="p-16 rounded-sm border"
             style={{ 
               backgroundColor: 'var(--bg-surface-1)',
-              borderColor: 'var(--border-default)',
-              color: 'var(--text-muted)'
+              borderColor: 'var(--border-default)'
             }}
           >
-            <p className="mb-8">
-              <strong style={{ color: 'var(--text-default)' }}>Privacy:</strong>
+            <p className="mb-8 text-sm" style={{ color: 'var(--text-default)' }}>
+              <strong>Privacy:</strong>
             </p>
-            <p>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
               Your UI description and copy blocks are sent to our audit service to generate feedback. Audit results are stored on our servers with a unique ID. We don't store your original input text—only the generated results.
             </p>
           </div>
