@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Button from './Button'
 import Toast from './Toast'
 import { trackCopyJson } from '../lib/analytics'
 
@@ -21,14 +22,15 @@ function CopyJsonButton({ text }) {
 
   return (
     <>
-      <button
+      <Button
+        variant="primary"
+        size="md"
         type="button"
         onClick={handleCopy}
         aria-label="Copy JSON to clipboard"
-        className="btn-base btn-primary btn-md"
       >
         Copy JSON
-      </button>
+      </Button>
 
       {copied && (
         <Toast 

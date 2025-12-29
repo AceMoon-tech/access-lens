@@ -4,6 +4,7 @@ import TextArea from '../components/TextArea'
 import PageContainer from '../components/PageContainer'
 import Loading from '../components/Loading'
 import Alert from '../components/Alert'
+import Card from '../components/Card'
 import { formMessages } from '../lib/formMessages'
 import { trackAuditStarted, trackAuditFailed } from '../lib/analytics'
 import { createAudit } from '../lib/api/audits'
@@ -341,13 +342,9 @@ function AuditForm({ onResults }) {
 
           {/* Expandable guidance content */}
           {showInputGuidance && (
-            <div
+            <Card
               id="input-guidance"
-              className="p-16 rounded-sm border"
-              style={{
-                backgroundColor: 'var(--bg-surface-1)',
-                borderColor: 'var(--border-default)'
-              }}
+              className="rounded-sm p-16"
             >
               <div className="space-y-12">
                 <div>
@@ -372,7 +369,7 @@ function AuditForm({ onResults }) {
                   </ul>
                 </div>
               </div>
-            </div>
+            </Card>
           )}
         </div>
 
@@ -440,20 +437,14 @@ function AuditForm({ onResults }) {
           </div>
 
           {/* Privacy section */}
-          <div 
-            className="p-16 rounded-sm border"
-            style={{ 
-              backgroundColor: 'var(--bg-surface-1)',
-              borderColor: 'var(--border-default)'
-            }}
-          >
+          <Card className="rounded-sm p-16">
             <p className="mb-8 text-sm" style={{ color: 'var(--text-default)' }}>
               <strong>Privacy:</strong>
             </p>
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
               Your UI description and copy blocks are sent to our audit service to generate feedback. Audit results are stored on our servers with a unique ID. We don't store your original input text—only the generated results.
             </p>
-          </div>
+          </Card>
           
           {/* After the audit completes section */}
           <div 

@@ -5,6 +5,7 @@ import Results from '../components/Results'
 import Toast from '../components/Toast'
 import Loading from '../components/Loading'
 import Alert from '../components/Alert'
+import Card from '../components/Card'
 import CopyJsonButton from '../components/CopyJsonButton'
 import { trackExportJson } from '../lib/analytics'
 import { getAuditById } from '../lib/api/audits'
@@ -161,13 +162,7 @@ function ResultsScreen() {
     <div className="space-y-24">
       <Results results={results} />
 
-      <div 
-        className="p-24 rounded-sm border"
-        style={{
-          backgroundColor: 'var(--bg-surface-1)',
-          borderColor: 'var(--border-default)'
-        }}
-      >
+      <Card className="rounded-sm p-24">
         <h2 
           className="font-semibold mb-12"
           style={{
@@ -201,28 +196,28 @@ function ResultsScreen() {
           <li>Use the <strong style={{ color: 'var(--text-default)' }}>Copy JSON</strong> button below to copy results to your clipboard</li>
           <li>Results may be cleared when you close your browser or start a new audit</li>
         </ul>
-      </div>
 
-      <div className="pt-16 flex flex-col gap-16">
-        <div className="flex gap-16">
-          <Button
-            variant="primary"
-            size="md"
-            onClick={handleDownloadJSON}
-            disabled={!results}
-          >
-            Download JSON
-          </Button>
-          <CopyJsonButton text={jsonString} />
-          <Button
-            variant="primary"
-            size="md"
-            onClick={handleNewAudit}
-          >
-            Run New Audit
-          </Button>
+        <div className="pt-16 flex flex-col gap-16">
+          <div className="flex gap-16">
+            <Button
+              variant="primary"
+              size="md"
+              onClick={handleDownloadJSON}
+              disabled={!results}
+            >
+              Download JSON
+            </Button>
+            <CopyJsonButton text={jsonString} />
+            <Button
+              variant="primary"
+              size="md"
+              onClick={handleNewAudit}
+            >
+              Run New Audit
+            </Button>
+          </div>
         </div>
-      </div>
+      </Card>
 
       {downloaded && (
         <Toast 

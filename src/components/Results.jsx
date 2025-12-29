@@ -1,5 +1,6 @@
 import Loading from './Loading'
 import IssueCard from './IssueCard'
+import Alert from './Alert'
 
 function Results({ results, loading = false, errorText }) {
   // Loading state
@@ -66,9 +67,9 @@ function Results({ results, loading = false, errorText }) {
 
       {/* Results error (from API) */}
       {error && !errorText && (
-        <p className="text-sev-high text-lg" role="alert">
+        <Alert variant="error">
           {error}
-        </p>
+        </Alert>
       )}
 
       {/* No issues - Empty state */}
