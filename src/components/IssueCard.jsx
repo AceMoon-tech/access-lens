@@ -3,15 +3,33 @@ import Card from './Card'
 function IssueCard({ issue }) {
   if (!issue) return null
 
-  // Severity color classes using token system
-  const severityColors = {
-    low: "text-sev-low",
-    medium: "text-sev-med",
-    high: "text-sev-high",
+  // Severity configuration
+  const getSeverityConfig = (severity) => {
+    const sev = (severity || "").toLowerCase()
+    switch (sev) {
+      case 'high':
+        return {
+          color: 'var(--sev-high)',
+          fontWeight: 'var(--weight-semibold)',
+          label: 'High'
+        }
+      case 'medium':
+        return {
+          color: 'var(--sev-med)',
+          fontWeight: 'var(--weight-medium)',
+          label: 'Medium'
+        }
+      case 'low':
+      default:
+        return {
+          color: 'var(--sev-low)',
+          fontWeight: 'var(--weight-regular)',
+          label: 'Low'
+        }
+    }
   }
 
-  const sev = (issue.severity || "").toLowerCase()
-  const sevClass = severityColors[sev] || "text-sev-low"
+  const severityConfig = getSeverityConfig(issue.severity)
 
   // Primary display text (new contract first, fallback to old)
   const titleText =
@@ -26,7 +44,47 @@ function IssueCard({ issue }) {
   const hasWcagRefs = Array.isArray(issue.wcagRefs) && issue.wcagRefs.length > 0
 
   return (
-    <Card className="rounded-sm space-y-12">
+    <Card className="rounded-sm space-y-12" style={{ position: 'relative', paddingLeft: issue.severity ? 'calc(var(--space-24) + var(--space-4))' : undefined }}>
+      {/* Severity indicator bar */}
+      {issue.severity && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 'var(--space-24)',
+            bottom: 0,
+            width: 'var(--space-4)',
+            backgroundColor: severityConfig.color,
+            borderRadius: 'var(--radius-sm) 0 0 var(--radius-sm)'
+          }}
+        />
+      )}
+
+      {/* Severity header */}
+      {issue.severity && (
+        <div className="flex items-center gap-8">
+          <div
+            style={{
+              width: 'var(--space-8)',
+              height: 'var(--space-8)',
+              borderRadius: '50%',
+              backgroundColor: severityConfig.color,
+              flexShrink: 0
+            }}
+          />
+          <p
+            className="text-xs uppercase tracking-wide"
+            style={{
+              color: severityConfig.color,
+              fontWeight: severityConfig.fontWeight,
+              margin: 0
+            }}
+          >
+            Potential impact: {severityConfig.label}
+          </p>
+        </div>
+      )}
+
       {/* Title (Guidance) */}
       <h3 className="text-xl font-semibold text-default">
         {titleText}
@@ -58,13 +116,6 @@ function IssueCard({ issue }) {
             {issue.wcagRefs.join(", ")}
           </p>
         </div>
-      )}
-
-      {/* Severity */}
-      {issue.severity && (
-        <p className={`text-sm font-medium ${sevClass}`}>
-          Potential impact: {issue.severity}
-        </p>
       )}
 
       {/* Description (old contract support) */}
