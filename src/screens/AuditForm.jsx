@@ -441,11 +441,12 @@ function AuditForm({ onResults }) {
 
           {/* Privacy section */}
           <div 
-            className="text-sm p-12 rounded-sm"
+            className="text-sm rounded-sm"
             style={{ 
               color: 'var(--text-muted)',
               backgroundColor: 'var(--bg-surface-1)',
-              border: '1px solid var(--border-default)'
+              border: '1px solid var(--border-default)',
+              padding: 'var(--space-16)'
             }}
           >
             <p className="mb-8">
@@ -458,13 +459,16 @@ function AuditForm({ onResults }) {
           
           {/* After the audit completes section */}
           <div 
-            className="text-sm"
-            style={{ color: 'var(--text-muted)' }}
+            style={{ 
+              fontSize: 'var(--text-body)',
+              lineHeight: 'var(--text-body-leading)',
+              color: 'var(--text-muted)'
+            }}
           >
             <p className="mb-8">
               <strong style={{ color: 'var(--text-default)' }}>After the audit completes:</strong>
             </p>
-            <ul className="list-disc space-y-4 pl-24">
+            <ul className="list-disc space-y-8 pl-24">
               <li>Results are displayed on the next screen</li>
               <li>Results are stored on our servers and accessible via audit ID</li>
               <li>To keep results permanently, use the "Download JSON" button or copy the output</li>
