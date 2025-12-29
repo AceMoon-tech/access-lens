@@ -1,3 +1,5 @@
+import Card from './Card'
+
 function IssueCard({ issue }) {
   if (!issue) return null
 
@@ -24,7 +26,7 @@ function IssueCard({ issue }) {
   const hasWcagRefs = Array.isArray(issue.wcagRefs) && issue.wcagRefs.length > 0
 
   return (
-    <div className="bg-surface-1 border border-default p-24 rounded-sm shadow-sm space-y-12">
+    <Card className="rounded-sm space-y-12">
       {/* Title (Guidance) */}
       <h3 className="text-xl font-semibold text-default">
         {titleText}
@@ -82,7 +84,7 @@ function IssueCard({ issue }) {
           ))}
         </ul>
       )}
-    </div>
+    </Card>
   )
 }
 
