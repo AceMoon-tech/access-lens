@@ -428,15 +428,18 @@ function AuditForm({ onResults }) {
           {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
         </Button>
 
-        <div className="space-y-8">
-          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-            Your audit runs locally. Results appear on the next screen and can be exported.
-          </p>
+        <div className="space-y-24">
+          {/* Helper text block */}
+          <div className="space-y-4">
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              Your audit runs locally. Results appear on the next screen and can be exported.
+            </p>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              Guidance only — not a compliance check.
+            </p>
+          </div>
 
-          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-            Guidance only — not a compliance check.
-          </p>
-
+          {/* Privacy section */}
           <div 
             className="text-sm p-12 rounded-sm"
             style={{ 
@@ -453,6 +456,7 @@ function AuditForm({ onResults }) {
             </p>
           </div>
           
+          {/* After the audit completes section */}
           <div 
             className="text-sm"
             style={{ color: 'var(--text-muted)' }}
