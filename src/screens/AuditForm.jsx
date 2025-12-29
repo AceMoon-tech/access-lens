@@ -441,12 +441,11 @@ function AuditForm({ onResults }) {
 
           {/* Privacy section */}
           <div 
-            className="text-sm rounded-sm"
+            className="p-16 rounded-sm border text-sm"
             style={{ 
-              color: 'var(--text-muted)',
               backgroundColor: 'var(--bg-surface-1)',
-              border: '1px solid var(--border-default)',
-              padding: 'var(--space-16)'
+              borderColor: 'var(--border-default)',
+              color: 'var(--text-muted)'
             }}
           >
             <p className="mb-8">
