@@ -166,6 +166,10 @@ body {
   padding: var(--space-12);
 }
 
+.p-16 {
+  padding: var(--space-16);
+}
+
 .p-24 {
   padding: 1.5rem; /* 24px */
 }
