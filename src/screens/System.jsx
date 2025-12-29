@@ -178,7 +178,7 @@ function System() {
               Severity
             </h3>
             <div className="grid grid-cols-3 gap-16">
-              <div>
+              <div className="space-y-8">
                 <div 
                   className="p-16 rounded-sm border"
                   style={{
@@ -186,10 +186,11 @@ function System() {
                     borderColor: 'var(--border-default)'
                   }}
                 >
-                  <code style={{ fontSize: 'var(--text-sm)', color: 'var(--text-default)' }}>--sev-low</code>
+                  <code style={{ fontSize: 'var(--text-sm)', color: 'var(--text-inverse)' }}>--sev-low</code>
                 </div>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>Low / Success</p>
               </div>
-              <div>
+              <div className="space-y-8">
                 <div 
                   className="p-16 rounded-sm border"
                   style={{
@@ -197,10 +198,11 @@ function System() {
                     borderColor: 'var(--border-default)'
                   }}
                 >
-                  <code style={{ fontSize: 'var(--text-sm)', color: 'var(--text-default)' }}>--sev-med</code>
+                  <code style={{ fontSize: 'var(--text-sm)', color: 'var(--text-inverse)' }}>--sev-med</code>
                 </div>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>Medium / Warning</p>
               </div>
-              <div>
+              <div className="space-y-8">
                 <div 
                   className="p-16 rounded-sm border"
                   style={{
@@ -208,8 +210,9 @@ function System() {
                     borderColor: 'var(--border-default)'
                   }}
                 >
-                  <code style={{ fontSize: 'var(--text-sm)', color: 'var(--text-default)' }}>--sev-high</code>
+                  <code style={{ fontSize: 'var(--text-sm)', color: 'var(--text-inverse)' }}>--sev-high</code>
                 </div>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>High / Error</p>
               </div>
             </div>
           </div>
@@ -227,7 +230,7 @@ function System() {
               Button Colors (Primary)
             </h3>
             <div className="grid grid-cols-2 gap-16">
-              <div>
+              <div className="space-y-8">
                 <div 
                   className="p-16 rounded-sm border"
                   style={{
@@ -237,8 +240,9 @@ function System() {
                 >
                   <code style={{ fontSize: 'var(--text-sm)', color: 'var(--button-primary-text)' }}>--button-primary-bg</code>
                 </div>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>Background</p>
               </div>
-              <div>
+              <div className="space-y-8">
                 <div 
                   className="p-16 rounded-sm border"
                   style={{
@@ -248,8 +252,9 @@ function System() {
                 >
                   <code style={{ fontSize: 'var(--text-sm)', color: 'var(--button-primary-text)' }}>--button-primary-bg-hover</code>
                 </div>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>Hover</p>
               </div>
-              <div>
+              <div className="space-y-8">
                 <div 
                   className="p-16 rounded-sm border"
                   style={{
@@ -258,10 +263,11 @@ function System() {
                     opacity: 0.5
                   }}
                 >
-                  <code style={{ fontSize: 'var(--text-sm)', color: 'var(--button-primary-text)' }}>--button-primary-disabled-bg</code>
+                  <code style={{ fontSize: 'var(--text-sm)', color: 'var(--button-primary-text)', opacity: 1 }}>--button-primary-disabled-bg</code>
                 </div>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>Disabled (opacity: 0.5)</p>
               </div>
-              <div>
+              <div className="space-y-8">
                 <div 
                   className="p-16 rounded-sm border"
                   style={{
@@ -273,6 +279,7 @@ function System() {
                     <code>--button-primary-text</code>
                   </p>
                 </div>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>Text color</p>
               </div>
             </div>
           </div>
@@ -714,7 +721,7 @@ function System() {
                   opacity: 0.5
                 }}
               >
-                <code style={{ fontSize: 'var(--text-sm)', color: 'var(--text-default)' }}>
+                <code style={{ fontSize: 'var(--text-sm)', color: 'var(--button-primary-text)', opacity: 1 }}>
                   --button-primary-disabled-bg (opacity: 0.5)
                 </code>
               </div>
