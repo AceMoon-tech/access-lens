@@ -169,7 +169,7 @@ function TextArea({
           <InfoIcon 
             style={{ 
               flexShrink: 0,
-              marginTop: '2px',
+              marginTop: 'var(--space-4)',
               color: 'var(--text-muted)'
             }} 
           />
@@ -191,7 +191,7 @@ function TextArea({
           <ErrorIcon 
             style={{ 
               flexShrink: 0,
-              marginTop: '2px',
+              marginTop: 'var(--space-4)',
               color: 'var(--sev-high)'
             }} 
           />
@@ -212,7 +212,7 @@ function TextArea({
           <WarningIcon 
             style={{ 
               flexShrink: 0,
-              marginTop: '2px',
+              marginTop: 'var(--space-4)',
               color: 'var(--sev-med)'
             }} 
           />
@@ -233,7 +233,7 @@ function TextArea({
           <SuccessIcon 
             style={{ 
               flexShrink: 0,
-              marginTop: '2px',
+              marginTop: 'var(--space-4)',
               color: 'var(--sev-low)'
             }} 
           />

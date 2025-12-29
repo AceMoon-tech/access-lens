@@ -27,6 +27,13 @@ try {
 const rootEl = document.getElementById("root");
 
 // --- CONFIG ERROR SCREEN (ACCESSIBLE) ---
+// NOTE: Missing tokens for this pre-React error screen:
+// - --error-screen-bg (currently #0E1116, closest: --bg-default #0E131A)
+// - --error-screen-text (currently #E4E7EB, closest: --text-default #D1D9E6)
+// - --error-screen-heading-color (currently #EF4444, closest: --sev-high #E11D48)
+// - --error-screen-muted (currently #9CA3AF, closest: --text-muted #9BA7B5)
+// - --error-screen-muted-alt (currently #6B7280, no close match)
+// - --error-screen-max-width (currently 600px, no token exists)
 if (configError && rootEl) {
   rootEl.innerHTML = `
     <div
@@ -38,24 +45,24 @@ if (configError && rootEl) {
         align-items: center;
         justify-content: center;
         min-height: 100vh;
-        padding: 2rem;
-        font-family: system-ui, -apple-system, sans-serif;
-        background: #0E1116;
-        color: #E4E7EB;
+        padding: var(--space-32);
+        font-family: var(--font-base);
+        background: var(--bg-default);
+        color: var(--text-default);
         text-align: center;
       "
     >
-      <h1 style="font-size: 1.5rem; margin-bottom: 1rem; color: #EF4444;">
+      <h1 style="font-size: var(--text-h2); margin-bottom: var(--space-16); color: var(--sev-high);">
         Configuration Error
       </h1>
 
-      <p style="max-width: 600px; line-height: 1.6; color: #9CA3AF;">
+      <p style="max-width: 600px; line-height: var(--text-body-leading); color: var(--text-muted);">
         ${configError.message}
       </p>
 
-      <p style="margin-top: 1rem; font-size: 0.875rem; color: #6B7280;">
+      <p style="margin-top: var(--space-16); font-size: var(--text-sm); color: var(--text-muted);">
         Missing variable:
-        <code style="background: #1E2430; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">
+        <code style="background: var(--bg-surface-3); padding: var(--space-4) var(--space-8); border-radius: var(--radius-xs);">
           ${configError.missingVar || "Unknown"}
         </code>
       </p>

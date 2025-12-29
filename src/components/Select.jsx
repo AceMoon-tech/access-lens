@@ -97,7 +97,7 @@ function Select({
           <ErrorIcon 
             style={{ 
               flexShrink: 0,
-              marginTop: '2px',
+              marginTop: 'var(--space-4)',
               color: 'var(--sev-high)'
             }} 
           />

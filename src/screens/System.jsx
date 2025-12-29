@@ -1,3 +1,7 @@
+/**
+ * This file is documentation-only. It intentionally visualizes tokens using raw divs.
+ * Design-system components (Card, Alert, Button) are not used by design.
+ */
 function System() {
   return (
     <div className="space-y-24">

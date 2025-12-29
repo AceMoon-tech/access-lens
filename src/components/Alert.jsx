@@ -127,7 +127,7 @@ function Alert({
       <Icon 
         style={{ 
           flexShrink: 0,
-          marginTop: '2px',
+          marginTop: 'var(--space-4)',
           color: config.iconColor
         }} 
       />
