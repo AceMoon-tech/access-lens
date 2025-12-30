@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import Header from './components/Header'
+import Footer from './components/Footer'
 import PageContainer from './components/PageContainer'
 import AuditErrorBoundary from './components/AuditErrorBoundary'
 
@@ -65,6 +66,9 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </PageContainer>
+
+      {/* Footer appears on all pages */}
+      <Footer />
     </BrowserRouter>
   )
 }
