@@ -1,5 +1,71 @@
 import Card from './Card'
 
+// Severity icons
+function HighSeverityIcon({ className = '', style }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+      style={style}
+    >
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+  )
+}
+
+function MediumSeverityIcon({ className = '', style }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+      style={style}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12.01" y2="8" />
+    </svg>
+  )
+}
+
+function LowSeverityIcon({ className = '', style }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+      style={style}
+    >
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
+  )
+}
+
 function IssueCard({ issue }) {
   if (!issue) return null
 
@@ -11,25 +77,29 @@ function IssueCard({ issue }) {
         return {
           color: 'var(--sev-high)',
           fontWeight: 'var(--weight-semibold)',
-          label: 'High'
+          label: 'High',
+          Icon: HighSeverityIcon
         }
       case 'medium':
         return {
           color: 'var(--sev-med)',
           fontWeight: 'var(--weight-medium)',
-          label: 'Medium'
+          label: 'Medium',
+          Icon: MediumSeverityIcon
         }
       case 'low':
       default:
         return {
           color: 'var(--sev-low)',
           fontWeight: 'var(--weight-regular)',
-          label: 'Low'
+          label: 'Low',
+          Icon: LowSeverityIcon
         }
     }
   }
 
   const severityConfig = getSeverityConfig(issue.severity)
+  const SeverityIcon = severityConfig.Icon
 
   // Primary display text (new contract first, fallback to old)
   const titleText =
@@ -44,18 +114,18 @@ function IssueCard({ issue }) {
   const hasWcagRefs = Array.isArray(issue.wcagRefs) && issue.wcagRefs.length > 0
 
   return (
-    <Card className="rounded-sm space-y-12" style={{ position: 'relative', paddingLeft: issue.severity ? 'calc(var(--space-24) + var(--space-4))' : undefined }}>
-      {/* Severity indicator bar */}
+    <Card className="rounded-sm space-y-12" style={{ position: 'relative', paddingLeft: issue.severity ? 'calc(var(--space-24) + var(--space-4) + var(--space-12))' : undefined }}>
+      {/* Severity indicator rail */}
       {issue.severity && (
         <div
           style={{
             position: 'absolute',
-            top: 0,
+            top: 'var(--space-8)',
             left: 'var(--space-24)',
-            bottom: 0,
+            bottom: 'var(--space-8)',
             width: 'var(--space-4)',
             backgroundColor: severityConfig.color,
-            borderRadius: 'var(--radius-sm) 0 0 var(--radius-sm)'
+            borderRadius: 'var(--radius-sm)'
           }}
         />
       )}
@@ -63,13 +133,12 @@ function IssueCard({ issue }) {
       {/* Severity header */}
       {issue.severity && (
         <div className="flex items-center gap-8">
-          <div
+          <SeverityIcon
             style={{
-              width: 'var(--space-8)',
-              height: 'var(--space-8)',
-              borderRadius: '50%',
-              backgroundColor: severityConfig.color,
-              flexShrink: 0
+              flexShrink: 0,
+              color: severityConfig.color,
+              width: '16px',
+              height: '16px'
             }}
           />
           <p

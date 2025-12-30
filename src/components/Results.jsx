@@ -24,6 +24,14 @@ function Results({ results, loading = false, errorText }) {
 
   const { issues = [], error } = results
 
+  // Sort issues by severity: High → Medium → Low
+  const severityOrder = { high: 3, medium: 2, low: 1 }
+  const sortedIssues = [...issues].sort((a, b) => {
+    const aSev = severityOrder[(a.severity || 'low').toLowerCase()] || 1
+    const bSev = severityOrder[(b.severity || 'low').toLowerCase()] || 1
+    return bSev - aSev // Descending order
+  })
+
   return (
     <div
       role="region"
@@ -86,7 +94,7 @@ function Results({ results, loading = false, errorText }) {
 
       {/* Issues - use IssueCard (single source of truth) */}
       <div className="flex flex-col gap-24">
-        {issues.map((issue) => (
+        {sortedIssues.map((issue) => (
           <IssueCard key={issue.id} issue={issue} />
         ))}
       </div>
