@@ -1,6 +1,9 @@
+import PageContainer from '../components/PageContainer'
+
 function About() {
   return (
-    <div className="space-y-24">
+    <PageContainer>
+      <div className="space-y-24">
       {/* Overview Section */}
       <section>
         <h1 
@@ -145,7 +148,8 @@ function About() {
           </p>
         </div>
       </section>
-    </div>
+      </div>
+    </PageContainer>
   );
 }
 

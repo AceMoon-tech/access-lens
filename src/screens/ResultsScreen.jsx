@@ -6,6 +6,7 @@ import Toast from '../components/Toast'
 import Loading from '../components/Loading'
 import Alert from '../components/Alert'
 import Card from '../components/Card'
+import PageContainer from '../components/PageContainer'
 import CopyJsonButton from '../components/CopyJsonButton'
 import { trackExportJson } from '../lib/analytics'
 import { getAuditById } from '../lib/api/audits'
@@ -106,60 +107,67 @@ function ResultsScreen() {
   // Loading state
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-64 gap-16">
-        <Loading size="md" />
-        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-          Loading audit results…
-        </p>
-      </div>
+      <PageContainer>
+        <div className="flex flex-col items-center justify-center py-64 gap-16">
+          <Loading size="md" />
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            Loading audit results…
+          </p>
+        </div>
+      </PageContainer>
     )
   }
 
   // Error state
   if (error) {
     return (
-      <div className="space-y-24">
-        <div
-          ref={errorAlertRef}
-          tabIndex="-1"
-        >
-          <Alert variant="error">
-            {error}
-          </Alert>
-        </div>
+      <PageContainer>
+        <div className="space-y-24">
+          <div
+            ref={errorAlertRef}
+            tabIndex="-1"
+          >
+            <Alert variant="error">
+              {error}
+            </Alert>
+          </div>
 
-        <Button
-          variant="primary"
-          size="md"
-          onClick={handleNewAudit}
-        >
-          Start New Audit
-        </Button>
-      </div>
+          <Button
+            variant="primary"
+            size="md"
+            onClick={handleNewAudit}
+          >
+            Start New Audit
+          </Button>
+        </div>
+      </PageContainer>
     )
   }
 
   // No results guard
   if (!results) {
     return (
-      <div className="space-y-24">
-        <Alert variant="error">
-          No results found. Please run an audit first.
-        </Alert>
+      <PageContainer>
+        <div className="space-y-24">
+          <Alert variant="error">
+            No results found. Please run an audit first.
+          </Alert>
 
-        <Button
-          variant="primary"
-          size="md"
-          onClick={handleNewAudit}
-        >
-          Start New Audit
-        </Button>
-      </div>
+          <Button
+            variant="primary"
+            size="md"
+            onClick={handleNewAudit}
+          >
+            Start New Audit
+          </Button>
+        </div>
+      </PageContainer>
     )
   }
 
   return (
-    <div className="space-y-24">
+    <PageContainer>
+      <div className="space-y-24">
       {/* Page title */}
       <div className="mb-32">
         <h1 
@@ -251,7 +259,8 @@ function ResultsScreen() {
           onDismiss={() => setDownloaded(false)}
         />
       )}
-    </div>
+      </div>
+    </PageContainer>
   )
 }
 
