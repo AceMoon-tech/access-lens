@@ -24,6 +24,8 @@ function DevNav() {
             style={{
               backgroundColor: 'var(--sev-med)',
               color: 'var(--text-inverse)',
+              // Intentional exception: Internal dev-only UI uses 10px for compact badge
+              // No token exists for this size (closest: --text-xs = 12px)
               fontSize: '10px',
             }}
           >

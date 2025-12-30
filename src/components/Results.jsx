@@ -41,36 +41,9 @@ function Results({ results, loading = false, errorText }) {
     >
       {/* Error state UI (client-side / pipeline errorText) */}
       {errorText && (
-        <div
-          role="alert"
-          aria-live="assertive"
-          className="flex items-start gap-12 p-16 rounded-sm border"
-          style={{
-            backgroundColor: 'var(--surface-1)',
-            borderColor: 'var(--sev-high)',
-            color: 'var(--sev-high)',
-          }}
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-            style={{ flexShrink: 0, marginTop: 'var(--space-4)' }}
-          >
-            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-            <line x1="12" y1="9" x2="12" y2="13" />
-            <line x1="12" y1="17" x2="12.01" y2="17" />
-          </svg>
-          <p className="text-base" style={{ color: 'var(--sev-high)' }}>
-            {errorText}
-          </p>
-        </div>
+        <Alert variant="error">
+          {errorText}
+        </Alert>
       )}
 
       {/* Results error (from API) */}

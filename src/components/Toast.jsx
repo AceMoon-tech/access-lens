@@ -62,6 +62,8 @@ function Toast({
         lineHeight: 'var(--text-sm-leading)',
         color: 'var(--text-default)',
         zIndex: 1000,
+        // Intentional exception: Overlay constraint requires fixed maxWidth
+        // No token exists for toast overlay max-width (320px)
         maxWidth: '320px'
       }}
     >

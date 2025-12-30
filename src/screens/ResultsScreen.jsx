@@ -143,9 +143,9 @@ function ResultsScreen() {
   if (!results) {
     return (
       <div className="space-y-24">
-        <p className="text-sev-high text-lg">
+        <Alert variant="error">
           No results found. Please run an audit first.
-        </p>
+        </Alert>
 
         <Button
           variant="primary"

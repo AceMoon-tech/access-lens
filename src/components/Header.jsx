@@ -17,7 +17,12 @@ export default function Header() {
             src={theme === "dark" ? darkLogo : lightLogo}
             alt="Access Lens logo"
             className="w-auto"
-            style={{ height: "40px", width: "auto" }}
+            style={{
+              // Intentional exception: Layout constraint requires fixed logo height
+              // No token exists for logo height (40px)
+              height: "40px",
+              width: "auto"
+            }}
           />
         </Link>
 
