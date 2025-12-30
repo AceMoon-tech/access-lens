@@ -12,7 +12,7 @@ export default function Header() {
       <div className="page-container__main flex items-center justify-between">
 
         {/* Left: Logo */}
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center" style={{ gap: 'var(--space-8)' }}>
           <img
             src={theme === "dark" ? darkLogo : lightLogo}
             alt="Access Lens logo"
@@ -24,6 +24,17 @@ export default function Header() {
               width: "auto"
             }}
           />
+          <span
+            style={{
+              fontSize: 'var(--text-xs)',
+              lineHeight: 'var(--text-xs-leading)',
+              color: 'var(--text-muted)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}
+          >
+            Beta
+          </span>
         </Link>
 
         {/* Right: Navigation */}
