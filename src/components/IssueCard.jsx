@@ -132,13 +132,13 @@ function IssueCard({ issue }) {
 
       {/* Severity header */}
       {issue.severity && (
-        <div className="flex items-center gap-8">
+        <div className="flex items-center" style={{ gap: 'var(--space-8)' }}>
           <SeverityIcon
             style={{
               flexShrink: 0,
               color: severityConfig.color,
-              width: '16px',
-              height: '16px'
+              width: 'var(--space-16)',
+              height: 'var(--space-16)'
             }}
           />
           <p
