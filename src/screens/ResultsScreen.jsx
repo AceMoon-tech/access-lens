@@ -160,6 +160,32 @@ function ResultsScreen() {
 
   return (
     <div className="space-y-24">
+      {/* Page title */}
+      <div className="mb-32">
+        <h1 
+          className="font-semibold mb-16"
+          style={{
+            fontSize: 'var(--text-h1)',
+            lineHeight: 'var(--text-h1-leading)',
+            fontWeight: 'var(--text-h1-weight)',
+            color: 'var(--text-default)'
+          }}
+        >
+          Audit Results
+        </h1>
+
+        <p 
+          className="mb-16"
+          style={{
+            fontSize: 'var(--text-body)',
+            lineHeight: 'var(--text-body-leading)',
+            color: 'var(--text-muted)'
+          }}
+        >
+          Showing the top 5 potential accessibility risks based on your description.
+        </p>
+      </div>
+
       <Results results={results} />
 
       <Card className="rounded-sm p-24">

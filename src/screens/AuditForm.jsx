@@ -300,6 +300,32 @@ function AuditForm({ onResults }) {
 
   return (
     <PageContainer>
+      {/* Page title */}
+      <div className="mb-32">
+        <h1 
+          className="font-semibold mb-16"
+          style={{
+            fontSize: 'var(--text-h1)',
+            lineHeight: 'var(--text-h1-leading)',
+            fontWeight: 'var(--text-h1-weight)',
+            color: 'var(--text-default)'
+          }}
+        >
+          Run Accessibility Audit
+        </h1>
+
+        <p 
+          className="mb-16"
+          style={{
+            fontSize: 'var(--text-body)',
+            lineHeight: 'var(--text-body-leading)',
+            color: 'var(--text-muted)'
+          }}
+        >
+          Describe a single screen or small flow to receive early accessibility guidance.
+        </p>
+      </div>
+
       <form
         onSubmit={handleSubmit}
         aria-busy={requestState === 'loading'}
