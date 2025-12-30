@@ -414,6 +414,13 @@ function AuditForm({ onResults }) {
           </div>
         )}
 
+        {/* Warning: Field 2 has content but Field 1 is empty */}
+        {copyBlocks.trim().length > 0 && !uiDescription.trim() && (
+          <Alert variant="warning">
+            Add a screen description above to run an audit. This field is optional context.
+          </Alert>
+        )}
+
         <Button
           variant="primary"
           size="md"
@@ -425,7 +432,7 @@ function AuditForm({ onResults }) {
           {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
         </Button>
 
-        <div className="space-y-24">
+        <div className="space-y-24" style={{ marginTop: 'var(--space-32)' }}>
           {/* Helper text block */}
           <div className="space-y-4">
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>

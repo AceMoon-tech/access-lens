@@ -98,6 +98,14 @@ function Alert({
       borderColor: 'var(--border-default)',
       backgroundColor: 'transparent',
       defaultRole: 'status'
+    },
+    warning: {
+      icon: InfoIcon,
+      iconColor: 'var(--sev-med)',
+      textColor: 'var(--sev-med)',
+      borderColor: 'var(--sev-med)',
+      backgroundColor: 'transparent',
+      defaultRole: 'status'
     }
   }
 
