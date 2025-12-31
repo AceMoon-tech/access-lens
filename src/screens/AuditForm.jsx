@@ -254,27 +254,7 @@ function AuditForm({ onResults }) {
 
       // Check if audit returned an error
       if (results.error) {
-        // Map error types to user-friendly messages
-        let userMessage = results.message || results.error || 'Audit failed. Please try again.'
-        
-        // Enhance error messages based on error type
-        if (results.error === 'network_error') {
-          userMessage = 'Network error: Unable to reach the audit service. Please check your connection and try again.'
-        } else if (results.error === 'timeout_error') {
-          userMessage = 'Request timed out. The audit is taking too long. Please try again with a shorter description.'
-        } else if (results.error === 'config_error') {
-          userMessage = 'Server configuration error. The audit service is not properly configured. Please contact support.'
-        } else if (results.error === 'validation_error') {
-          userMessage = results.message || 'Invalid input. Please provide a more detailed description and try again.'
-        } else if (results.error === 'invalid_response') {
-          userMessage = 'The audit service returned an invalid response. Please try again.'
-        } else if (results.error === 'rate_limit_error') {
-          userMessage = 'The audit service is temporarily unavailable due to high demand. Please try again in a moment.'
-        } else if (results.error === 'api_error') {
-          userMessage = 'The AI service returned an error. Please try again.'
-        }
-        
-        setErrorMessage(userMessage)
+        setErrorMessage("Audit failed to run. We couldn't generate results right now. Please try again in a moment.")
         setRequestState('error')
         
         // Track audit failed
@@ -316,7 +296,7 @@ function AuditForm({ onResults }) {
       }
     } catch (err) {
       console.error('Unexpected error:', err)
-      setErrorMessage(err.message || 'An unexpected error occurred. Please try again.')
+      setErrorMessage("Audit failed to run. We couldn't generate results right now. Please try again in a moment.")
       setRequestState('error')
       
       // Track audit failed
@@ -455,24 +435,15 @@ function AuditForm({ onResults }) {
           </div>
         )}
 
-        {/* Error state UI with Retry button */}
+        {/* Error state UI */}
         {requestState === 'error' && errorMessage && (
           <div 
             ref={errorAlertRef}
             tabIndex="-1"
-            className="flex flex-col gap-16"
           >
             <Alert id={errorId} variant="error">
               {errorMessage}
             </Alert>
-            <Button
-              variant="primary"
-              size="md"
-              type="button"
-              onClick={handleRetry}
-            >
-              Retry audit
-            </Button>
           </div>
         )}
 
