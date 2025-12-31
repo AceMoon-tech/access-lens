@@ -75,8 +75,8 @@ function Results({ results, loading = false, errorText }) {
       {hasPartialResults && !error && issues.length > 0 && (
         <Alert variant="warning">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
-            <strong style={{ fontWeight: 'var(--weight-semibold)' }}>Limited confidence results</strong>
-            <span>These results are based on a small or generalized signal. They may not capture higher-impact accessibility issues. Consider adding more specific UI details.</span>
+            <strong style={{ fontWeight: 'var(--weight-semibold)' }}>Limited input detail</strong>
+            <span>These results are based on a brief or high-level description. Add more specific UI details to surface higher-impact accessibility issues.</span>
           </div>
         </Alert>
       )}

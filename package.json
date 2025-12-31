@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@sentry/react": "^8.47.0",
     "clsx": "^2.1.1",
     "openai": "^6.9.1",
     "react": "^19.2.0",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@sentry/vite-plugin": "^2.22.3",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",

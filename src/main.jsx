@@ -1,11 +1,53 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import * as Sentry from "@sentry/react";
 
 import "./index.css";
 
 import { validateEnv, ConfigError } from "./lib/config.js";
 import App from "./App.jsx";
 import { AppProvider } from "./state/AppContext";
+import GlobalErrorBoundary from "./components/GlobalErrorBoundary";
+
+// Initialize Sentry (production and preview only)
+const isProduction = import.meta.env.PROD;
+const isPreview = import.meta.env.VITE_VERCEL_ENV === "preview";
+const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
+const isSentryEnabled = (isProduction || isPreview) && sentryDsn;
+
+if (isSentryEnabled) {
+  Sentry.init({
+    dsn: sentryDsn,
+    environment: isPreview ? "preview" : "production",
+    tracesSampleRate: 0.1,
+    replaysSessionSampleRate: 0,
+    replaysOnErrorSampleRate: 0,
+    beforeSend(event, hint) {
+      // Remove user input, request bodies, and form values from events
+      if (event.request) {
+        delete event.request.data;
+        delete event.request.body;
+        delete event.request.cookies;
+      }
+      if (event.contexts) {
+        delete event.contexts.request?.data;
+        delete event.contexts.request?.body;
+      }
+      return event;
+    },
+    beforeBreadcrumb(breadcrumb) {
+      // Don't capture breadcrumbs for console input or DOM input values
+      if (breadcrumb.category === "console" || breadcrumb.category === "ui.input") {
+        return null;
+      }
+      // Remove input values from DOM breadcrumbs
+      if (breadcrumb.data && breadcrumb.data.value) {
+        delete breadcrumb.data.value;
+      }
+      return breadcrumb;
+    },
+  });
+}
 
 // Validate environment configuration before rendering app
 let configError = null;
@@ -69,11 +111,29 @@ if (configError && rootEl) {
     </div>
   `;
 } else if (rootEl) {
-  ReactDOM.createRoot(rootEl).render(
-    <React.StrictMode>
+  // TEMPORARY: Sentry test error - REMOVE AFTER VERIFICATION
+  // Uncomment the line below to test Sentry integration:
+  // throw new Error("Sentry test");
+
+  const AppWithErrorBoundary = isSentryEnabled ? (
+    <Sentry.ErrorBoundary fallback={null} showDialog={false}>
+      <GlobalErrorBoundary>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </GlobalErrorBoundary>
+    </Sentry.ErrorBoundary>
+  ) : (
+    <GlobalErrorBoundary>
       <AppProvider>
         <App />
       </AppProvider>
+    </GlobalErrorBoundary>
+  );
+
+  ReactDOM.createRoot(rootEl).render(
+    <React.StrictMode>
+      {AppWithErrorBoundary}
     </React.StrictMode>
   );
 }

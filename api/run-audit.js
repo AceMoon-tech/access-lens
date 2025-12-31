@@ -4,6 +4,65 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Rate limiting: in-memory store (simple implementation for serverless)
+// Note: In production with multiple instances, consider using Redis or similar
+const rateLimitStore = new Map();
+
+// Clean up old entries every 2 minutes
+const CLEANUP_INTERVAL = 2 * 60 * 1000;
+let lastCleanup = Date.now();
+
+function cleanupRateLimitStore() {
+  const now = Date.now();
+  if (now - lastCleanup < CLEANUP_INTERVAL) return;
+  
+  lastCleanup = now;
+  const oneMinuteAgo = now - 60 * 1000;
+  
+  for (const [key, timestamps] of rateLimitStore.entries()) {
+    const recent = timestamps.filter(ts => ts > oneMinuteAgo);
+    if (recent.length === 0) {
+      rateLimitStore.delete(key);
+    } else {
+      rateLimitStore.set(key, recent);
+    }
+  }
+}
+
+function getClientIdentifier(req) {
+  // Try to get IP from various headers (Vercel, proxies, etc.)
+  const forwardedFor = req.headers['x-forwarded-for'];
+  const realIp = req.headers['x-real-ip'];
+  const remoteAddress = req.connection?.remoteAddress || req.socket?.remoteAddress;
+  
+  const ip = forwardedFor?.split(',')[0]?.trim() || realIp || remoteAddress || 'unknown';
+  const userAgent = req.headers['user-agent'] || '';
+  
+  // Combine IP and user agent for better identification
+  return `${ip}:${userAgent.substring(0, 50)}`;
+}
+
+function checkRateLimit(req) {
+  cleanupRateLimitStore();
+  
+  const identifier = getClientIdentifier(req);
+  const now = Date.now();
+  const oneMinuteAgo = now - 60 * 1000;
+  
+  const timestamps = rateLimitStore.get(identifier) || [];
+  const recentRequests = timestamps.filter(ts => ts > oneMinuteAgo);
+  
+  if (recentRequests.length >= 10) {
+    return false; // Rate limit exceeded
+  }
+  
+  // Add current request timestamp
+  recentRequests.push(now);
+  rateLimitStore.set(identifier, recentRequests);
+  
+  return true; // Within rate limit
+}
+
 // Detect low-signal input (gibberish, abstract, non-UI concepts)
 function isLowSignalInput(input) {
   const text = input.trim().toLowerCase();
@@ -37,13 +96,49 @@ export default async function handler(req, res) {
     });
   }
 
-  try {
-    const { input } = req.body;
+  // Rate limiting check
+  if (!checkRateLimit(req)) {
+    return res.status(429).json({
+      error: "rate_limit_exceeded",
+      message: "Too many requests. Please wait a moment before trying again.",
+    });
+  }
 
-    if (!input || typeof input !== "string") {
+  try {
+    const { input, context } = req.body;
+
+    // Malformed input validation (before any processing)
+    // Validate input: must exist, be a string, and not be empty after trim
+    if (!input || typeof input !== "string" || input.trim().length === 0) {
       return res.status(400).json({
-        error: "invalid_input",
-        message: "Screen description is required",
+        error: "invalid_request_format",
+        message: "Invalid request format. Please provide a valid screen description.",
+      });
+    }
+
+    // Validate context (if present): must be a string
+    // Reject null, arrays, objects, numbers, booleans
+    if (context !== undefined && typeof context !== "string") {
+      return res.status(400).json({
+        error: "invalid_request_format",
+        message: "Invalid request format. Please provide a valid screen description.",
+      });
+    }
+
+    // Payload size validation (after type validation)
+    const MAX_LENGTH = 2000;
+    
+    if (input.length > MAX_LENGTH) {
+      return res.status(413).json({
+        error: "payload_too_large",
+        message: "Input is too long. Please shorten your description.",
+      });
+    }
+    
+    if (context && context.length > MAX_LENGTH) {
+      return res.status(413).json({
+        error: "payload_too_large",
+        message: "Input is too long. Please shorten your description.",
       });
     }
 
