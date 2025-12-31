@@ -22,18 +22,17 @@ function Results({ results, loading = false, errorText }) {
 
   if (!results) return null
 
-  const { issues = [], error, lowConfidence } = results
+  const { issues = [], error, lowConfidence, nearMinimumDetail } = results
 
-  // Detect partial results
-  const hedgingPhrases = ['if present', 'consider whether', 'ensure that']
-  const hasPartialResults = issues.length > 0 && (
-    issues.length <= 2 ||
-    issues.every(issue => (issue.severity || 'low').toLowerCase() !== 'high') ||
-    issues.every(issue => {
-      const guidance = (issue.guidance || '').toLowerCase().trim()
-      return hedgingPhrases.some(phrase => guidance.startsWith(phrase))
-    })
-  )
+  // Detect partial results (only for genuinely weak input)
+  // Show warning ONLY when ALL conditions are true:
+  // 1. issues.length ≤ 2
+  // 2. AND no issue has severity === "high"
+  // 3. AND input passed UI validation but is near-minimum detail
+  const hasPartialResults = issues.length > 0 && 
+    issues.length <= 2 &&
+    issues.every(issue => (issue.severity || 'low').toLowerCase() !== 'high') &&
+    nearMinimumDetail === true
 
   // Sort issues by severity: High → Medium → Low
   const severityOrder = { high: 3, medium: 2, low: 1 }

@@ -88,6 +88,32 @@ function isLowSignalInput(input) {
   return false;
 }
 
+// Detect if input is near-minimum detail (passed validation but lacks depth)
+function isNearMinimumDetail(input) {
+  const text = input.trim();
+  const MIN_LENGTH = 20; // Minimum validation threshold
+  const NEAR_MIN_THRESHOLD = 80; // Consider near-minimum if under this length
+  
+  // Check if input is short (near minimum validation length)
+  if (text.length < NEAR_MIN_THRESHOLD) return true;
+  
+  // Check if input is missing multiple concrete UI primitives
+  const concreteUIPrimitives = [
+    'form', 'field', 'input', 'button', 'table', 'row', 'column',
+    'error', 'validation', 'state', 'disabled', 'loading',
+    'navigation', 'nav', 'menu', 'link', 'tab', 'modal', 'dialog'
+  ];
+  
+  const foundPrimitives = concreteUIPrimitives.filter(primitive => 
+    text.toLowerCase().includes(primitive)
+  );
+  
+  // If fewer than 2 concrete UI primitives found, consider it near-minimum
+  if (foundPrimitives.length < 2) return true;
+  
+  return false;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -144,6 +170,9 @@ export default async function handler(req, res) {
 
     // Detect low-signal input
     const lowConfidence = isLowSignalInput(input);
+    
+    // Detect if input is near-minimum detail (for partial results warning)
+    const nearMinimumDetail = isNearMinimumDetail(input);
 
     const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
@@ -241,10 +270,11 @@ Return only valid JSON matching the required schema.
     console.log('RAW_OPENAI_JSON:', raw);
     const parsed = JSON.parse(raw);
     
-    // Add lowConfidence flag to response
+    // Add lowConfidence and nearMinimumDetail flags to response
     const responseWithConfidence = {
       ...parsed,
-      lowConfidence
+      lowConfidence,
+      nearMinimumDetail
     };
 
     return res.status(200).json(responseWithConfidence);

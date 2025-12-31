@@ -57,5 +57,6 @@ export default function normalizeResults(raw) {
     issues,
     error: null,
     lowConfidence: raw.lowConfidence || false,
+    nearMinimumDetail: raw.nearMinimumDetail || false,
   }
 }
