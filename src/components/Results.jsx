@@ -24,6 +24,17 @@ function Results({ results, loading = false, errorText }) {
 
   const { issues = [], error, lowConfidence } = results
 
+  // Detect partial results
+  const hedgingPhrases = ['if present', 'consider whether', 'ensure that']
+  const hasPartialResults = issues.length > 0 && (
+    issues.length <= 2 ||
+    issues.every(issue => (issue.severity || 'low').toLowerCase() !== 'high') ||
+    issues.every(issue => {
+      const guidance = (issue.guidance || '').toLowerCase().trim()
+      return hedgingPhrases.some(phrase => guidance.startsWith(phrase))
+    })
+  )
+
   // Sort issues by severity: High → Medium → Low
   const severityOrder = { high: 3, medium: 2, low: 1 }
   const sortedIssues = [...issues].sort((a, b) => {
@@ -57,6 +68,16 @@ function Results({ results, loading = false, errorText }) {
       {lowConfidence && !error && (
         <Alert variant="info">
           Low confidence input. Results are based on common accessibility patterns and may not reflect a specific UI.
+        </Alert>
+      )}
+
+      {/* Partial results warning */}
+      {hasPartialResults && !error && issues.length > 0 && (
+        <Alert variant="warning">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
+            <strong style={{ fontWeight: 'var(--weight-semibold)' }}>Limited confidence results</strong>
+            <span>These results are based on a small or generalized signal. They may not capture higher-impact accessibility issues. Consider adding more specific UI details.</span>
+          </div>
         </Alert>
       )}
 
