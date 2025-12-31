@@ -25,14 +25,12 @@ function Results({ results, loading = false, errorText }) {
   const { issues = [], error, lowConfidence, nearMinimumDetail } = results
 
   // Detect partial results (only for genuinely weak input)
-  // Show warning ONLY when ALL conditions are true:
-  // 1. issues.length ≤ 2
-  // 2. AND no issue has severity === "high"
-  // 3. AND input passed UI validation but is near-minimum detail
+  // Show warning when:
+  // 1. Input is near-minimum detail (short or missing UI primitives)
+  // 2. AND (few issues OR no high-severity issues)
   const hasPartialResults = issues.length > 0 && 
-    issues.length <= 2 &&
-    issues.every(issue => (issue.severity || 'low').toLowerCase() !== 'high') &&
-    nearMinimumDetail === true
+    nearMinimumDetail === true &&
+    (issues.length <= 2 || issues.every(issue => (issue.severity || 'low').toLowerCase() !== 'high'))
 
   // Sort issues by severity: High → Medium → Low
   const severityOrder = { high: 3, medium: 2, low: 1 }
