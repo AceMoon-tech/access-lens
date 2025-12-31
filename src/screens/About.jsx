@@ -73,15 +73,14 @@ function About() {
         </h2>
 
         <div 
-          className="space-y-16"
           style={{
             fontSize: 'var(--text-body)',
             lineHeight: 'var(--text-body-leading)',
             color: 'var(--text-muted)'
           }}
         >
-          <div>
-            <p className="mb-8">
+          <div style={{ marginBottom: 'var(--space-16)' }}>
+            <p style={{ marginBottom: 'var(--space-8)' }}>
               <strong style={{ color: 'var(--text-default)' }}>What we send:</strong>
             </p>
             <p>
@@ -89,8 +88,8 @@ function About() {
             </p>
           </div>
 
-          <div>
-            <p className="mb-8">
+          <div style={{ marginBottom: 'var(--space-16)' }}>
+            <p style={{ marginBottom: 'var(--space-8)' }}>
               <strong style={{ color: 'var(--text-default)' }}>What we store:</strong>
             </p>
             <p>
@@ -99,7 +98,7 @@ function About() {
           </div>
 
           <div>
-            <p className="mb-8">
+            <p style={{ marginBottom: 'var(--space-8)' }}>
               <strong style={{ color: 'var(--text-default)' }}>Your control:</strong>
             </p>
             <p>

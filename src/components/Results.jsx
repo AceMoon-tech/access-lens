@@ -22,7 +22,7 @@ function Results({ results, loading = false, errorText }) {
 
   if (!results) return null
 
-  const { issues = [], error } = results
+  const { issues = [], error, lowConfidence } = results
 
   // Sort issues by severity: High → Medium → Low
   const severityOrder = { high: 3, medium: 2, low: 1 }
@@ -50,6 +50,13 @@ function Results({ results, loading = false, errorText }) {
       {error && !errorText && (
         <Alert variant="error">
           {error}
+        </Alert>
+      )}
+
+      {/* Low confidence input notice */}
+      {lowConfidence && !error && (
+        <Alert variant="info">
+          Low confidence input. Results are based on common accessibility patterns and may not reflect a specific UI.
         </Alert>
       )}
 

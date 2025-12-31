@@ -4,6 +4,31 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Detect low-signal input (gibberish, abstract, non-UI concepts)
+function isLowSignalInput(input) {
+  const text = input.trim().toLowerCase();
+  
+  // Very short input (less than 15 characters)
+  if (text.length < 15) return true;
+  
+  // Non-UI concept keywords
+  const nonUIKeywords = ['database', 'api', 'backend', 'infrastructure', 'server', 'endpoint', 'sql', 'query'];
+  if (nonUIKeywords.some(keyword => text.includes(keyword))) return true;
+  
+  // High ratio of special characters or numbers (potential gibberish)
+  const specialCharCount = (text.match(/[^a-z0-9\s]/g) || []).length;
+  const numberCount = (text.match(/[0-9]/g) || []).length;
+  const totalChars = text.length;
+  if (totalChars > 0 && (specialCharCount + numberCount) / totalChars > 0.5) return true;
+  
+  // Very abstract / no UI-related keywords
+  const uiKeywords = ['button', 'field', 'input', 'form', 'screen', 'page', 'interface', 'ui', 'link', 'menu', 'nav', 'modal', 'dialog', 'card', 'list'];
+  const hasUIKeywords = uiKeywords.some(keyword => text.includes(keyword));
+  if (!hasUIKeywords && text.length < 50) return true;
+  
+  return false;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -21,6 +46,9 @@ export default async function handler(req, res) {
         message: "Screen description is required",
       });
     }
+
+    // Detect low-signal input
+    const lowConfidence = isLowSignalInput(input);
 
     const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
@@ -117,13 +145,14 @@ Return only valid JSON matching the required schema.
     const raw = response.choices[0].message.content;
     console.log('RAW_OPENAI_JSON:', raw);
     const parsed = JSON.parse(raw);
-  
+    
+    // Add lowConfidence flag to response
+    const responseWithConfidence = {
+      ...parsed,
+      lowConfidence
+    };
 
-
-return res.status(200).json(parsed);
-
-
-    return res.status(200).json(parsed);
+    return res.status(200).json(responseWithConfidence);
   } catch (err) {
     console.error("run-audit error:", err);
 
