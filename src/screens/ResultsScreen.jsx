@@ -165,6 +165,13 @@ function ResultsScreen() {
     )
   }
 
+  // Detect invalid/empty results (successful API call but no meaningful results)
+  const hasInvalidResults = results && !results.error && (
+    !Array.isArray(results.issues) ||
+    results.issues.length === 0 ||
+    results.issues.some(issue => !issue.guidance || !issue.whoItAffects || !issue.whyItMatters)
+  )
+
   return (
     <PageContainer>
       <div className="space-y-24">
@@ -194,7 +201,17 @@ function ResultsScreen() {
         </p>
       </div>
 
-      <Results results={results} />
+      {/* Invalid/empty results warning */}
+      {hasInvalidResults && (
+        <Alert variant="warning">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
+            <strong style={{ fontWeight: 'var(--weight-semibold)' }}>Results couldn't be generated</strong>
+            <span>We weren't able to interpret your description clearly enough to produce meaningful accessibility feedback. Try adding more UI details.</span>
+          </div>
+        </Alert>
+      )}
+
+      {!hasInvalidResults && <Results results={results} />}
 
       <Card className="rounded-sm p-24">
         <h2 
