@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <div className="hero">
+    <div className="hero homepage-hero">
       <h1 className="hero-title">
         Accessibility, surfaced early.
       </h1>
