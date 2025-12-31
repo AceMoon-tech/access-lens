@@ -10,6 +10,9 @@ export const formMessages = {
   // Too brief description hint
   tooBriefHint: 'Add a bit more detail to help identify potential accessibility issues',
 
+  // Invalid input (non-UI, gibberish, etc.)
+  invalidInputHint: 'Describe a screen or interface (for example: "Login form with email and password fields").',
+
   // Overly detailed soft warning
   overlyDetailedWarning: 'A brief screen-level description works best. Focus on key elements and interactions',
 

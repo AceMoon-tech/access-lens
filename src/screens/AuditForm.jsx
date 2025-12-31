@@ -106,6 +106,42 @@ function AuditForm({ onResults }) {
     if (trimmed.length < 20) {
       return formMessages.tooBriefHint
     }
+
+    const text = trimmed.toLowerCase()
+
+    // Check for non-UI domain keywords
+    const nonUIKeywords = ['database', 'schema', 'sql', 'api', 'backend', 'server', 'infrastructure', 'endpoint', 'query']
+    if (nonUIKeywords.some(keyword => text.includes(keyword))) {
+      return formMessages.invalidInputHint
+    }
+
+    // Check for UI-related keywords
+    const uiKeywords = ['screen', 'page', 'form', 'button', 'input', 'modal', 'dialog', 'table', 'navigation', 'nav', 'menu', 'list', 'chart', 'link']
+    const hasUIKeywords = uiKeywords.some(keyword => text.includes(keyword))
+    if (!hasUIKeywords) {
+      return formMessages.invalidInputHint
+    }
+
+    // Check for gibberish: excessive repeated characters (e.g., gggggggg)
+    const repeatedCharPattern = /(.)\1{6,}/
+    if (repeatedCharPattern.test(text)) {
+      return formMessages.invalidInputHint
+    }
+
+    // Check for high ratio of symbols/numbers (potential gibberish)
+    const specialCharCount = (text.match(/[^a-z0-9\s]/g) || []).length
+    const numberCount = (text.match(/[0-9]/g) || []).length
+    const totalChars = text.replace(/\s/g, '').length
+    if (totalChars > 0 && (specialCharCount + numberCount) / totalChars > 0.5) {
+      return formMessages.invalidInputHint
+    }
+
+    // Check for recognizable words (at least 2 words of 3+ characters)
+    const words = text.split(/\s+/).filter(word => word.length >= 3)
+    if (words.length < 2) {
+      return formMessages.invalidInputHint
+    }
+
     return ''
   }
 
