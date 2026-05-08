@@ -6,6 +6,7 @@ import Loading from '../components/Loading'
 import Alert from '../components/Alert'
 import Card from '../components/Card'
 import { formMessages } from '../lib/formMessages'
+import { improveInput } from '../lib/improveInput.js'
 import { trackAuditStarted, trackAuditFailed } from '../lib/analytics'
 import { createAudit } from '../lib/api/audits'
 import { useApp } from '../state/AppContext'
@@ -96,6 +97,8 @@ function AuditForm({ onResults }) {
   const [hasBlurredDescription, setHasBlurredDescription] = useState(false)
   const [hasBlurredWcag, setHasBlurredWcag] = useState(false)
   const [showInputGuidance, setShowInputGuidance] = useState(false)
+  const [improveLoading, setImproveLoading] = useState(false)
+  const [improveErrorMessage, setImproveErrorMessage] = useState('')
 
   // Validation function for ui-description
   function validateUiDescription(value) {
@@ -171,6 +174,7 @@ function AuditForm({ onResults }) {
   // Handle input change - clear error if field becomes valid
   function handleUiDescriptionChange(e) {
     const value = e.target.value
+    setImproveErrorMessage('')
     setUiDescription(value)
     // Persist to context
     updateAuditFormInputs({ uiDescription: value })
@@ -306,6 +310,29 @@ function AuditForm({ onResults }) {
     }
   }
 
+  async function handleImproveInputClick() {
+    setImproveErrorMessage('')
+    if (!uiDescription.trim()) return
+
+    setImproveLoading(true)
+    try {
+      const next = await improveInput(uiDescription)
+      setUiDescription(next)
+      updateAuditFormInputs({ uiDescription: next })
+      if (hasBlurredDescription) {
+        setUiDescriptionError(validateUiDescription(next))
+      }
+    } catch (err) {
+      const msg =
+        err?.data?.message ||
+        err?.message ||
+        'Unable to improve your description right now. Please try again.'
+      setImproveErrorMessage(msg)
+    } finally {
+      setImproveLoading(false)
+    }
+  }
+
   // Retry handler - re-triggers the audit request
   function handleRetry() {
     const fakeEvent = {
@@ -360,6 +387,26 @@ function AuditForm({ onResults }) {
             errorText={uiDescriptionError || undefined}
             isLoading={requestState === 'loading'}
           />
+
+          <div className="flex flex-col gap-8">
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              disabled={
+                requestState === 'loading' ||
+                improveLoading ||
+                !uiDescription.trim()
+              }
+              aria-busy={improveLoading}
+              onClick={handleImproveInputClick}
+            >
+              {improveLoading ? 'Improving…' : 'Improve my input'}
+            </Button>
+            {improveErrorMessage ? (
+              <Alert variant="error">{improveErrorMessage}</Alert>
+            ) : null}
+          </div>
           
           {/* Discoverable guidance toggle */}
           <button
