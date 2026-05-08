@@ -121,6 +121,39 @@
   box-shadow: var(--button-shadow-active);
 }
 
+/* SECONDARY */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-default);
+  box-shadow: none;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--surface-2);
+  color: var(--text-default);
+  border-color: var(--border-strong);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(1px);
+  background-color: var(--surface-3);
+}
+
+.btn-md {
+  padding: var(--button-padding-y) var(--button-padding-x);
+  border-radius: var(--radius-full);
+  font-size: var(--text-body);
+  line-height: var(--text-body-leading);
+}
+
+.btn-sm {
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm-leading);
+}
+
 /* Light mode variant */
 [data-theme="light"] .btn-primary {
   background-color: var(--button-primary-bg);
