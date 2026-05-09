@@ -365,7 +365,7 @@ function AuditForm({ onResults }) {
             color: 'var(--text-muted)'
           }}
         >
-          Describe a single screen or small flow to receive early accessibility guidance.
+          Describe one screen or short flow to surface early accessibility risks.
         </p>
       </div>
 
@@ -378,7 +378,7 @@ function AuditForm({ onResults }) {
         <div className="flex flex-col gap-16">
           <TextArea
             id="ui-description"
-            label="Describe the screen or interface you want reviewed (required)"
+            label="Describe the screen or flow"
             placeholder="Example: A mobile login screen with email field, password field, and a primary button."
             value={uiDescription}
             onChange={handleUiDescriptionChange}
@@ -516,7 +516,7 @@ function AuditForm({ onResults }) {
           {/* Helper text block */}
           <div className="space-y-4">
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              Your audit runs locally. Results appear on the next screen and can be exported.
+              Results appear on the next screen and can be exported.
             </p>
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
               Guidance only — not a compliance check.
@@ -529,28 +529,9 @@ function AuditForm({ onResults }) {
               <strong>Privacy:</strong>
             </p>
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              Your UI description and copy blocks are sent to our audit service to generate feedback. Audit results are stored on our servers with a unique ID. We don't store your original input text—only the generated results.
+              Your screen description and optional context are sent to our audit service to generate results. We store generated audit results with a unique ID, not your original input text separately.
             </p>
           </Card>
-          
-          {/* After the audit completes section */}
-          <div 
-            style={{ 
-              fontSize: 'var(--text-body)',
-              lineHeight: 'var(--text-body-leading)',
-              color: 'var(--text-muted)'
-            }}
-          >
-            <p className="mb-8">
-              <strong style={{ color: 'var(--text-default)' }}>After the audit completes:</strong>
-            </p>
-            <ul className="list-disc space-y-8 pl-24">
-              <li>Results are displayed on the next screen</li>
-              <li>Results are stored on our servers and accessible via audit ID</li>
-              <li>To keep results permanently, use the "Download JSON" button or copy the output</li>
-              <li>Results may be cleared when you close your browser or start a new audit</li>
-            </ul>
-          </div>
         </div>
       </form>
     </PageContainer>
