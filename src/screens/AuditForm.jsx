@@ -375,6 +375,7 @@ function AuditForm({ onResults }) {
         className="space-y-32"
         noValidate
       >
+        {/* Describe section */}
         <div className="flex flex-col gap-16">
           <TextArea
             id="ui-description"
@@ -462,57 +463,64 @@ function AuditForm({ onResults }) {
           )}
         </div>
 
-        <TextArea
-          id="ui-copy"
-          label="Add context about user goals, constraints, or edge cases (optional)"
-          placeholder="Example: Users navigate with keyboard only, or used in low-light environments"
-          value={copyBlocks}
-          onChange={handleCopyBlocksChange}
-          required={false}
-          isLoading={requestState === 'loading'}
-        />
+        {/* Optional context section */}
+        <div className="flex flex-col gap-16">
+          <TextArea
+            id="ui-copy"
+            label="Add context about user goals, constraints, or edge cases (optional)"
+            placeholder="Example: Users navigate with keyboard only, or used in low-light environments"
+            value={copyBlocks}
+            onChange={handleCopyBlocksChange}
+            required={false}
+            isLoading={requestState === 'loading'}
+          />
+        </div>
 
-        {/* Loading state UI */}
-        {requestState === 'loading' && (
-          <div className="flex items-center gap-16" role="status" aria-live="polite">
-            <Loading size="sm" />
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              {formMessages.loadingMessage}
-            </p>
-          </div>
-        )}
+        {/* Submit section */}
+        <div className="space-y-24">
+          {/* Loading state UI */}
+          {requestState === 'loading' && (
+            <div className="flex items-center gap-16" role="status" aria-live="polite">
+              <Loading size="sm" />
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                {formMessages.loadingMessage}
+              </p>
+            </div>
+          )}
 
-        {/* Error state UI */}
-        {requestState === 'error' && errorMessage && (
-          <div 
-            ref={errorAlertRef}
-            tabIndex="-1"
-          >
-            <Alert id={errorId} variant="error">
-              {errorMessage}
+          {/* Error state UI */}
+          {requestState === 'error' && errorMessage && (
+            <div 
+              ref={errorAlertRef}
+              tabIndex="-1"
+            >
+              <Alert id={errorId} variant="error">
+                {errorMessage}
+              </Alert>
+            </div>
+          )}
+
+          {/* Warning: Field 2 has content but Field 1 is empty */}
+          {copyBlocks.trim().length > 0 && !uiDescription.trim() && (
+            <Alert variant="warning">
+              Add a screen description above to run an audit. This field is optional context.
             </Alert>
-          </div>
-        )}
+          )}
 
-        {/* Warning: Field 2 has content but Field 1 is empty */}
-        {copyBlocks.trim().length > 0 && !uiDescription.trim() && (
-          <Alert variant="warning">
-            Add a screen description above to run an audit. This field is optional context.
-          </Alert>
-        )}
+          <Button
+            variant="primary"
+            size="md"
+            type="submit"
+            disabled={requestState === 'loading' || !isFormValid}
+            aria-busy={requestState === 'loading'}
+            className={requestState === 'loading' ? 'btn-loading' : ''}
+          >
+            {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
+          </Button>
+        </div>
 
-        <Button
-          variant="primary"
-          size="md"
-          type="submit"
-          disabled={requestState === 'loading' || !isFormValid}
-          aria-busy={requestState === 'loading'}
-          className={requestState === 'loading' ? 'btn-loading' : ''}
-        >
-          {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
-        </Button>
-
-        <div className="space-y-24" style={{ marginTop: 'var(--space-32)' }}>
+        {/* Supporting info section */}
+        <div className="space-y-24">
           {/* Helper text block */}
           <div className="space-y-4">
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
