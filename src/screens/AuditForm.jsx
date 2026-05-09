@@ -463,21 +463,22 @@ function AuditForm({ onResults }) {
           )}
         </div>
 
-        {/* Optional context section */}
         <div className="flex flex-col gap-16">
-          <TextArea
-            id="ui-copy"
-            label="Add context about user goals, constraints, or edge cases (optional)"
-            placeholder="Example: Users navigate with keyboard only, or used in low-light environments"
-            value={copyBlocks}
-            onChange={handleCopyBlocksChange}
-            required={false}
-            isLoading={requestState === 'loading'}
-          />
-        </div>
+          {/* Optional context section */}
+          <div className="flex flex-col gap-16">
+            <TextArea
+              id="ui-copy"
+              label="Add context about user goals, constraints, or edge cases (optional)"
+              placeholder="Example: Users navigate with keyboard only, or used in low-light environments"
+              value={copyBlocks}
+              onChange={handleCopyBlocksChange}
+              required={false}
+              isLoading={requestState === 'loading'}
+            />
+          </div>
 
-        {/* Submit section */}
-        <div className="space-y-24">
+          {/* Submit section */}
+          <div className="space-y-24">
           {/* Loading state UI */}
           {requestState === 'loading' && (
             <div className="flex items-center gap-16" role="status" aria-live="polite">
@@ -517,6 +518,7 @@ function AuditForm({ onResults }) {
           >
             {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
           </Button>
+          </div>
         </div>
 
         {/* Supporting info section */}
