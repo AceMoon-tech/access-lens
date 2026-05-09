@@ -124,20 +124,22 @@
 /* SECONDARY */
 .btn-secondary {
   background-color: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border-default);
+  color: var(--text-default);
+  border: 1px solid
+    color-mix(in srgb, var(--text-default) 38%, var(--border-strong));
   box-shadow: none;
 }
 
 .btn-secondary:hover:not(:disabled) {
   background-color: var(--surface-2);
   color: var(--text-default);
-  border-color: var(--border-strong);
+  border-color: color-mix(in srgb, var(--text-default) 48%, var(--border-strong));
 }
 
 .btn-secondary:active:not(:disabled) {
   transform: translateY(1px);
   background-color: var(--surface-3);
+  border-color: color-mix(in srgb, var(--text-default) 55%, var(--border-strong));
 }
 
 .btn-md {
@@ -148,7 +150,7 @@
 }
 
 .btn-sm {
-  padding: var(--space-8) var(--space-12);
+  padding: var(--button-padding-y) var(--button-padding-x);
   border-radius: var(--radius-full);
   font-size: var(--text-sm);
   line-height: var(--text-sm-leading);
