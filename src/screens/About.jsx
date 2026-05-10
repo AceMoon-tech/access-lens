@@ -31,7 +31,6 @@ function About() {
         </p>
 
         <p 
-          className="mb-16"
           style={{
             fontSize: 'var(--text-body)',
             lineHeight: 'var(--text-body-leading)',
@@ -41,21 +40,42 @@ function About() {
           This tool provides early accessibility guidance based on screen descriptions.
           It is not an accessibility checker, validator, or certification tool, and does not determine compliance.
         </p>
+      </section>
 
-        <ul 
-          className="list-disc list-inside space-y-8"
+      {/* Positioning: vs general AI */}
+      <section>
+        <h2 
+          className="font-semibold mb-16"
+          style={{
+            fontSize: 'var(--text-h2)',
+            lineHeight: 'var(--text-h2-leading)',
+            fontWeight: 'var(--text-h2-weight)',
+            color: 'var(--text-default)'
+          }}
+        >
+          Why not just use a general AI tool?
+        </h2>
+
+        <p 
+          className="mb-16"
           style={{
             fontSize: 'var(--text-body)',
             lineHeight: 'var(--text-body-leading)',
             color: 'var(--text-muted)'
           }}
         >
-          <li>React 19</li>
-          <li>Vite for fast development</li>
-          <li>Custom CSS (with a full design-token system)</li>
-          <li>React Router for navigation</li>
-          <li>State layer with lightweight stores</li>
-        </ul>
+          General AI tools can provide accessibility advice, but they often depend on how well the prompt is written. Access Lens gives that process structure. It helps turn screen descriptions into focused accessibility guidance, using consistent output fields like potential issue, affected users, rationale, suggested fix, and WCAG reference.
+        </p>
+
+        <p 
+          style={{
+            fontSize: 'var(--text-body)',
+            lineHeight: 'var(--text-body-leading)',
+            color: 'var(--text-muted)'
+          }}
+        >
+          It is not a compliance checker or automated validator. It is a design-phase assistant for surfacing risks earlier, before design or code hardens.
+        </p>
       </section>
 
       {/* Privacy Section */}

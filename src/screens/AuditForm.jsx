@@ -365,7 +365,7 @@ function AuditForm({ onResults }) {
             color: 'var(--text-muted)'
           }}
         >
-          Describe one screen or short flow to surface early accessibility risks.
+          Early accessibility guidance for screens, flows, and UI concepts.
         </p>
       </div>
 
