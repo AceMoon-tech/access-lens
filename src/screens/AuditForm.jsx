@@ -372,9 +372,10 @@ function AuditForm({ onResults }) {
       <form
         onSubmit={handleSubmit}
         aria-busy={requestState === 'loading'}
-        className="space-y-32"
+        className="flex flex-col"
         noValidate
       >
+        <div className="flex flex-col gap-32">
         {/* Describe section */}
         <div className="flex flex-col gap-16">
           <TextArea
@@ -520,9 +521,10 @@ function AuditForm({ onResults }) {
           </Button>
           </div>
         </div>
+        </div>
 
         {/* Supporting info section */}
-        <div className="space-y-24">
+        <div className="space-y-24 mt-64">
           {/* Helper text block */}
           <div className="space-y-4">
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>

@@ -229,6 +229,10 @@ body {
   margin-bottom: 2rem; /* 32px */
 }
 
+.mt-64 {
+  margin-top: var(--space-64);
+}
+
 .gap-8 {
   gap: 0.5rem; /* 8px */
 }
