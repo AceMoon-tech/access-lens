@@ -64,6 +64,13 @@ function ChevronIcon({ isOpen, className = '' }) {
 // - formMessages.loadingMessage: "Running audit…"
 // - formMessages.successConfirmation: "Ready to audit"
 
+const GUIDED_QUESTIONS = [
+  'What screen or flow is this?',
+  'What should we picture on that screen?',
+  'What are users trying to do?',
+  'Any constraints or edge cases? (optional)'
+]
+
 function AuditForm({ onResults }) {
   const { auditFormInputs, updateAuditFormInputs, setAuditResults } = useApp()
   
@@ -99,6 +106,9 @@ function AuditForm({ onResults }) {
   const [showInputGuidance, setShowInputGuidance] = useState(false)
   const [improveLoading, setImproveLoading] = useState(false)
   const [improveErrorMessage, setImproveErrorMessage] = useState('')
+  const [reviewMode, setReviewMode] = useState('quick') // "quick" | "guided"
+  const [guidedStep, setGuidedStep] = useState(1) // 1–5 (1–4 questions, 5 review)
+  const [guidedAnswers, setGuidedAnswers] = useState(['', '', '', ''])
 
   // Validation function for ui-description
   function validateUiDescription(value) {
@@ -190,6 +200,18 @@ function AuditForm({ onResults }) {
     const value = e.target.value
     setCopyBlocks(value)
     updateAuditFormInputs({ copyBlocks: value })
+  }
+
+  function handleBuildAuditDescription() {
+    const [a1, a2, a3, a4] = guidedAnswers
+    const parts = [a1, a2, a3].map((s) => s.trim()).filter(Boolean)
+    const nextDescription = parts.join('\n\n')
+    const nextCopy = (a4 ?? '').trim()
+    setUiDescription(nextDescription)
+    setCopyBlocks(nextCopy)
+    updateAuditFormInputs({ uiDescription: nextDescription, copyBlocks: nextCopy })
+    setUiDescriptionError(validateUiDescription(nextDescription))
+    setGuidedStep(5)
   }
 
   // Check if form is valid (required fields must pass validation)
@@ -375,9 +397,56 @@ function AuditForm({ onResults }) {
         className="flex flex-col"
         noValidate
       >
+        <div className="mb-32">
+          <h2
+            id="review-mode-heading"
+            className="font-semibold mb-16"
+            style={{
+              fontSize: 'var(--text-h2)',
+              lineHeight: 'var(--text-h2-leading)',
+              fontWeight: 'var(--text-h2-weight)',
+              color: 'var(--text-default)'
+            }}
+          >
+            Choose how you want to start
+          </h2>
+          <div
+            className="grid grid-cols-2 gap-16"
+            role="group"
+            aria-labelledby="review-mode-heading"
+          >
+            <button
+              type="button"
+              className={`review-mode-option${reviewMode === 'quick' ? ' review-mode-option--selected' : ''}`}
+              aria-pressed={reviewMode === 'quick'}
+              disabled={requestState === 'loading'}
+              onClick={() => setReviewMode('quick')}
+            >
+              <span className="review-mode-option__title">Quick Review</span>
+              <span className="review-mode-option__description">
+                Paste or describe a screen yourself. Best when you already know what you want reviewed.
+              </span>
+            </button>
+            <button
+              type="button"
+              className={`review-mode-option${reviewMode === 'guided' ? ' review-mode-option--selected' : ''}`}
+              aria-pressed={reviewMode === 'guided'}
+              disabled={requestState === 'loading'}
+              onClick={() => setReviewMode('guided')}
+            >
+              <span className="review-mode-option__title">Guided Review</span>
+              <span className="review-mode-option__description">
+                Answer a few questions and Access Lens builds the audit description. Best when you want help shaping the input.
+              </span>
+            </button>
+          </div>
+        </div>
+
         <div className="flex flex-col gap-32">
         {/* Describe section */}
         <div className="flex flex-col gap-16">
+          {reviewMode === 'quick' ? (
+            <>
           <TextArea
             id="ui-description"
             label="Describe the screen or flow"
@@ -462,10 +531,162 @@ function AuditForm({ onResults }) {
               </div>
             </Card>
           )}
+            </>
+          ) : (
+            <>
+              {guidedStep === 5 ? (
+                <>
+                  <p
+                    className="text-sm font-medium"
+                    style={{ color: 'var(--text-muted)' }}
+                    aria-live="polite"
+                  >
+                    Step 5 of 5
+                  </p>
+                  <h2
+                    className="font-semibold mb-16"
+                    style={{
+                      fontSize: 'var(--text-h2)',
+                      lineHeight: 'var(--text-h2-leading)',
+                      fontWeight: 'var(--text-h2-weight)',
+                      color: 'var(--text-default)'
+                    }}
+                  >
+                    Review your audit description
+                  </h2>
+                  {uiDescriptionError ? (
+                    <div className="mb-16">
+                      <Alert variant="error">{uiDescriptionError}</Alert>
+                    </div>
+                  ) : null}
+                  <div className="mb-16">
+                    <p
+                      className="text-sm font-medium mb-8"
+                      style={{ color: 'var(--text-default)' }}
+                    >
+                      Audit description
+                    </p>
+                    <p
+                      className="text-sm"
+                      style={{
+                        color: 'var(--text-muted)',
+                        whiteSpace: 'pre-wrap',
+                        lineHeight: 'var(--text-body-leading)'
+                      }}
+                    >
+                      {uiDescription}
+                    </p>
+                  </div>
+                  {copyBlocks.trim() ? (
+                    <div className="mb-16">
+                      <p
+                        className="text-sm font-medium mb-8"
+                        style={{ color: 'var(--text-default)' }}
+                      >
+                        Optional context
+                      </p>
+                      <p
+                        className="text-sm"
+                        style={{
+                          color: 'var(--text-muted)',
+                          whiteSpace: 'pre-wrap',
+                          lineHeight: 'var(--text-body-leading)'
+                        }}
+                      >
+                        {copyBlocks}
+                      </p>
+                    </div>
+                  ) : null}
+                  <div className="flex flex-wrap items-center gap-16">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="md"
+                      disabled={requestState === 'loading'}
+                      onClick={() => setGuidedStep(4)}
+                    >
+                      Back
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+              <p
+                className="text-sm font-medium"
+                style={{ color: 'var(--text-muted)' }}
+                aria-live="polite"
+              >
+                Step {guidedStep} of 5
+              </p>
+              <TextArea
+                id={`guided-answer-${guidedStep}`}
+                label={GUIDED_QUESTIONS[guidedStep - 1]}
+                placeholder=""
+                value={guidedAnswers[guidedStep - 1]}
+                onChange={(e) => {
+                  const idx = guidedStep - 1
+                  setGuidedAnswers((prev) => {
+                    const next = [...prev]
+                    next[idx] = e.target.value
+                    return next
+                  })
+                }}
+                required={false}
+                isLoading={requestState === 'loading'}
+              />
+              <div className="flex flex-wrap items-center gap-16">
+                {guidedStep > 1 ? (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="md"
+                  disabled={requestState === 'loading'}
+                  onClick={() => setGuidedStep((s) => Math.max(1, s - 1))}
+                >
+                  Back
+                </Button>
+                ) : null}
+                {guidedStep < 4 ? (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="md"
+                    disabled={
+                      requestState === 'loading' ||
+                      !guidedAnswers[guidedStep - 1].trim()
+                    }
+                    onClick={() =>
+                      setGuidedStep((s) => (s < 4 ? s + 1 : s))
+                    }
+                  >
+                    Next
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="md"
+                    disabled={
+                      requestState === 'loading' ||
+                      !guidedAnswers
+                        .slice(0, 3)
+                        .every((s) => s.trim().length > 0)
+                    }
+                    onClick={handleBuildAuditDescription}
+                  >
+                    Build audit description
+                  </Button>
+                )}
+              </div>
+                </>
+              )}
+            </>
+          )}
         </div>
 
         <div className="flex flex-col gap-16">
           {/* Optional context section */}
+          {reviewMode === 'quick' ? (
           <div className="flex flex-col gap-16">
             <TextArea
               id="ui-copy"
@@ -477,8 +698,10 @@ function AuditForm({ onResults }) {
               isLoading={requestState === 'loading'}
             />
           </div>
+          ) : null}
 
           {/* Submit section */}
+          {reviewMode === 'quick' || (reviewMode === 'guided' && guidedStep === 5) ? (
           <div className="space-y-24">
           {/* Loading state UI */}
           {requestState === 'loading' && (
@@ -520,10 +743,12 @@ function AuditForm({ onResults }) {
             {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
           </Button>
           </div>
+          ) : null}
         </div>
         </div>
 
         {/* Supporting info section */}
+        {reviewMode === 'quick' ? (
         <div className="space-y-24 mt-64">
           {/* Helper text block */}
           <div className="space-y-4">
@@ -545,6 +770,7 @@ function AuditForm({ onResults }) {
             </p>
           </Card>
         </div>
+        ) : null}
       </form>
     </PageContainer>
   )
