@@ -11,29 +11,7 @@ import { trackAuditStarted, trackAuditFailed } from '../lib/analytics'
 import { createAudit } from '../lib/api/audits'
 import { useApp } from '../state/AppContext'
 
-// Info icon for guidance
-function InfoIcon({ className = '' }) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      <circle cx="12" cy="12" r="10" />
-      <line x1="12" y1="16" x2="12" y2="12" />
-      <line x1="12" y1="8" x2="12.01" y2="8" />
-    </svg>
-  )
-}
-
-// Chevron icon for expandable
+// Chevron icon for expandable (e.g. privacy disclosure)
 function ChevronIcon({ isOpen, className = '' }) {
   return (
     <svg
@@ -103,10 +81,10 @@ function AuditForm({ onResults }) {
   const [wcagVersionError, setWcagVersionError] = useState('')
   const [hasBlurredDescription, setHasBlurredDescription] = useState(false)
   const [hasBlurredWcag, setHasBlurredWcag] = useState(false)
-  const [showInputGuidance, setShowInputGuidance] = useState(false)
+  const [showPrivacyDisclosure, setShowPrivacyDisclosure] = useState(false)
   const [improveLoading, setImproveLoading] = useState(false)
   const [improveErrorMessage, setImproveErrorMessage] = useState('')
-  const [reviewMode, setReviewMode] = useState('quick') // "quick" | "guided"
+  const [reviewMode, setReviewMode] = useState('unset') // "unset" | "quick" | "guided"
   const [guidedStep, setGuidedStep] = useState(1) // 1–5 (1–4 questions, 5 review)
   const [guidedAnswers, setGuidedAnswers] = useState(['', '', '', ''])
 
@@ -398,6 +376,8 @@ function AuditForm({ onResults }) {
         noValidate
       >
         <div className="mb-32">
+          {reviewMode === 'unset' ? (
+            <>
           <h2
             id="review-mode-heading"
             className="font-semibold mb-16"
@@ -411,14 +391,14 @@ function AuditForm({ onResults }) {
             Choose how you want to start
           </h2>
           <div
-            className="grid grid-cols-2 gap-16"
+            className="review-mode-options-grid"
             role="group"
             aria-labelledby="review-mode-heading"
           >
             <button
               type="button"
-              className={`review-mode-option${reviewMode === 'quick' ? ' review-mode-option--selected' : ''}`}
-              aria-pressed={reviewMode === 'quick'}
+              className="review-mode-option"
+              aria-pressed={false}
               disabled={requestState === 'loading'}
               onClick={() => setReviewMode('quick')}
             >
@@ -429,8 +409,8 @@ function AuditForm({ onResults }) {
             </button>
             <button
               type="button"
-              className={`review-mode-option${reviewMode === 'guided' ? ' review-mode-option--selected' : ''}`}
-              aria-pressed={reviewMode === 'guided'}
+              className="review-mode-option"
+              aria-pressed={false}
               disabled={requestState === 'loading'}
               onClick={() => setReviewMode('guided')}
             >
@@ -440,6 +420,32 @@ function AuditForm({ onResults }) {
               </span>
             </button>
           </div>
+            </>
+          ) : (
+            <div className="review-mode-active-header">
+              <p
+                id="review-mode-heading"
+                className="font-semibold"
+                style={{
+                  fontSize: 'var(--text-h2)',
+                  lineHeight: 'var(--text-h2-leading)',
+                  fontWeight: 'var(--text-h2-weight)',
+                  color: 'var(--text-default)'
+                }}
+              >
+                {reviewMode === 'quick' ? 'Quick Review' : 'Guided Review'}
+              </p>
+              <Button
+                type="button"
+                variant="tertiary"
+                size="sm"
+                disabled={requestState === 'loading'}
+                onClick={() => setReviewMode('unset')}
+              >
+                Switch type
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-32">
@@ -478,61 +484,8 @@ function AuditForm({ onResults }) {
               <Alert variant="error">{improveErrorMessage}</Alert>
             ) : null}
           </div>
-          
-          {/* Discoverable guidance toggle */}
-          <button
-            type="button"
-            onClick={() => setShowInputGuidance(!showInputGuidance)}
-            className="flex items-center gap-8 text-sm"
-            style={{
-              color: 'var(--text-muted)',
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer',
-              alignSelf: 'flex-start'
-            }}
-            aria-expanded={showInputGuidance}
-            aria-controls="input-guidance"
-          >
-            <InfoIcon style={{ color: 'var(--text-muted)' }} />
-            <span>What works best for audits?</span>
-            <ChevronIcon isOpen={showInputGuidance} style={{ color: 'var(--text-muted)' }} />
-          </button>
-
-          {/* Expandable guidance content */}
-          {showInputGuidance && (
-            <Card
-              id="input-guidance"
-              className="rounded-sm p-16"
-            >
-              <div className="space-y-12">
-                <div>
-                  <p className="text-sm font-medium mb-8" style={{ color: 'var(--text-default)' }}>
-                    Best results come from:
-                  </p>
-                  <ul className="list-disc space-y-4 pl-20 text-sm" style={{ color: 'var(--text-muted)' }}>
-                    <li>Single screens or small user flows (2–3 steps)</li>
-                    <li>Specific UI components, interactions, and states</li>
-                    <li>Clear descriptions of user actions and goals</li>
-                    <li>Context about user constraints or environments</li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="text-sm font-medium mb-8" style={{ color: 'var(--text-default)' }}>
-                    Less effective for:
-                  </p>
-                  <ul className="list-disc space-y-4 pl-20 text-sm" style={{ color: 'var(--text-muted)' }}>
-                    <li>Entire products or complex multi-screen workflows</li>
-                    <li>High-level feature descriptions without UI details</li>
-                    <li>Abstract concepts without concrete interface elements</li>
-                  </ul>
-                </div>
-              </div>
-            </Card>
-          )}
             </>
-          ) : (
+          ) : reviewMode === 'guided' ? (
             <>
               {guidedStep === 5 ? (
                 <>
@@ -559,7 +512,7 @@ function AuditForm({ onResults }) {
                       <Alert variant="error">{uiDescriptionError}</Alert>
                     </div>
                   ) : null}
-                  <div className="mb-16">
+                  <Card className="rounded-sm p-16 mb-16">
                     <p
                       className="text-sm font-medium mb-8"
                       style={{ color: 'var(--text-default)' }}
@@ -576,9 +529,9 @@ function AuditForm({ onResults }) {
                     >
                       {uiDescription}
                     </p>
-                  </div>
+                  </Card>
                   {copyBlocks.trim() ? (
-                    <div className="mb-16">
+                    <Card className="rounded-sm p-16 mb-16">
                       <p
                         className="text-sm font-medium mb-8"
                         style={{ color: 'var(--text-default)' }}
@@ -595,7 +548,7 @@ function AuditForm({ onResults }) {
                       >
                         {copyBlocks}
                       </p>
-                    </div>
+                    </Card>
                   ) : null}
                   <div className="flex flex-wrap items-center gap-16">
                     <Button
@@ -606,6 +559,16 @@ function AuditForm({ onResults }) {
                       onClick={() => setGuidedStep(4)}
                     >
                       Back
+                    </Button>
+                    <Button
+                      variant="primary"
+                      size="md"
+                      type="submit"
+                      disabled={requestState === 'loading' || !isFormValid}
+                      aria-busy={requestState === 'loading'}
+                      className={requestState === 'loading' ? 'btn-loading' : ''}
+                    >
+                      {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
                     </Button>
                   </div>
                 </>
@@ -674,14 +637,14 @@ function AuditForm({ onResults }) {
                     }
                     onClick={handleBuildAuditDescription}
                   >
-                    Build audit description
+                    Build description
                   </Button>
                 )}
               </div>
                 </>
               )}
             </>
-          )}
+          ) : null}
         </div>
 
         <div className="flex flex-col gap-16">
@@ -732,6 +695,7 @@ function AuditForm({ onResults }) {
             </Alert>
           )}
 
+          {reviewMode === 'quick' ? (
           <Button
             variant="primary"
             size="md"
@@ -742,6 +706,7 @@ function AuditForm({ onResults }) {
           >
             {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
           </Button>
+          ) : null}
           </div>
           ) : null}
         </div>
@@ -750,25 +715,42 @@ function AuditForm({ onResults }) {
         {/* Supporting info section */}
         {reviewMode === 'quick' ? (
         <div className="space-y-24 mt-64">
-          {/* Helper text block */}
-          <div className="space-y-4">
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              Results appear on the next screen and can be exported.
-            </p>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              Guidance only — not a compliance check.
-            </p>
-          </div>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            Guidance only — not a compliance check.
+          </p>
 
-          {/* Privacy section */}
-          <Card className="rounded-sm p-16">
-            <p className="mb-8 text-sm" style={{ color: 'var(--text-default)' }}>
-              <strong>Privacy:</strong>
-            </p>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              Your screen description and optional context are sent to our audit service to generate results. We store generated audit results with a unique ID, not your original input text separately.
-            </p>
-          </Card>
+          <button
+            type="button"
+            onClick={() => setShowPrivacyDisclosure(!showPrivacyDisclosure)}
+            className="flex items-center gap-8 text-sm"
+            style={{
+              color: 'var(--text-muted)',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              alignSelf: 'flex-start'
+            }}
+            aria-expanded={showPrivacyDisclosure}
+            aria-controls="privacy-disclosure-panel"
+          >
+            <span>Privacy and data</span>
+            <ChevronIcon isOpen={showPrivacyDisclosure} style={{ color: 'var(--text-muted)' }} />
+          </button>
+
+          {showPrivacyDisclosure && (
+            <Card
+              id="privacy-disclosure-panel"
+              className="rounded-sm p-16"
+            >
+              <p className="mb-8 text-sm" style={{ color: 'var(--text-default)' }}>
+                <strong>Privacy:</strong>
+              </p>
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                Your screen description and optional context are sent to our audit service to generate results. We store generated audit results with a unique ID, not your original input text separately.
+              </p>
+            </Card>
+          )}
         </div>
         ) : null}
       </form>

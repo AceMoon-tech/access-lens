@@ -3,6 +3,7 @@ import clsx from "clsx";
 const VARIANT_CLASSES = {
   primary: "btn-primary",
   secondary: "btn-secondary",
+  tertiary: "btn-tertiary",
 };
 
 const SIZE_CLASSES = {
