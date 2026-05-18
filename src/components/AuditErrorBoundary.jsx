@@ -40,7 +40,7 @@ function ErrorFallbackWithNavigation({ onReset }) {
           color: 'var(--text-muted)'
         }}
       >
-        An error occurred while processing your audit. Please try starting a new audit.
+        An error occurred while generating guidance. Please try starting new guidance.
       </p>
 
       <Button
@@ -48,7 +48,7 @@ function ErrorFallbackWithNavigation({ onReset }) {
         size="md"
         onClick={handleStartNewAudit}
       >
-        Start new audit
+        Start new guidance
       </Button>
     </div>
   )

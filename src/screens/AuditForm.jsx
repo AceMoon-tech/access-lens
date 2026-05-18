@@ -252,20 +252,20 @@ function AuditForm({ onResults }) {
         if (!response.ok) {
           results = {
             error: results.error || 'server_error',
-            message: results.message || 'An error occurred with the audit service.'
+            message: results.message || 'An error occurred with the guidance service.'
           }
         }
       } catch (apiError) {
         // Convert API errors to expected format
         results = {
           error: 'network_error',
-          message: apiError.message || 'An error occurred with the audit service.'
+          message: apiError.message || 'An error occurred with the guidance service.'
         }
       }
 
       // Check if audit returned an error
       if (results.error) {
-        setErrorMessage("Audit failed to run. We couldn't generate results right now. Please try again in a moment.")
+        setErrorMessage("Guidance couldn't be generated right now. Please try again in a moment.")
         setRequestState('error')
         
         // Track audit failed
@@ -307,7 +307,7 @@ function AuditForm({ onResults }) {
       }
     } catch (err) {
       console.error('Unexpected error:', err)
-      setErrorMessage("Audit failed to run. We couldn't generate results right now. Please try again in a moment.")
+      setErrorMessage("Guidance couldn't be generated right now. Please try again in a moment.")
       setRequestState('error')
       
       // Track audit failed
@@ -361,7 +361,7 @@ function AuditForm({ onResults }) {
             color: 'var(--text-default)'
           }}
         >
-          Run Accessibility Audit
+          Get accessibility guidance
         </h1>
 
         <p 
@@ -575,7 +575,7 @@ function AuditForm({ onResults }) {
                       aria-busy={requestState === 'loading'}
                       className={requestState === 'loading' ? 'btn-loading' : ''}
                     >
-                      {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
+                      {requestState === 'loading' ? formMessages.loadingMessage : 'Get guidance'}
                     </Button>
                   </div>
                 </>
@@ -698,7 +698,7 @@ function AuditForm({ onResults }) {
           {/* Warning: Field 2 has content but Field 1 is empty */}
           {copyBlocks.trim().length > 0 && !uiDescription.trim() && (
             <Alert variant="warning">
-              Add a screen description above to run an audit. This field is optional context.
+              Add a screen description above to get guidance. This field is optional context.
             </Alert>
           )}
 
@@ -711,7 +711,7 @@ function AuditForm({ onResults }) {
             aria-busy={requestState === 'loading'}
             className={requestState === 'loading' ? 'btn-loading' : ''}
           >
-            {requestState === 'loading' ? formMessages.loadingMessage : 'Run Audit'}
+            {requestState === 'loading' ? formMessages.loadingMessage : 'Get guidance'}
           </Button>
           ) : null}
           </div>
@@ -754,7 +754,7 @@ function AuditForm({ onResults }) {
                 <strong>Privacy:</strong>
               </p>
               <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-                Your screen description and optional context are sent to our audit service to generate results. We store generated audit results with a unique ID, not your original input text separately.
+                Your screen description and optional context are sent to our guidance service to generate results. We store generated guidance results with a unique ID, not your original input text separately.
               </p>
             </Card>
           )}

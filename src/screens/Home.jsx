@@ -23,7 +23,7 @@ function Home() {
         className="hero-cta"
         onClick={handleStartNewAudit}
       >
-        Start a new audit
+        Start new guidance
       </Link>
     </div>
   );

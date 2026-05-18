@@ -29,7 +29,7 @@ function ResultsScreen() {
   // Fetch audit results by ID from server
   useEffect(() => {
     if (!auditId) {
-      setError('No audit ID provided')
+      setError('No results ID provided')
       return
     }
 
@@ -48,7 +48,7 @@ function ResultsScreen() {
         if (location.state?.results) {
           setResults(location.state.results)
         } else {
-          setError(err.message || 'Failed to load audit results')
+          setError(err.message || 'Failed to load guidance results')
         }
       } finally {
         setLoading(false)
@@ -114,7 +114,7 @@ function ResultsScreen() {
         <div className="flex flex-col items-center justify-center py-64 gap-16">
           <Loading size="md" />
           <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-            Loading audit results…
+            Loading guidance results…
           </p>
         </div>
       </PageContainer>
@@ -140,7 +140,7 @@ function ResultsScreen() {
             size="md"
             onClick={handleNewAudit}
           >
-            Start New Audit
+            Start new guidance
           </Button>
         </div>
       </PageContainer>
@@ -153,7 +153,7 @@ function ResultsScreen() {
       <PageContainer>
         <div className="space-y-24">
           <Alert variant="error">
-            No results found. Please run an audit first.
+            No results found. Please get guidance first.
           </Alert>
 
           <Button
@@ -161,7 +161,7 @@ function ResultsScreen() {
             size="md"
             onClick={handleNewAudit}
           >
-            Start New Audit
+            Start new guidance
           </Button>
         </div>
       </PageContainer>
@@ -189,7 +189,7 @@ function ResultsScreen() {
             color: 'var(--text-default)'
           }}
         >
-          Audit Results
+          Guidance results
         </h1>
 
         <p 
@@ -248,7 +248,7 @@ function ResultsScreen() {
         >
           <li>Use the <strong style={{ color: 'var(--text-default)' }}>Download JSON</strong> button to save results as a file</li>
           <li>Use the <strong style={{ color: 'var(--text-default)' }}>Copy JSON</strong> button below to copy results to your clipboard</li>
-          <li>Results may be cleared when you close your browser or start a new audit</li>
+          <li>Results may be cleared when you close your browser or start new guidance</li>
         </ul>
 
         <div className="pt-16 flex flex-col gap-16">
@@ -267,7 +267,7 @@ function ResultsScreen() {
               size="md"
               onClick={handleNewAudit}
             >
-              Run New Audit
+              Start new guidance
             </Button>
           </div>
         </div>

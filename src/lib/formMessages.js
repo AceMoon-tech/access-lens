@@ -17,9 +17,9 @@ export const formMessages = {
   overlyDetailedWarning: 'A brief screen-level description works best. Focus on key elements and interactions',
 
   // Loading message
-  loadingMessage: 'Audit in progress. Please wait…',
+  loadingMessage: 'Generating guidance. Please wait…',
 
   // Success confirmation
-  successConfirmation: 'Ready to audit',
+  successConfirmation: 'Ready for guidance',
 }
 
