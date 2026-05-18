@@ -182,9 +182,16 @@ function AuditForm({ onResults }) {
 
   function handleBuildAuditDescription() {
     const [a1, a2, a3, a4] = guidedAnswers
-    const parts = [a1, a2, a3].map((s) => s.trim()).filter(Boolean)
-    const nextDescription = parts.join('\n\n')
-    const nextCopy = (a4 ?? '').trim()
+    const descriptionLabels = ['Screen / flow:', 'UI details:', 'User goals:']
+    const nextDescription = [a1, a2, a3]
+      .map((s, i) => ({ text: s.trim(), label: descriptionLabels[i] }))
+      .filter(({ text }) => text.length > 0)
+      .map(({ text, label }) => `${label}\n${text}`)
+      .join('\n\n')
+    const a4Trimmed = (a4 ?? '').trim()
+    const nextCopy = a4Trimmed
+      ? `Constraints / edge cases:\n${a4Trimmed}`
+      : ''
     setUiDescription(nextDescription)
     setCopyBlocks(nextCopy)
     updateAuditFormInputs({ uiDescription: nextDescription, copyBlocks: nextCopy })

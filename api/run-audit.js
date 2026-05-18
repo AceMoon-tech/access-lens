@@ -174,6 +174,28 @@ export default async function handler(req, res) {
     // Detect if input is near-minimum detail (for partial results warning)
     const nearMinimumDetail = isNearMinimumDetail(input);
 
+    const trimmedContext =
+      typeof context === "string" ? context.trim() : "";
+    const userPrompt = trimmedContext
+      ? `
+Screen description:
+
+${input}
+
+Additional context:
+
+${trimmedContext}
+
+Return only valid JSON matching the required schema.
+      `.trim()
+      : `
+Screen description:
+
+${input}
+
+Return only valid JSON matching the required schema.
+      `.trim();
+
     const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
       temperature: 0.2,
@@ -255,13 +277,7 @@ Return JSON in this exact shape:
         },
         {
           role: "user",
-          content: `
-Screen description:
-
-${input}
-
-Return only valid JSON matching the required schema.
-          `.trim(),
+          content: userPrompt,
         },
       ],
     });
