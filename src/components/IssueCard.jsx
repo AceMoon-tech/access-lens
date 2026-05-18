@@ -1,4 +1,5 @@
 import Card from './Card'
+import { formatWcagRef } from '../lib/wcagRefs'
 
 // Severity icons
 function HighSeverityIcon({ className = '', style }) {
@@ -194,9 +195,13 @@ function IssueCard({ issue }) {
           <p className="text-xs font-semibold text-muted uppercase tracking-wide">
             WCAG references
           </p>
-          <p className="text-muted text-sm">
-            {issue.wcagRefs.join(", ")}
-          </p>
+          <ul className="list-disc pl-16 space-y-8">
+            {issue.wcagRefs.map((ref, i) => (
+              <li key={i} className="text-muted text-sm">
+                {formatWcagRef(ref)}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
