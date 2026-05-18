@@ -400,11 +400,11 @@ function AuditForm({ onResults }) {
               className="review-mode-option"
               aria-pressed={false}
               disabled={requestState === 'loading'}
-              onClick={() => setReviewMode('quick')}
+              onClick={() => setReviewMode('guided')}
             >
-              <span className="review-mode-option__title">Quick Review</span>
+              <span className="review-mode-option__title">Guided Review</span>
               <span className="review-mode-option__description">
-                Paste or describe a screen yourself. Best when you already know what you want reviewed.
+                Answer a few questions and Access Lens builds the audit description. Best when you want help shaping the input.
               </span>
             </button>
             <button
@@ -412,11 +412,11 @@ function AuditForm({ onResults }) {
               className="review-mode-option"
               aria-pressed={false}
               disabled={requestState === 'loading'}
-              onClick={() => setReviewMode('guided')}
+              onClick={() => setReviewMode('quick')}
             >
-              <span className="review-mode-option__title">Guided Review</span>
+              <span className="review-mode-option__title">Quick Review</span>
               <span className="review-mode-option__description">
-                Answer a few questions and Access Lens builds the audit description. Best when you want help shaping the input.
+                Paste or describe a screen yourself. Best when you already know what you want reviewed.
               </span>
             </button>
           </div>
