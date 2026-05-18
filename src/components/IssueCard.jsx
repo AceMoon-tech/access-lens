@@ -111,6 +111,9 @@ function IssueCard({ issue }) {
   const hasDescription =
     !!issue.description && String(issue.description).trim() !== ""
 
+  const hasSuggestedFix =
+    !!issue.suggestedFix && String(issue.suggestedFix).trim() !== ''
+
   const hasWcagRefs = Array.isArray(issue.wcagRefs) && issue.wcagRefs.length > 0
 
   return (
@@ -174,6 +177,16 @@ function IssueCard({ issue }) {
         </p>
         <p className="text-default text-sm">{issue.whyItMatters || "Not specified."}</p>
       </div>
+
+      {/* Suggested fix */}
+      {hasSuggestedFix && (
+        <div className="space-y-4">
+          <p className="text-xs font-semibold text-muted uppercase tracking-wide">
+            Suggested fix
+          </p>
+          <p className="text-default text-sm">{issue.suggestedFix}</p>
+        </div>
+      )}
 
       {/* WCAG refs */}
       {hasWcagRefs && (

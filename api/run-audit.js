@@ -247,6 +247,8 @@ Each issue MUST include ALL fields below (in this exact order):
   (MUST use conditional phrasing only. Impacted user groups.)
 - whyItMatters: string
   (MUST use conditional phrasing only. User impact or usability risk.)
+- suggestedFix: string
+  (MUST use conditional phrasing only. A concrete design-oriented mitigation the team could apply in the UI—labels, layout, interaction, or content changes. MUST NOT repeat or paraphrase the guidance issue; focus on what to do differently.)
 - wcagRefs: array of WCAG reference strings
 - severity: "low" | "medium" | "high"
   (MUST represent potential user impact, not a confirmed failure. NEVER implies compliance/failure.)
@@ -268,6 +270,7 @@ Return JSON in this exact shape:
       "guidance": "",
       "whoItAffects": "",
       "whyItMatters": "",
+      "suggestedFix": "",
       "wcagRefs": [],
       "severity": "low"
     }
