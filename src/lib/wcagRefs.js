@@ -9,6 +9,7 @@ const WCAG_CRITERION_NAMES = {
   '1.4.11': 'Non-text Contrast',
   '2.4.3': 'Focus Order',
   '2.4.4': 'Link Purpose (In Context)',
+  '2.4.6': 'Headings and Labels',
   '2.5.5': 'Target Size',
   '3.3.1': 'Error Identification',
   '3.3.2': 'Labels or Instructions',
