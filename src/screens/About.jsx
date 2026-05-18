@@ -26,8 +26,7 @@ function About() {
             color: 'var(--text-muted)'
           }}
         >
-          Access Lens is a lightweight accessibility auditor designed to help you
-          evaluate UI concepts using natural language descriptions.
+          Access Lens is a lightweight tool for early accessibility guidance on UI concepts described in natural language.
         </p>
 
         <p 
@@ -37,7 +36,7 @@ function About() {
             color: 'var(--text-muted)'
           }}
         >
-          This tool provides early accessibility guidance based on screen descriptions.
+          This tool provides hypothetical, design-phase accessibility guidance based on screen descriptions.
           It is not an accessibility checker, validator, or certification tool, and does not determine compliance.
         </p>
       </section>
@@ -64,7 +63,7 @@ function About() {
             color: 'var(--text-muted)'
           }}
         >
-          General AI tools can provide accessibility advice, but they often depend on how well the prompt is written. Access Lens gives that process structure. It helps turn screen descriptions into focused accessibility guidance, using consistent output fields like potential issue, affected users, rationale, suggested fix, and WCAG reference.
+          General AI tools can provide accessibility advice, but they often depend on how well the prompt is written. Access Lens gives that process structure. It helps turn screen descriptions into focused accessibility guidance, using consistent output fields like potential consideration, affected users, rationale, suggested fix, and related WCAG criteria for discussion.
         </p>
 
         <p 
@@ -104,7 +103,7 @@ function About() {
               <strong style={{ color: 'var(--text-default)' }}>What we send:</strong>
             </p>
             <p>
-              When you run an audit, we send your UI description and copy blocks to our audit service to generate accessibility feedback. This is the only data transmitted.
+              When you request guidance, we send your UI description and copy blocks to our guidance service to generate accessibility feedback. This is the only data transmitted.
             </p>
           </div>
 
@@ -113,7 +112,7 @@ function About() {
               <strong style={{ color: 'var(--text-default)' }}>What we store:</strong>
             </p>
             <p>
-              Audit results are stored on our servers with a unique audit ID. This allows you to access your results later via the audit ID. We don't store your original input text separately—only the generated audit results.
+              Guidance results are stored on our servers with a unique results ID. This allows you to access your results later via the results ID. We don't store your original input text separately—only the generated guidance results.
             </p>
           </div>
 
@@ -122,7 +121,7 @@ function About() {
               <strong style={{ color: 'var(--text-default)' }}>Your control:</strong>
             </p>
             <p>
-              You can download or copy your audit results at any time. Results are accessible via the audit ID until you choose to delete them or they expire per our retention policy.
+              You can download or copy your guidance results at any time. Results are accessible via the results ID until you choose to delete them or they expire per our retention policy.
             </p>
           </div>
         </div>
