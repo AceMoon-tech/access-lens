@@ -10,10 +10,12 @@ import PageContainer from '../components/PageContainer'
 import CopyJsonButton from '../components/CopyJsonButton'
 import { trackExportJson } from '../lib/analytics'
 import { getAuditById } from '../lib/api/audits'
+import { useApp } from '../state/AppContext'
 
 function ResultsScreen() {
   const location = useLocation()
   const navigate = useNavigate()
+  const { clearAuditFormInputs } = useApp()
   const params = useParams()
   const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -58,6 +60,7 @@ function ResultsScreen() {
   }, [auditId]) // Only re-fetch if auditId changes
 
   function handleNewAudit() {
+    clearAuditFormInputs()
     navigate('/audit')
   }
 

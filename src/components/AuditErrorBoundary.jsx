@@ -1,12 +1,15 @@
 import { Component } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from './Button'
+import { useApp } from '../state/AppContext'
 
 // Wrapper component to use navigate hook
 function ErrorFallbackWithNavigation({ onReset }) {
   const navigate = useNavigate()
+  const { clearAuditFormInputs } = useApp()
 
   function handleStartNewAudit() {
+    clearAuditFormInputs()
     onReset()
     navigate('/audit')
   }
