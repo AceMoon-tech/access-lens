@@ -9,12 +9,12 @@ function Results({ results, loading = false, errorText }) {
       <div
         role="status"
         aria-live="polite"
-        aria-label="Loading audit results"
+        aria-label="Generating guidance results"
         className="flex flex-col items-center justify-center py-64 gap-16"
       >
         <Loading size="md" />
         <p className="text-muted text-base" style={{ color: 'var(--text-muted)' }}>
-          Audit in progress. Please wait…
+          Generating guidance. Please wait…
         </p>
       </div>
     )
@@ -44,7 +44,7 @@ function Results({ results, loading = false, errorText }) {
     <div
       role="region"
       aria-live="polite"
-      aria-label="Accessibility audit results"
+      aria-label="Accessibility guidance results"
       className="space-y-24"
     >
       {/* Error state UI (client-side / pipeline errorText) */}
