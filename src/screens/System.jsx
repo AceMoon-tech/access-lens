@@ -1,50 +1,8 @@
-import { useState } from 'react'
-import Button from '../components/Button'
-import Card from '../components/Card'
-import Alert from '../components/Alert'
-import TextArea from '../components/TextArea'
-import Loading from '../components/Loading'
-import IssueCard from '../components/IssueCard'
-
-const h1Style = {
-  fontSize: 'var(--text-h1)',
-  lineHeight: 'var(--text-h1-leading)',
-  fontWeight: 'var(--text-h1-weight)',
-  color: 'var(--text-default)',
-}
-
-const h2Style = {
-  fontSize: 'var(--text-h2)',
-  lineHeight: 'var(--text-h2-leading)',
-  fontWeight: 'var(--text-h2-weight)',
-  color: 'var(--text-default)',
-}
-
-const h3Style = {
-  fontSize: 'var(--text-body)',
-  fontWeight: 'var(--weight-semibold)',
-  color: 'var(--text-default)',
-}
-
-const mutedBody = {
-  fontSize: 'var(--text-body)',
-  lineHeight: 'var(--text-body-leading)',
-  color: 'var(--text-muted)',
-}
-
-const DEMO_ISSUE = {
-  id: 'system-demo',
-  severity: 'medium',
-  guidance: 'If present, ensure controls have visible labels or accessible names.',
-  whoItAffects: 'People using assistive technology may be affected.',
-  whyItMatters: 'Could impact completion if names are unclear.',
-  suggestedFix: 'Consider visible labels paired with each interactive control.',
-  wcagRefs: ['3.3.2'],
-}
-
-/** Design system reference page (components + foundation tokens). */
+/**
+ * This file is documentation-only. It intentionally visualizes tokens using raw divs.
+ * Design-system components (Card, Alert, Button) are not used by design.
+ */
 function System() {
-  const [demoInput, setDemoInput] = useState('')
   return (
     <div className="space-y-24">
       <section>
@@ -57,145 +15,25 @@ function System() {
             color: 'var(--text-default)'
           }}
         >
-          Design System
+          Design Tokens
         </h1>
-        <p style={{ ...mutedBody, marginBottom: 0 }}>
-          Component and pattern reference for Access Lens. Foundation tokens are at the bottom.
-        </p>
       </section>
 
+      {/* Colors */}
       <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Positioning</h2>
-        <Card className="rounded-sm">
-          <p style={{ ...mutedBody, marginBottom: 'var(--space-8)' }}>
-            <strong style={{ color: 'var(--text-default)' }}>Guidance only</strong> — not a compliance check, validator, or certification tool.
-          </p>
-          <p style={{ ...mutedBody, marginBottom: 0 }}>
-            <strong style={{ color: 'var(--text-default)' }}>Severity</strong> means <em>potential impact</em> (high / medium / low), not pass, fail, or WCAG conformance.
-          </p>
-        </Card>
-      </section>
+        <h2 
+          className="font-semibold mb-16"
+          style={{
+            fontSize: 'var(--text-h2)',
+            lineHeight: 'var(--text-h2-leading)',
+            fontWeight: 'var(--text-h2-weight)',
+            color: 'var(--text-default)'
+          }}
+        >
+          Colors
+        </h2>
 
-      <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Buttons</h2>
-        <p className="mb-16" style={mutedBody}>
-          Primary (main action), secondary (alternate), tertiary (low emphasis). Sizes: md, sm.
-        </p>
-        <div className="flex flex-wrap gap-16 mb-16">
-          <Button variant="primary" size="md" type="button">Primary</Button>
-          <Button variant="secondary" size="md" type="button">Secondary</Button>
-          <Button variant="tertiary" size="md" type="button">Tertiary</Button>
-          <Button variant="primary" size="sm" type="button">Primary sm</Button>
-        </div>
-        <div className="flex flex-wrap gap-16">
-          <Button variant="primary" size="md" type="button" disabled>Disabled</Button>
-          <Button variant="primary" size="md" type="button" className="btn-loading" aria-busy="true">Loading</Button>
-        </div>
-      </section>
-
-      <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Cards &amp; surfaces</h2>
-        <div className="flex flex-col gap-16">
-          <div>
-            <h3 className="font-semibold mb-12" style={h3Style}>Default card</h3>
-            <Card>
-              <p style={{ ...mutedBody, marginBottom: 0 }}>Standard <code>card-base</code> surface for results and summaries.</p>
-            </Card>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-12" style={h3Style}>Compact review card</h3>
-            <Card className="rounded-sm p-16">
-              <p className="text-sm font-medium mb-8" style={{ color: 'var(--text-default)', marginTop: 0 }}>Screen description</p>
-              <p className="text-sm" style={{ ...mutedBody, marginBottom: 0 }}>Guided review step 5 — tighter padding; not a button.</p>
-            </Card>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-12" style={h3Style}>Static card</h3>
-            <Card>
-              <p style={{ ...mutedBody, marginBottom: 0 }}>Display-only. No hover elevation or pointer cursor unless the card is the action.</p>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Review mode selector</h2>
-        <p className="mb-16" style={mutedBody}>Audit form choice tiles. Selected: <code>review-mode-option--selected</code>.</p>
-        <div className="review-mode-options-grid">
-          <button type="button" className="review-mode-option" aria-pressed={false}>
-            <span className="review-mode-option__title">Default</span>
-            <span className="review-mode-option__description">Unselected tile on the mode chooser.</span>
-          </button>
-          <button type="button" className="review-mode-option review-mode-option--selected" aria-pressed={true}>
-            <span className="review-mode-option__title">Selected</span>
-            <span className="review-mode-option__description">Stronger border after guided or quick is chosen.</span>
-          </button>
-        </div>
-      </section>
-
-      <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Form controls</h2>
-        <div className="flex flex-col gap-24">
-          <TextArea id="ds-textarea-default" label="Default" value={demoInput} onChange={(e) => setDemoInput(e.target.value)} placeholder="Describe a screen or flow…" helperText="Helper text — muted tone with info icon." />
-          <TextArea id="ds-textarea-error" label="Error" value="" onChange={() => {}} errorText="Example validation message." />
-          <TextArea id="ds-textarea-warning" label="Warning" value="" onChange={() => {}} warningText="Example soft warning." />
-          <TextArea id="ds-textarea-success" label="Success" value="" onChange={() => {}} successText="Example success hint." />
-        </div>
-      </section>
-
-      <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Alerts &amp; status</h2>
-        <div className="flex flex-col gap-16">
-          <Alert variant="error">Error — blocking or failed action.</Alert>
-          <Alert variant="warning">Warning — limited input or partial guidance.</Alert>
-          <Alert variant="success">Success — confirmation or positive status.</Alert>
-          <Alert variant="info">Info — neutral context (e.g. low-confidence input).</Alert>
-          <div className="flex items-center gap-16">
-            <Loading size="md" />
-            <p style={{ ...mutedBody, marginBottom: 0 }}>Loading spinner with caption on results and guidance flows.</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Result card pattern</h2>
-        <p className="mb-16" style={mutedBody}><code>IssueCard</code> — severity rail, potential impact, section labels.</p>
-        <IssueCard issue={DEMO_ISSUE} />
-      </section>
-
-      <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Focus states</h2>
-        <p className="mb-16" style={mutedBody}>Tab to see <code>--focus-ring</code> on controls; inputs also use <code>--focus-bg</code>.</p>
-        <div className="flex flex-wrap gap-16 mb-16">
-          <Button variant="secondary" size="md" type="button">Tab to focus</Button>
-          <input type="text" className="form-input-base" placeholder="Tab to focus input" aria-label="Focus demo input" style={{ maxWidth: '240px' }} />
-        </div>
-        <div className="flex flex-wrap gap-16">
-          <div className="p-16 rounded-sm border" style={{ borderColor: 'var(--focus-ring)' }}>
-            <code style={{ fontSize: 'var(--text-sm)', color: 'var(--text-default)' }}>--focus-ring</code>
-          </div>
-          <div className="p-16 rounded-sm border" style={{ backgroundColor: 'var(--focus-bg)', borderColor: 'var(--border-default)' }}>
-            <code style={{ fontSize: 'var(--text-sm)', color: 'var(--text-default)' }}>--focus-bg</code>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Usage rules</h2>
-        <ul className="list-disc pl-24 space-y-8" style={{ ...mutedBody, marginBottom: 0 }}>
-          <li>Use tokens and <code>premium-components.css</code> — no ad-hoc shadows or colors.</li>
-          <li>Prefer <code>Card</code>, <code>Button</code>, and <code>Alert</code> over one-off styled divs.</li>
-          <li>Static summary cards must not look clickable.</li>
-          <li>Severity colors mean potential impact, not compliance pass or fail.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="font-semibold mb-16" style={h2Style}>Foundation</h2>
-        <p className="mb-24" style={{ ...mutedBody, marginTop: 0 }}>Raw token reference. Use component sections above when building UI.</p>
-
-        <h3 className="font-semibold mb-16" style={h3Style}>Colors</h3>
-        <div className="space-y-24 mb-24">
+        <div className="space-y-24">
           {/* Backgrounds & Surfaces */}
           <div>
             <h3 
@@ -479,9 +317,23 @@ function System() {
             </div>
           </div>
         </div>
+      </section>
 
-        <h3 className="font-semibold mb-16" style={h3Style}>Typography</h3>
-        <div className="space-y-24 mb-24">
+      {/* Typography */}
+      <section>
+        <h2 
+          className="font-semibold mb-16"
+          style={{
+            fontSize: 'var(--text-h2)',
+            lineHeight: 'var(--text-h2-leading)',
+            fontWeight: 'var(--text-h2-weight)',
+            color: 'var(--text-default)'
+          }}
+        >
+          Typography
+        </h2>
+
+        <div className="space-y-24">
           {/* Semantic Scale */}
           <div>
             <h3 
@@ -599,9 +451,23 @@ function System() {
             </div>
           </div>
         </div>
+      </section>
 
-        <h3 className="font-semibold mb-16" style={h3Style}>Spacing</h3>
-        <div className="space-y-24 mb-24">
+      {/* Spacing */}
+      <section>
+        <h2 
+          className="font-semibold mb-16"
+          style={{
+            fontSize: 'var(--text-h2)',
+            lineHeight: 'var(--text-h2-leading)',
+            fontWeight: 'var(--text-h2-weight)',
+            color: 'var(--text-default)'
+          }}
+        >
+          Spacing
+        </h2>
+
+        <div className="space-y-24">
           {[4, 8, 12, 16, 20, 24, 32, 64].map((size) => (
             <div key={size} className="flex items-center gap-16">
               <div 
@@ -618,9 +484,23 @@ function System() {
             </div>
           ))}
         </div>
+      </section>
 
-        <h3 className="font-semibold mb-16" style={h3Style}>Radius</h3>
-        <div className="space-y-24 mb-24">
+      {/* Radius */}
+      <section>
+        <h2 
+          className="font-semibold mb-16"
+          style={{
+            fontSize: 'var(--text-h2)',
+            lineHeight: 'var(--text-h2-leading)',
+            fontWeight: 'var(--text-h2-weight)',
+            color: 'var(--text-default)'
+          }}
+        >
+          Radius
+        </h2>
+
+        <div className="space-y-24">
           <div className="flex items-center gap-16">
             <div 
               className="border"
@@ -697,9 +577,23 @@ function System() {
             </code>
           </div>
         </div>
+      </section>
 
-        <h3 className="font-semibold mb-16" style={h3Style}>Depth (Shadows)</h3>
-        <div className="space-y-24 mb-24">
+      {/* Depth (Shadows) */}
+      <section>
+        <h2 
+          className="font-semibold mb-16"
+          style={{
+            fontSize: 'var(--text-h2)',
+            lineHeight: 'var(--text-h2-leading)',
+            fontWeight: 'var(--text-h2-weight)',
+            color: 'var(--text-default)'
+          }}
+        >
+          Depth (Shadows)
+        </h2>
+
+        <div className="space-y-24">
           <div className="flex items-center gap-16">
             <div 
               className="p-24 rounded-sm"
@@ -740,8 +634,22 @@ function System() {
             </div>
           </div>
         </div>
+      </section>
 
-        <h3 className="font-semibold mb-16" style={h3Style}>States</h3>
+      {/* States */}
+      <section>
+        <h2 
+          className="font-semibold mb-16"
+          style={{
+            fontSize: 'var(--text-h2)',
+            lineHeight: 'var(--text-h2-leading)',
+            fontWeight: 'var(--text-h2-weight)',
+            color: 'var(--text-default)'
+          }}
+        >
+          States
+        </h2>
+
         <div className="space-y-24">
           {/* Focus */}
           <div>
