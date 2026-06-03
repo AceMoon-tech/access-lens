@@ -249,6 +249,8 @@ Each issue MUST include ALL fields below (in this exact order):
   (MUST use conditional phrasing only. User impact or usability risk.)
 - suggestedFix: string
   (MUST use conditional phrasing only. A concrete design-oriented mitigation the team could apply in the UI—labels, layout, interaction, or content changes. MUST NOT repeat or paraphrase the guidance issue; focus on what to do differently.)
+- designExample: string
+  (Plain-text low-fidelity UI layout only—NOT an explanatory paragraph. Use vertical labels, blank lines, and bracket placeholders such as [____________] and [ Sign In ]. NO ASCII box drawings (no ┌ ─ ┐ │ └ characters). NO WCAG or standards mentions. MUST NOT repeat suggestedFix or guidance as sentences. Max ~10 lines. Return "" if no useful design example applies to this issue.)
 - wcagRefs: array of WCAG 2.2 success criterion numbers only (compact ids such as "1.4.3", "2.4.7"—do not include full criterion names or long prose)
 - severity: "low" | "medium" | "high"
   (MUST represent potential user impact, not a confirmed failure. NEVER implies compliance/failure.)
@@ -271,6 +273,7 @@ Return JSON in this exact shape:
       "whoItAffects": "",
       "whyItMatters": "",
       "suggestedFix": "",
+      "designExample": "",
       "wcagRefs": [],
       "severity": "low"
     }

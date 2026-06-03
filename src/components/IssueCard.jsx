@@ -115,6 +115,9 @@ function IssueCard({ issue }) {
   const hasSuggestedFix =
     !!issue.suggestedFix && String(issue.suggestedFix).trim() !== ''
 
+  const hasDesignExample =
+    !!issue.designExample && String(issue.designExample).trim() !== ''
+
   const hasWcagRefs = Array.isArray(issue.wcagRefs) && issue.wcagRefs.length > 0
 
   return (
@@ -186,6 +189,18 @@ function IssueCard({ issue }) {
             Suggested fix
           </p>
           <p className="text-default text-sm">{issue.suggestedFix}</p>
+        </div>
+      )}
+
+      {/* Design example */}
+      {hasDesignExample && (
+        <div className="space-y-4">
+          <p className="text-xs font-semibold text-muted uppercase tracking-wide">
+            Design example
+          </p>
+          <p className="text-default text-sm" style={{ whiteSpace: 'pre-wrap' }}>
+            {issue.designExample}
+          </p>
         </div>
       )}
 
