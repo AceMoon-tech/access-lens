@@ -93,19 +93,156 @@ function ChevronIcon({ expanded, className = '' }) {
   )
 }
 
-function resolveIssueTitle(issue) {
-  const title = issue.title?.trim() || issue.summary?.trim()
-  if (title) return title
+const WCAG_CRITERION_TITLES = {
+  '1.1.1': 'Non-text Content',
+  '1.3.1': 'Info Structure',
+  '1.4.3': 'Color Contrast',
+  '1.4.11': 'Non-text Contrast',
+  '2.4.3': 'Focus Order',
+  '2.4.4': 'Link Purpose',
+  '2.4.6': 'Field Labels',
+  '2.5.5': 'Touch Target Size',
+  '3.3.1': 'Error Messaging',
+  '3.3.2': 'Field Labels',
+  '3.3.3': 'Error Messaging',
+  '4.1.2': 'Accessible Names',
+}
 
-  const guidance = issue.guidance?.trim()
-  if (guidance) {
-    if (guidance.length <= 48) return guidance.replace(/\.$/, '')
-    const cut = guidance.slice(0, 48)
-    const lastSpace = cut.lastIndexOf(' ')
-    return `${lastSpace > 20 ? cut.slice(0, lastSpace) : cut}…`
+const WCAG_ID_PATTERN = /(\d+\.\d+\.\d+)/
+
+const TITLE_KEYWORD_RULES = [
+  { pattern: /\bcontrast\b/i, title: 'Color Contrast' },
+  { pattern: /\blabels?\b|\binstruction/i, title: 'Field Labels' },
+  { pattern: /\bfocus\b|\btab order\b/i, title: 'Focus Order' },
+  { pattern: /\berror\b|\bvalidation\b|\bmessage\b/i, title: 'Error Messaging' },
+  { pattern: /\btouch\b|\btarget size\b|\btap\b/i, title: 'Touch Target Size' },
+  { pattern: /\bheadings?\b/i, title: 'Headings' },
+  { pattern: /\bkeyboard\b/i, title: 'Keyboard Access' },
+  { pattern: /\balt\b|\bnon-text\b|\bimage text\b/i, title: 'Non-text Content' },
+]
+
+const TITLE_STOPWORDS = new Set([
+  'that', 'the', 'a', 'an', 'between', 'and', 'or', 'of', 'to', 'for', 'in', 'on',
+  'with', 'their', 'users', 'present', 'be', 'is', 'are', 'has', 'have', 'this',
+])
+
+const CONDITIONAL_TITLE_PATTERN = /\b(if|may|could|ensure|consider)\b/i
+
+function countTitleWords(text) {
+  return text.trim().split(/\s+/).filter(Boolean).length
+}
+
+function toTitleCase(text) {
+  return text
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 5)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
+
+function isValidTitle(title, guidance) {
+  const t = typeof title === 'string' ? title.trim() : ''
+  if (!t) return false
+
+  const words = countTitleWords(t)
+  if (words < 2 || words > 5) return false
+  if (t.length > 48) return false
+  if (/^\s*(if|may|could|ensure|consider|when|should)\b/i.test(t)) return false
+  if (CONDITIONAL_TITLE_PATTERN.test(t)) return false
+  if (WCAG_ID_PATTERN.test(t) || /\bWCAG\b/i.test(t)) return false
+  if (/[.,;:!?]/.test(t)) return false
+
+  const g = typeof guidance === 'string' ? guidance.trim() : ''
+  if (g) {
+    const tLower = t.toLowerCase()
+    const gLower = g.toLowerCase()
+    if (t.length >= 20 && gLower.startsWith(tLower.slice(0, 20))) return false
+    if (gLower.startsWith(tLower.slice(0, Math.min(30, t.length)))) return false
   }
 
-  return 'Accessibility consideration'
+  return true
+}
+
+function titleFromWcagRefs(wcagRefs) {
+  if (!Array.isArray(wcagRefs)) return null
+  for (const ref of wcagRefs) {
+    const raw = String(ref ?? '').trim()
+    const match = raw.match(WCAG_ID_PATTERN)
+    if (match && WCAG_CRITERION_TITLES[match[1]]) {
+      return WCAG_CRITERION_TITLES[match[1]]
+    }
+  }
+  return null
+}
+
+function titleFromKeywords(text) {
+  if (!text) return null
+  for (const { pattern, title } of TITLE_KEYWORD_RULES) {
+    if (pattern.test(text)) return title
+  }
+  return null
+}
+
+function stripConditionalLead(text) {
+  let result = text.trim()
+  let previous = ''
+  while (previous !== result) {
+    previous = result
+    result = result.replace(
+      /^\s*(if present,?|if|may|could|ensure that|consider whether|when|should)\s+/i,
+      ''
+    )
+  }
+  return result
+}
+
+function titleFromGuidance(guidance) {
+  const stripped = stripConditionalLead(typeof guidance === 'string' ? guidance : '')
+  if (!stripped) return null
+
+  const words = stripped
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .split(/\s+/)
+    .filter((word) => word && !TITLE_STOPWORDS.has(word))
+
+  if (words.length === 0) return null
+
+  const topic = toTitleCase(words.slice(0, 4).join(' '))
+  return countTitleWords(topic) >= 2 ? topic : null
+}
+
+function deriveIssueTitle(issue) {
+  const fromWcag = titleFromWcagRefs(issue.wcagRefs)
+  if (fromWcag) return fromWcag
+
+  const keywordSource = [issue.guidance, issue.suggestedFix]
+    .filter((part) => typeof part === 'string' && part.trim())
+    .join(' ')
+
+  const fromKeywords = titleFromKeywords(keywordSource)
+  if (fromKeywords) return fromKeywords
+
+  const fromGuidance = titleFromGuidance(issue.guidance)
+  if (fromGuidance) return fromGuidance
+
+  return 'Accessibility Topic'
+}
+
+function resolveIssueTitle(issue) {
+  if (!issue) return 'Accessibility Topic'
+
+  const guidance = issue.guidance?.trim() || ''
+
+  const title = issue.title?.trim()
+  if (title && isValidTitle(title, guidance)) return title
+
+  const summary = issue.summary?.trim()
+  if (summary && isValidTitle(summary, guidance)) return summary
+
+  return deriveIssueTitle(issue)
 }
 
 function IssueSection({ label, children, preWrap = false }) {
