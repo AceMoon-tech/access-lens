@@ -241,8 +241,10 @@ Global language rule (MANDATORY):
 
 Each issue MUST include ALL fields below (in this exact order):
 
+- title: string
+  (REQUIRED scan label: 2–5 words, Title Case, specific topic only—e.g. "Color Contrast", "Field Labels", "Focus Order", "Error Messaging", "Touch Target Size". NO conditional phrasing. NO periods. NO WCAG numbers. MUST NOT repeat or paraphrase the full guidance sentence.)
 - guidance: string
-  (MUST use conditional phrasing only. Actionable advice. Never accusatory. Never definitive.)
+  (MUST use conditional phrasing only. Detailed actionable advice. Never accusatory. Never definitive. This is the full issue description—not the short title.)
 - whoItAffects: string
   (MUST use conditional phrasing only. Impacted user groups.)
 - whyItMatters: string
@@ -269,6 +271,7 @@ Return JSON in this exact shape:
 {
   "issues": [
     {
+      "title": "",
       "guidance": "",
       "whoItAffects": "",
       "whyItMatters": "",
