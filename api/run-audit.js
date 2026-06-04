@@ -237,14 +237,34 @@ Global language rule (MANDATORY):
 - ALL findings MUST be conditional and hypothetical. The audit does not confirm the presence of issues.
 - NEVER state certainty. NEVER claim something "is missing", "lacks", "fails", "violates", or "does not comply".
 - NEVER use pass/fail, approval, or certification language.
-- MUST use conditional phrasing: "If present…", "May affect…", "Could impact…", "Consider whether…", "Ensure that…"
+- MUST use conditional phrasing in guidance, whoItAffects, whyItMatters, and suggestedFix: "If present…", "May affect…", "Could impact…", "Consider whether…", "Ensure that…"
+- EXCEPTION — title is EXEMPT from conditional phrasing. title MUST be a short topic label only (2–5 words, Title Case). title MUST NOT use If, May, Could, Ensure, Consider, or similar conditional wording.
+
+title vs guidance (MANDATORY):
+- title = scan label (short topic name the user sees in a list)
+- guidance = detailed conditional issue description (full sentence(s) with conditional phrasing)
+- NEVER put conditional sentences in title. NEVER repeat or paraphrase guidance in title.
+
+title examples — GOOD:
+- Color Contrast
+- Field Labels
+- Focus Order
+- Error Messaging
+- Touch Target Size
+- Social Login Labels
+
+title examples — BAD (NEVER use):
+- If present, ensure color contrast
+- Consider whether fields have labels
+- May affect keyboard users
+- WCAG 1.4.3
 
 Each issue MUST include ALL fields below (in this exact order):
 
 - title: string
-  (REQUIRED scan label: 2–5 words, Title Case, specific topic only—e.g. "Color Contrast", "Field Labels", "Focus Order", "Error Messaging", "Touch Target Size". NO conditional phrasing. NO periods. NO WCAG numbers. MUST NOT repeat or paraphrase the full guidance sentence.)
+  (REQUIRED scan label: 2–5 words, Title Case, topic label only. NO conditional phrasing. NO words: If, May, Could, Ensure, Consider. NO punctuation. NO WCAG numbers. MUST NOT repeat or paraphrase guidance.)
 - guidance: string
-  (MUST use conditional phrasing only. Detailed actionable advice. Never accusatory. Never definitive. This is the full issue description—not the short title.)
+  (MUST use conditional phrasing only. Detailed actionable advice—the full issue description. Never accusatory. Never definitive. NOT the short title.)
 - whoItAffects: string
   (MUST use conditional phrasing only. Impacted user groups.)
 - whyItMatters: string
