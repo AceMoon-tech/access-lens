@@ -311,6 +311,14 @@ body {
 .hover\:bg-subtle:hover {
   background-color: var(--bg-subtle, var(--bg-surface-1));
 }
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+.hover\:bg-surface-3:hover {
+  background-color: var(--surface-3);
+}
    
 /* ========================================
    THEME TOGGLE (token-driven, scoped)

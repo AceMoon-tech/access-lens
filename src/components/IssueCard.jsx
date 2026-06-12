@@ -369,14 +369,13 @@ function IssueCard({ issue }) {
         aria-expanded={expanded}
         aria-controls={panelId}
         onClick={() => setExpanded((open) => !open)}
-        className="flex items-center justify-between w-full hover:bg-subtle transition"
+        className="flex items-center justify-between w-full bg-transparent hover:bg-surface-3 transition"
         style={{
           gap: 'var(--space-16)',
           marginInline: 'calc(-1 * var(--space-12))',
           padding: 'var(--space-8) var(--space-12)',
           border: 'none',
           borderRadius: 'var(--radius-sm)',
-          background: 'none',
           cursor: 'pointer',
           textAlign: 'left',
           fontFamily: 'inherit',
@@ -399,7 +398,7 @@ function IssueCard({ issue }) {
             flexShrink: 0,
             minWidth: 'var(--space-32)',
             minHeight: 'var(--space-32)',
-            color: 'color-mix(in srgb, var(--text-muted) 65%, var(--text-default))',
+            color: 'var(--text-default)',
           }}
         >
           <ChevronIcon expanded={expanded} />
