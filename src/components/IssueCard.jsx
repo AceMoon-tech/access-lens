@@ -71,8 +71,8 @@ function LowSeverityIcon({ className = '', style }) {
 function ChevronIcon({ expanded, className = '' }) {
   return (
     <svg
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -82,10 +82,8 @@ function ChevronIcon({ expanded, className = '' }) {
       aria-hidden="true"
       className={className}
       style={{
-        flexShrink: 0,
         transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
         transition: 'transform var(--motion-normal) var(--ease-standard)',
-        color: 'var(--text-muted)',
       }}
     >
       <polyline points="6 9 12 15 18 9" />
@@ -371,11 +369,13 @@ function IssueCard({ issue }) {
         aria-expanded={expanded}
         aria-controls={panelId}
         onClick={() => setExpanded((open) => !open)}
-        className="flex items-center justify-between w-full"
+        className="flex items-center justify-between w-full hover:bg-subtle transition"
         style={{
           gap: 'var(--space-16)',
-          padding: 0,
+          marginInline: 'calc(-1 * var(--space-12))',
+          padding: 'var(--space-8) var(--space-12)',
           border: 'none',
+          borderRadius: 'var(--radius-sm)',
           background: 'none',
           cursor: 'pointer',
           textAlign: 'left',
@@ -390,7 +390,20 @@ function IssueCard({ issue }) {
         >
           {titleText}
         </span>
-        <ChevronIcon expanded={expanded} />
+        <span
+          aria-hidden="true"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            minWidth: 'var(--space-32)',
+            minHeight: 'var(--space-32)',
+            color: 'color-mix(in srgb, var(--text-muted) 65%, var(--text-default))',
+          }}
+        >
+          <ChevronIcon expanded={expanded} />
+        </span>
       </button>
 
       {expanded && (
