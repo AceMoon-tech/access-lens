@@ -76,7 +76,7 @@ function ChevronIcon({ expanded, className = '' }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
@@ -272,6 +272,7 @@ function IssueCard({ issue }) {
       case 'high':
         return {
           color: 'var(--sev-high)',
+          textColor: 'var(--sev-high-text)',
           fontWeight: 'var(--weight-semibold)',
           label: 'High',
           Icon: HighSeverityIcon,
@@ -279,6 +280,7 @@ function IssueCard({ issue }) {
       case 'medium':
         return {
           color: 'var(--sev-med)',
+          textColor: 'var(--sev-med-text)',
           fontWeight: 'var(--weight-medium)',
           label: 'Medium',
           Icon: MediumSeverityIcon,
@@ -287,6 +289,7 @@ function IssueCard({ issue }) {
       default:
         return {
           color: 'var(--sev-low)',
+          textColor: 'var(--sev-low-text)',
           fontWeight: 'var(--weight-regular)',
           label: 'Low',
           Icon: LowSeverityIcon,
@@ -346,7 +349,7 @@ function IssueCard({ issue }) {
           <SeverityIcon
             style={{
               flexShrink: 0,
-              color: severityConfig.color,
+              color: severityConfig.textColor,
               width: 'var(--space-16)',
               height: 'var(--space-16)',
             }}
@@ -354,7 +357,7 @@ function IssueCard({ issue }) {
           <p
             className="text-xs uppercase tracking-wide"
             style={{
-              color: severityConfig.color,
+              color: severityConfig.textColor,
               fontWeight: severityConfig.fontWeight,
               margin: 0,
             }}
@@ -369,7 +372,7 @@ function IssueCard({ issue }) {
         aria-expanded={expanded}
         aria-controls={panelId}
         onClick={() => setExpanded((open) => !open)}
-        className="flex items-center justify-between w-full bg-transparent hover:bg-surface-3 transition"
+        className="flex items-center justify-between w-full bg-transparent hover:bg-surface-hover transition"
         style={{
           gap: 'var(--space-16)',
           marginInline: 'calc(-1 * var(--space-12))',

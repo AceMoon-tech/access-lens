@@ -58,6 +58,9 @@
     --surface-1: #FFFFFF;
     --surface-2: #F8FAFC;
     --surface-3: #EDF1F7;
+
+    /* Interactive hover surface (light) — more noticeable than surface-3 on white cards */
+    --surface-hover: #E2E8F0;
     
     /* Button Colors (Light Mode) */
     --button-primary-bg: #0B0D0E;
@@ -71,7 +74,7 @@
   
     /* Text */
     --text-default: #0F172A;
-    --text-muted: #64748B;
+    --text-muted: #5B6B7C;
     --text-inverse: #FFFFFF;
   
     /* Accent Ramp */
@@ -86,10 +89,15 @@
     --accent-800: #0F2983;
     --accent-900: #1E3A8A;
   
-    /* Severity */
+    /* Severity — rail / decorative accent (light) */
     --sev-low: #0D9488;
     --sev-med: #F59E0B;
     --sev-high: #E11D48;
+
+    /* Severity — text / icon (light, WCAG AA on white) */
+    --sev-low-text: #0F766E;
+    --sev-med-text: #B45309;
+    --sev-high-text: #E11D48;
   
     /* Focus */
     --focus-ring: #2563EB;
@@ -143,6 +151,9 @@
     --surface-1: #12161D;
     --surface-2: #171C24;
     --surface-3: #1E2430;
+
+    /* Interactive hover surface (dark) */
+    --surface-hover: #1E2430;
     
     /* Button Colors (Dark Mode) */
     --button-primary-bg: #F4F6F8;
@@ -171,10 +182,15 @@
     --accent-800: #1E3A8A;
     --accent-900: #0F172A;
   
-    /* Severity */
+    /* Severity — rail / decorative accent (dark) */
     --sev-low: #2DD4BF;
     --sev-med: #FBBF24;
     --sev-high: #FB7185;
+
+    /* Severity — text / icon (dark): already AA on dark surfaces, mirror accent */
+    --sev-low-text: #2DD4BF;
+    --sev-med-text: #FBBF24;
+    --sev-high-text: #FB7185;
   
     /* Focus */
     --focus-ring: #3B82F6;

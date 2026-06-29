@@ -319,6 +319,10 @@ body {
 .hover\:bg-surface-3:hover {
   background-color: var(--surface-3);
 }
+
+.hover\:bg-surface-hover:hover {
+  background-color: var(--surface-hover);
+}
    
 /* ========================================
    THEME TOGGLE (token-driven, scoped)
