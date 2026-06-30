@@ -126,46 +126,6 @@ function About() {
           </div>
         </div>
       </section>
-
-      {/* Project Structure Section */}
-      <section>
-        <h2 
-          className="font-semibold mb-16"
-          style={{
-            fontSize: 'var(--text-h2)',
-            lineHeight: 'var(--text-h2-leading)',
-            fontWeight: 'var(--text-h2-weight)',
-            color: 'var(--text-default)'
-          }}
-        >
-          Project Structure
-        </h2>
-
-        <div 
-          className="space-y-8"
-          style={{
-            fontSize: 'var(--text-body)',
-            lineHeight: 'var(--text-body-leading)',
-            color: 'var(--text-muted)'
-          }}
-        >
-          <p>
-            <strong style={{ color: 'var(--text-default)' }}>components/</strong> – Reusable UI components
-          </p>
-          <p>
-            <strong style={{ color: 'var(--text-default)' }}>screens/</strong> – Page-level application views
-          </p>
-          <p>
-            <strong style={{ color: 'var(--text-default)' }}>state/</strong> – Theme + global stores
-          </p>
-          <p>
-            <strong style={{ color: 'var(--text-default)' }}>lib/</strong> – LLM logic and shared utilities
-          </p>
-          <p>
-            <strong style={{ color: 'var(--text-default)' }}>styles/</strong> – Global CSS variables and tokens
-          </p>
-        </div>
-      </section>
       </div>
     </PageContainer>
   );
