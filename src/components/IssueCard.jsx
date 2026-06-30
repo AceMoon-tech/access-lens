@@ -71,12 +71,12 @@ function LowSeverityIcon({ className = '', style }) {
 function ChevronIcon({ expanded, className = '' }) {
   return (
     <svg
-      width="20"
-      height="20"
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2.5"
+      strokeWidth="2.25"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
@@ -350,8 +350,8 @@ function IssueCard({ issue }) {
             style={{
               flexShrink: 0,
               color: severityConfig.textColor,
-              width: 'var(--space-16)',
-              height: 'var(--space-16)',
+              width: 'var(--space-20)',
+              height: 'var(--space-20)',
             }}
           />
           <p
