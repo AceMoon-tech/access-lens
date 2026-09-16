@@ -754,7 +754,7 @@ function AuditForm({ onResults }) {
                 <strong>Privacy:</strong>
               </p>
               <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-                Your screen description and optional context are sent to our guidance service to generate results. We store generated guidance results with a unique ID, not your original input text separately.
+                Your screen description and optional context are sent to our guidance service to generate results. Generated guidance is saved in your browser on this device and is not stored on our servers.
               </p>
             </Card>
           )}

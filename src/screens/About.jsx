@@ -112,7 +112,7 @@ function About() {
               <strong style={{ color: 'var(--text-default)' }}>What we store:</strong>
             </p>
             <p>
-              Guidance results are stored on our servers with a unique results ID. This allows you to access your results later via the results ID. We don't store your original input text separately—only the generated guidance results.
+              After guidance is generated, results are saved in your browser on this device. We do not store guidance results on our servers. Your original input is sent only to generate guidance.
             </p>
           </div>
 
@@ -121,7 +121,7 @@ function About() {
               <strong style={{ color: 'var(--text-default)' }}>Your control:</strong>
             </p>
             <p>
-              You can download or copy your guidance results at any time. Results are accessible via the results ID until you choose to delete them or they expire per our retention policy.
+              You can download or copy your guidance results at any time. Refreshing or revisiting a results page later may not restore them, so download or copy anything you want to keep.
             </p>
           </div>
         </div>
