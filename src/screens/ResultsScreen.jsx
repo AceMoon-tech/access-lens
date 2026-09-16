@@ -236,7 +236,7 @@ function ResultsScreen() {
             color: 'var(--text-muted)'
           }}
         >
-          These results are temporarily stored in your browser. To keep them permanently:
+          These results are saved in your browser on this device. To keep a durable copy:
         </p>
         <ul 
           className="list-disc space-y-8 pl-24 mb-16"
@@ -248,7 +248,7 @@ function ResultsScreen() {
         >
           <li>Use the <strong style={{ color: 'var(--text-default)' }}>Download JSON</strong> button to save results as a file</li>
           <li>Use the <strong style={{ color: 'var(--text-default)' }}>Copy JSON</strong> button below to copy results to your clipboard</li>
-          <li>Results may be cleared when you close your browser or start new guidance</li>
+          <li>Refreshing or revisiting this page later may not show them again</li>
         </ul>
 
         <div className="pt-16 flex flex-col gap-16">
