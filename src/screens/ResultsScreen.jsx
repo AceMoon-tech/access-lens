@@ -15,7 +15,7 @@ import { useApp } from '../state/AppContext'
 function ResultsScreen() {
   const location = useLocation()
   const navigate = useNavigate()
-  const { clearAuditFormInputs } = useApp()
+  const { clearAuditFormInputs, cachedAudit } = useApp()
   const params = useParams()
   const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -43,10 +43,15 @@ function ResultsScreen() {
         const auditData = await getAuditById(auditId)
         setResults(auditData.results)
       } catch (err) {
-        // Stub implementation: Use results from location.state as temporary bridge
-        // TODO: Remove this fallback once server persistence is implemented
+        // Same-session navigation bridge
         if (location.state?.results) {
           setResults(location.state.results)
+        // ID-matched browser cache (legacy results-only cache is unrestorable)
+        } else if (
+          cachedAudit?.auditId === auditId &&
+          cachedAudit?.results
+        ) {
+          setResults(cachedAudit.results)
         } else {
           setError(err.message || 'Failed to load guidance results')
         }

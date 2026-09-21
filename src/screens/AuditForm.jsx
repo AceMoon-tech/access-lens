@@ -50,7 +50,7 @@ const GUIDED_QUESTIONS = [
 ]
 
 function AuditForm({ onResults }) {
-  const { auditFormInputs, updateAuditFormInputs, setAuditResults } = useApp()
+  const { auditFormInputs, updateAuditFormInputs, setCachedAudit } = useApp()
   
   // Initialize form from context
   const [uiDescription, setUiDescription] = useState(auditFormInputs.uiDescription)
@@ -284,8 +284,11 @@ function AuditForm({ onResults }) {
           results
         )
 
-        // Persist results to context
-        setAuditResults(results)
+        // Persist results to context + browser cache (ID-matched envelope)
+        setCachedAudit({
+          auditId: auditResponse.audit_id,
+          results: results,
+        })
         setRequestState('success')
         
         // Navigate with audit_id instead of full results
@@ -296,12 +299,16 @@ function AuditForm({ onResults }) {
       } catch (persistError) {
         // If persistence fails, still show results but log the error
         console.error('Failed to persist audit:', persistError)
-        setAuditResults(results)
+        const tempAuditId = `temp_${Date.now()}`
+        setCachedAudit({
+          auditId: tempAuditId,
+          results: results,
+        })
         setRequestState('success')
         
         // Navigate with results (temporary bridge until persistence works)
         onResults({
-          audit_id: `temp_${Date.now()}`,
+          audit_id: tempAuditId,
           results: results
         })
       }
