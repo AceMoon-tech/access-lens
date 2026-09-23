@@ -13,12 +13,26 @@ export const AuditLifecycle = {
 // localStorage key for audit results cache
 const AUDIT_RESULTS_CACHE_KEY = 'access-lens-audit-results'
 
+/**
+ * Normalize cached audit envelope.
+ * New shape: { auditId: string, results: object }
+ * Legacy results-only payloads are treated as unrestorable (return null).
+ */
+function normalizeCachedAudit(value) {
+  if (!value || typeof value !== 'object') return null
+  const auditId = value.auditId
+  const results = value.results
+  if (typeof auditId !== 'string' || !auditId.trim()) return null
+  if (!results || typeof results !== 'object') return null
+  return { auditId, results }
+}
+
 // Load audit results from localStorage
-function loadAuditResultsFromCache() {
+function loadCachedAuditFromStorage() {
   try {
     const cached = localStorage.getItem(AUDIT_RESULTS_CACHE_KEY)
     if (cached) {
-      return JSON.parse(cached)
+      return normalizeCachedAudit(JSON.parse(cached))
     }
   } catch (error) {
     console.warn('Failed to load audit results from cache:', error)
@@ -27,10 +41,11 @@ function loadAuditResultsFromCache() {
 }
 
 // Save audit results to localStorage
-function saveAuditResultsToCache(results) {
+function saveCachedAuditToStorage(cachedAudit) {
   try {
-    if (results) {
-      localStorage.setItem(AUDIT_RESULTS_CACHE_KEY, JSON.stringify(results))
+    const normalized = normalizeCachedAudit(cachedAudit)
+    if (normalized) {
+      localStorage.setItem(AUDIT_RESULTS_CACHE_KEY, JSON.stringify(normalized))
     } else {
       localStorage.removeItem(AUDIT_RESULTS_CACHE_KEY)
     }
@@ -51,22 +66,23 @@ export function AppProvider({ children }) {
     copyBlocks: '',
   })
   
-  // Audit results state - initialize from localStorage cache
-  const [auditResults, setAuditResultsState] = useState(() => {
-    return loadAuditResultsFromCache()
+  // Cached audit: { auditId, results } | null — hydrated from localStorage
+  const [cachedAudit, setCachedAuditState] = useState(() => {
+    return loadCachedAuditFromStorage()
   })
   
-  // Wrapper for setAuditResults that also saves to localStorage
-  const setAuditResults = useCallback((results) => {
-    setAuditResultsState(results)
-    saveAuditResultsToCache(results)
+  // Wrapper that also saves to localStorage
+  const setCachedAudit = useCallback((next) => {
+    const normalized = normalizeCachedAudit(next)
+    setCachedAuditState(normalized)
+    saveCachedAuditToStorage(normalized)
   }, [])
   
   // Hydrate from cache on mount (in case cache was updated externally)
   useEffect(() => {
-    const cached = loadAuditResultsFromCache()
-    if (cached && !auditResults) {
-      setAuditResultsState(cached)
+    const cached = loadCachedAuditFromStorage()
+    if (cached && !cachedAudit) {
+      setCachedAuditState(cached)
     }
   }, []) // Only run on mount
 
@@ -104,9 +120,9 @@ export function AppProvider({ children }) {
     auditFormInputs,
     updateAuditFormInputs,
     clearAuditFormInputs,
-    // Audit results state
-    auditResults,
-    setAuditResults,
+    // Cached audit session ({ auditId, results } | null)
+    cachedAudit,
+    setCachedAudit,
   }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
@@ -119,9 +135,3 @@ export function useApp() {
   }
   return context
 }
-
-
-
-
-
-
